@@ -1,0 +1,27 @@
+#Este archivo .gitignore fue construido con las recomendaciones de ChatGPT acerca 
+#de las extensiones más comunes que son incluidas en un proyecto con base de datos relacional,
+#desarrollado en VSCode, y escrito en Python.
+
+# === General ===
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.old
+
+
+# === Entornos y configuración sensible ===
+.env
+.env.*
+*.secret
+*.key
+*.pem
+
+
+# === Archivos de bases de datos locales ===
+*.sqlite3
+*.db
+*.sql
+*.dump
+*.bak.sql
