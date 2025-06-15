@@ -1,6 +1,6 @@
 # Proyecto: Asignación de Turnos de la Universidad Nacional de Colombia (ATUN)
 
-## 👥 Equipo de Desarrollo — INGESWIFT-I
+## 👥 Equipo de Desarrollo — INGESWIFT
 
 - **Laura Vanesa Álvarez Lafont** — [lalvarezla@unal.edu.co](mailto:lalvarezla@unal.edu.co)  
 - **Juan Pablo Corredor Castañeda** — [jcorredorca@unal.edu.co](mailto:jcorredorca@unal.edu.co)  
