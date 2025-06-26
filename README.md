@@ -1,6 +1,6 @@
 # Proyecto: Asignación de Turnos de la Universidad Nacional de Colombia (ATUN)
 
-![Logo de ATUN](Documentación/MockUp/LogoATUN.png)
+![Logo de ATUN](Documentación/Diagramas/LogoATUN.png)
 
 ## 👥 Equipo de Desarrollo — INGESWIFT
 
