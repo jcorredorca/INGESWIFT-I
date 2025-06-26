@@ -1,5 +1,7 @@
 # Proyecto: Asignación de Turnos de la Universidad Nacional de Colombia (ATUN)
 
+![Logo de ATUN](Documentación/MockUp/LogoATUN.png)
+
 ## 👥 Equipo de Desarrollo — INGESWIFT
 
 - **Laura Vanesa Álvarez Lafont** — [lalvarezla@unal.edu.co](mailto:lalvarezla@unal.edu.co)  
@@ -10,10 +12,17 @@
 ---
 
 ## 🎯 Objetivo
-
-ATUN es un sistema de gestión de turnos diseñado para organizar el acceso a la sala de fuerza del AFID, ubicada en el Polideportivo de la Universidad Nacional de Colombia - Sede Bogotá. 
-
-El objetivo principal es eliminar las filas físicas que actualmente se forman, las cuales pueden implicar esperas de hasta **30 o 40 minutos** en condiciones incómodas. Esta solución busca mejorar la experiencia tanto para los usuarios del gimnasio como para el personal encargado de supervisar el espacio, ofreciendo una alternativa eficiente, organizada y digital para el manejo del flujo de personas.
+ATUN (Asignación de Turnos de la Universidad Nacional) es una solución 
+informática destinada a organizar de forma digital el acceso a los servicios ofrecidos 
+por  el  Área de Actividad Física y Deporte (AFID) en la Universidad Nacional de 
+Colombia, sede Bogotá. 
+ 
+El sistema busca eliminar las filas físicas que actualmente se forman, las 
+cuales  pueden  implicar  esperas  de  hasta  30  o  40  minutos  en  condiciones 
+incómodas.  Esto  no  solo  pretende  mejorar  la  experiencia  del  usuario,  sino  que 
+también facilitar el trabajo del personal encargado de la supervisión de actividades 
+físicas, ofreciendo una alternativa eficiente, organizada y digital para el manejo del 
+flujo de personas.
 
 ---
 
