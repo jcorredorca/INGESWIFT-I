@@ -52,19 +52,19 @@ class PiePagina(CTkFrame):
         padding_x = 20
         padding_y = 10
 
-        self.nombre = CTkLabel(self.descripcion, 
+        nombre = CTkLabel(self.descripcion, 
         text="Sistema ATUN",
         text_color = "#F6A623" ,
         font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
         )
 
-        self.desc = CTkLabel(self.descripcion, 
+        desc = CTkLabel(self.descripcion, 
         text="Asignación de turnos Universidad Nacional",
         text_color = "whitesmoke" ,
         font = ("Libre Baskerville", self.tamanio_fuente),
         )
-        self.nombre.pack(anchor="w", padx=padding_x, pady=(padding_y, 0))
-        self.desc.pack(anchor="nw", padx=padding_x)
+        nombre.pack(anchor="w", padx=padding_x, pady=(padding_y, 0))
+        desc.pack(anchor="nw", padx=padding_x)
 
     def crear_contacto(self):
         '''Crea el espacio de contacto del footer'''
@@ -76,13 +76,13 @@ class PiePagina(CTkFrame):
         self.contacto.grid_rowconfigure(0, weight=0, minsize=0)
         self.contacto.grid_rowconfigure(1, weight=0, minsize=0)
 
-        self.contacto_label = CTkLabel(self.contacto,
+        contacto_label = CTkLabel(self.contacto,
         text="Contacto: ",
         cursor="hand2",
         text_color = "whitesmoke" ,
         font = ("Libre Baskerville", self.tamanio_fuente)
         )
-        self.contacto_label.grid(row=0, column=0, sticky='e', pady=(padding_y,0))
+        contacto_label.grid(row=0, column=0, sticky='e', pady=(padding_y,0))
 
         self.correo = CTkLabel(self.contacto,
         text="atunsoporte@unal.edu.co",
@@ -92,19 +92,19 @@ class PiePagina(CTkFrame):
         )
         self.correo.grid(row=0, column=1, sticky='w', pady=(padding_y,0))
 
-        self.telefono_label = CTkLabel(self.contacto,
+        telefono_label = CTkLabel(self.contacto,
         text="Tel: ",
         text_color = "whitesmoke" ,
         font = ("Libre Baskerville", self.tamanio_fuente)
         )
-        self.telefono_label.grid(row=1, column=0, sticky='e')
+        telefono_label.grid(row=1, column=0, sticky='e')
 
-        self.telefono = CTkLabel(self.contacto,
+        telefono = CTkLabel(self.contacto,
         text="(+57) 316 5000 ext:12345",
         text_color = "#F6A623" ,
         font = ("Libre Baskerville", self.tamanio_fuente)
         )
-        self.telefono.grid(row=1, column=1, sticky='w')
+        telefono.grid(row=1, column=1, sticky='w')
 
         # Asociar evento de clic
         self.correo.bind("<Button-1>", self.abrir_correo)
@@ -113,22 +113,25 @@ class PiePagina(CTkFrame):
 
     def crear_direccion(self):
         '''Crea el espacio de direccion del footer'''
-        self.direccion_label = CTkLabel(self.direccion, 
+        direccion_label = CTkLabel(self.direccion, 
         text="Sede Bogotá - Edificio 454 - Salón 403",
         text_color = "whitesmoke" ,
         font = ("Libre Baskerville", self.tamanio_fuente),
         )
-        self.direccion_label.pack(anchor="e", padx=20, pady=(20, 0))
+        direccion_label.pack(anchor="e", padx=20, pady=(20, 0))
 
     def abrir_correo(self, event):
         '''Abre el correo asociado a el label'''
-        webbrowser.open("mailto:atunsoporte@unal.edu.co")
+        if event:
+            webbrowser.open("mailto:atunsoporte@unal.edu.co")
 
     def entrada(self, event):
         '''Evento de entrada para simular un hover'''
-        self.correo.configure(text_color="#B7770F")
+        if event:
+            self.correo.configure(text_color="#B7770F")
 
     def salida(self, event):
         '''Evento de salida para simular un hover'''
-        self.correo.configure(text_color="#F6A623")
+        if event:
+            self.correo.configure(text_color="#F6A623")
     
