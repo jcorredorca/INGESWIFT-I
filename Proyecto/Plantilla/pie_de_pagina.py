@@ -5,7 +5,7 @@ from customtkinter import CTkFrame
 from customtkinter import CTkLabel
 
 class PiePagina(CTkFrame):
-    '''Clase se que representa el pie de pagina'''
+    '''Clase que representa el pie de pagina'''
 
     def __init__(self, master):
         super().__init__(master)
