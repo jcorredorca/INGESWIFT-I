@@ -5,7 +5,7 @@ from customtkinter import CTkFrame,CTkLabel,CTkImage
 
 class Encabezado(CTkFrame):
     '''Clase que representa el encabezado'''
-    def __init__(self, master):  
+    def __init__(self, master):
         super().__init__(master)
 
         self.configure(fg_color="white", corner_radius=1, )
@@ -14,6 +14,9 @@ class Encabezado(CTkFrame):
         logo_un,logo_atun = self.crear_imagenes_ctk()
         self.logo_atun = CTkLabel(self, image=logo_atun, text='')
         self.logo_atun.grid(row=0, column=0, sticky="nw", pady=10, padx=10)
+
+        self.links = None
+
         self.logo_un = CTkLabel(self, image=logo_un, text='')
         self.logo_un.grid(row=0, column=2, sticky="ne",  padx=10)
 

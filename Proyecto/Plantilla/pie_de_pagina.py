@@ -80,7 +80,7 @@ class PiePagina(CTkFrame):
         text="Contacto: ",
         cursor="hand2",
         text_color = "whitesmoke" ,
-        font = ("Libre Baskerville", self.tamanio_fuente)
+        font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
         )
         contacto_label.grid(row=0, column=0, sticky='e', pady=(padding_y,0))
 
@@ -95,7 +95,7 @@ class PiePagina(CTkFrame):
         telefono_label = CTkLabel(self.contacto,
         text="Tel: ",
         text_color = "whitesmoke" ,
-        font = ("Libre Baskerville", self.tamanio_fuente)
+        font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
         )
         telefono_label.grid(row=1, column=0, sticky='e')
 
