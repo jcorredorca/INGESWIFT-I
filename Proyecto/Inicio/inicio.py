@@ -1,8 +1,10 @@
 ''' Pagina de inicio de atun '''
 from os import path
-from PIL import Image
-from customtkinter import CTkFrame,CTkLabel,CTkImage
+
+from customtkinter import CTkFrame, CTkImage, CTkLabel
 from Inicio.Login import login_frame
+from PIL import Image
+
 
 class Inicio(CTkFrame):
     '''Clase que representa la pagina de inicio de atun'''
@@ -40,7 +42,7 @@ class Inicio(CTkFrame):
 
         self.inicio_img = self.crear_imagenes_ctk()
         self.inicio_img_label = CTkLabel(self.contenido_izq, image=self.inicio_img, text='')
-        self.inicio_img_label.grid(row=0, column=0, sticky="se", padx=(40,0), pady=(0,20))
+        self.inicio_img_label.grid(row=0, column=0, sticky="s", padx=(40,0), pady=(0,20))
 
         desc_afid = "AFID es un programa de la Universidad " \
         "Nacional de Colombia que promueve el bienestar " \

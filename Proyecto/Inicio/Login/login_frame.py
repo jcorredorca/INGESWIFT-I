@@ -1,6 +1,7 @@
 ''' Pagina de inicio de atun '''
 
-from customtkinter import CTkFrame,CTkLabel,CTkButton,CTkEntry
+from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel
+
 
 class LoginFrame(CTkFrame):
     '''Clase que representa la pagina de inicio de atun'''
@@ -14,7 +15,7 @@ class LoginFrame(CTkFrame):
 
     def repartir_espacio(self):
         '''Reparte el espacio '''
-        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=0)
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(5, weight=1)
 
