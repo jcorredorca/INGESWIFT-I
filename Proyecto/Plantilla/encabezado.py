@@ -12,16 +12,15 @@ class Encabezado(CTkFrame):
         self.repartir_espacio()
 
         self.abrir_imagenes()
-        
-        self.logo_atun = CTkLabel(self, text='')
-        self.logo_atun.grid(row=0, column=0, sticky="nw")
 
-        self.logo_un = CTkLabel(self, text='')
-        self.logo_un.grid(row=0, column=2, sticky="ne")
+        self.logo_atun = CTkLabel(self, text='', sticky="w")
+        self.logo_atun.grid(row=0, column=0)
+
+        self.logo_un = CTkLabel(self, text='', sticky="e")
+        self.logo_un.grid(row=0, column=2)
 
         self.actualizar_dimensiones_imagen()
         self.links = None
- 
 
     def repartir_espacio(self):
         '''Reparte el espacio '''
@@ -39,7 +38,7 @@ class Encabezado(CTkFrame):
 
         self.imagen_un =Image.open(ruta_logo_un)
         self.imagen_atun =Image.open(ruta_logo_atun)
-    
+
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
 
