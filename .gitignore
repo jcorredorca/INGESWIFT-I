@@ -9,6 +9,7 @@
 *.swo
 *.bak
 *.old
+*.pyc
 
 
 # === Entornos y configuración sensible ===
