@@ -13,11 +13,11 @@ class Encabezado(CTkFrame):
 
         self.abrir_imagenes()
 
-        self.logo_atun = CTkLabel(self, text='', sticky="w")
-        self.logo_atun.grid(row=0, column=0)
+        self.logo_atun = CTkLabel(self, text='')
+        self.logo_atun.grid(row=0, column=0, sticky='w')
 
-        self.logo_un = CTkLabel(self, text='', sticky="e")
-        self.logo_un.grid(row=0, column=2)
+        self.logo_un = CTkLabel(self, text='')
+        self.logo_un.grid(row=0, column=2, sticky='e')
 
         self.actualizar_dimensiones_imagen()
         self.links = None

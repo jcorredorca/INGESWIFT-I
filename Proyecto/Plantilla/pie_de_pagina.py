@@ -10,8 +10,7 @@ class PiePagina(CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
-        self.configure(fg_color="#1a1a1a",corner_radius=1,height=160)
-        self.grid_propagate(False)
+        self.configure(fg_color="#1a1a1a",corner_radius=1)
         self.repartir_espacio()
         self.tamanio_fuente =  max(12, int(self.winfo_screenwidth() * 0.0057))
 
@@ -21,7 +20,7 @@ class PiePagina(CTkFrame):
         self.crear_descripcion()
 
         self.contacto = CTkFrame(self, fg_color="#1a1a1a")
-        self.contacto.grid(row=0, column=1, sticky="new")
+        self.contacto.grid(row=0, column=1, sticky="nsew")
         self.crear_contacto()
 
         self.direccion = CTkFrame(self, fg_color="#1a1a1a")
@@ -29,14 +28,14 @@ class PiePagina(CTkFrame):
         self.crear_direccion()
 
         self.separador = CTkFrame(self, height=2, fg_color="gray")
-        self.separador.grid(row=1, column=0, sticky="new", padx=10, pady=5, columnspan=3)
+        self.separador.grid(row=1, column=0, sticky="nsew", padx=10, columnspan=3)
 
         cp_mssg = "\u00A9 2025 Sistema ATUN Universidad Nacional de Colombia. All rights reserved."
         self.copy = CTkLabel(self, text=cp_mssg,
         text_color = "#b0b0b0",
         font = ("Libre Baskerville", self.tamanio_fuente),
         )
-        self.copy.grid(row=2, column=0, sticky="new", padx=10, pady=5, columnspan=3)
+        self.copy.grid(row=2, column=0, sticky="nsew", padx=10, columnspan=3)
 
     def repartir_espacio(self):
         '''Reparte el espacio '''
@@ -52,15 +51,15 @@ class PiePagina(CTkFrame):
         padding_x = 20
         padding_y = 10
 
-        nombre = CTkLabel(self.descripcion, 
+        nombre = CTkLabel(self.descripcion,
         text="Sistema ATUN",
         text_color = "#F6A623" ,
         font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
         )
 
-        desc = CTkLabel(self.descripcion, 
+        desc = CTkLabel(self.descripcion,
         text="Asignación de turnos Universidad Nacional",
-        text_color = "whitesmoke" ,
+        text_color = "whitesmoke",
         font = ("Libre Baskerville", self.tamanio_fuente),
         )
         nombre.pack(anchor="w", padx=padding_x, pady=(padding_y, 0))
@@ -78,7 +77,6 @@ class PiePagina(CTkFrame):
 
         contacto_label = CTkLabel(self.contacto,
         text="Contacto: ",
-        cursor="hand2",
         text_color = "whitesmoke" ,
         font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
         )
@@ -134,4 +132,3 @@ class PiePagina(CTkFrame):
         '''Evento de salida para simular un hover'''
         if event:
             self.correo.configure(text_color="#F6A623")
-    
