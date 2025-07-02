@@ -34,7 +34,7 @@ class App(customtkinter.CTk):
         self.activar_fullscreen()
         ancho,alto = self.get_size()
         self.geometry(f"{ancho}x{alto}+0+0")
-        self.minsize(width=800, height=600)
+        self.minsize(width=1000, height=600)
         self.bind("<F11>", lambda e: self.activar_fullscreen())   # F11 para activar
         self.bind("<Escape>", lambda e: self.desactivar_fullscreen())  # ESC para salir
 

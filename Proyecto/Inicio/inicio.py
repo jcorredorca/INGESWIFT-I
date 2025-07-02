@@ -1,48 +1,48 @@
 ''' Pagina de inicio de atun '''
 from os import path
 
-from customtkinter import CTkFrame, CTkImage, CTkLabel
+from customtkinter import CTkFrame, CTkImage, CTkLabel, CTkScrollableFrame
 from Inicio.Login import login_frame
 from PIL import Image
 
 
-class Inicio(CTkFrame):
+class Inicio(CTkScrollableFrame):
     '''Clase que representa la pagina de inicio de atun'''
     def __init__(self, master):
         super().__init__(master)
 
         self.configure(fg_color="#2e1045", corner_radius=1)
         self.repartir_espacio()
-        # Enlazar para cambios en imagenes
-        self.bind("<Configure>", self.redimensionar)
+
         self.tamanio_fuente =  max(12, int(self.winfo_screenwidth() * 0.0065))
 
         self.contenido_izq = CTkFrame(self, fg_color="#2e1045")
-        self.contenido_izq.grid(row=0, column=0, sticky="nsew")
+        self.contenido_izq.grid(row=0, column=0, sticky="ns")
+        self.abrir_imagen()
         self.crear_contenido_izq()
 
         self.separador = CTkFrame(self, width=3, fg_color="#a246cd")
-        self.separador.grid(row=0, column=1, sticky="ns", padx=(50,0), pady=10,  rowspan=3)
+        self.separador.grid(row=0, column=1, sticky="ns")
 
         self.contenido_der = login_frame.LoginFrame(self)
-        self.contenido_der.grid(row=0, column=2, sticky="ns", padx=5, pady=10,  rowspan=2)
+        self.contenido_der.grid(row=0, column=2, sticky="ns")
 
+        self.actualizar_dimensiones_imagen()
 
     def repartir_espacio(self):
         '''Reparte el espacio '''
-        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=1)
         self.grid_rowconfigure(0,weight=1)
 
     def crear_contenido_izq(self):
         '''Crea la zona izquierda del contenido de Inicio'''
-        self.contenido_izq.grid_rowconfigure(0, weight=1)
+        self.contenido_izq.grid_rowconfigure(0, weight=2)
         self.contenido_izq.grid_rowconfigure(1, weight=1)
 
-        self.inicio_img = self.crear_imagenes_ctk()
-        self.inicio_img_label = CTkLabel(self.contenido_izq, image=self.inicio_img, text='')
-        self.inicio_img_label.grid(row=0, column=0, sticky="s", padx=(40,0), pady=(0,20))
+        self.imagen_inicio_label = CTkLabel(self.contenido_izq, text='')
+        self.imagen_inicio_label.grid(row=0, column=0, sticky="ns")
 
         desc_afid = "AFID es un programa de la Universidad " \
         "Nacional de Colombia que promueve el bienestar " \
@@ -53,28 +53,28 @@ class Inicio(CTkFrame):
         "mejorando la condición física y reduciendo el estrés académico."
 
         desc = CTkLabel(self.contenido_izq, text=desc_afid, text_color = "whitesmoke",
-        font = ("Libre Baskerville", self.tamanio_fuente), wraplength=700, justify="center")
-        desc.grid(row=1, column=0, sticky="nwe", padx=(50,0), pady=(0,0))
+        font = ("Libre Baskerville", self.tamanio_fuente), wraplength=600, justify="center")
+        desc.grid(row=1, column=0, sticky="n")
 
-    def redimensionar(self, event):
-        '''Este metodo ajusta el tamaño de la imagen'''
-        if event:
-            # Calcular nuevo tamaño proporcional a la ventana
-            nuevo_ancho = 622 * self.winfo_width()/2027
-            nuevo_alto =  371 * self.winfo_width()/2027
-
-            # Redimensionar imagen
-            self.inicio_img.configure(size=(nuevo_ancho, nuevo_alto))
-            self.update()
-
-    def crear_imagenes_ctk(self):
+    def abrir_imagen(self):
         '''Este metodo crea los objetos imagen para mostrarlo en un label'''
 
         base_dir = path.dirname(__file__)
-        # Rutas a imagenes
+        # Rutas a imagen
         ruta_inicio_img = path.join(base_dir,"..","Imagenes", "Inicio.png")
 
-        inicio_img = CTkImage(light_image=Image.open(ruta_inicio_img),
-        size= (622*1.5, 371*1.5))
+        self.imagen_inicio = Image.open(ruta_inicio_img)
 
-        return inicio_img
+
+    def actualizar_dimensiones_imagen(self):
+        '''Ajusta automáticamente las dimensiones de la imagen al frame'''
+
+        frame_width = self.master.winfo_screenheight()*2/3
+
+        new_height = frame_width * 371 / 622
+
+        imagen_inicio_tk = CTkImage(light_image=self.imagen_inicio, size=(frame_width, new_height))
+
+        self.imagen_inicio_label.configure(image= imagen_inicio_tk)
+
+        self.master.update()
