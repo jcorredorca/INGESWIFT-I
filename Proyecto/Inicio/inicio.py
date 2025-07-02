@@ -6,7 +6,7 @@ from Inicio.Login import login_frame
 from PIL import Image
 
 
-class Inicio(CTkScrollableFrame):
+class Inicio(CTkFrame):
     '''Clase que representa la pagina de inicio de atun'''
     def __init__(self, master):
         super().__init__(master)
@@ -14,7 +14,7 @@ class Inicio(CTkScrollableFrame):
         self.configure(fg_color="#2e1045", corner_radius=1)
         self.repartir_espacio()
 
-        self.tamanio_fuente =  max(12, int(self.winfo_screenwidth() * 0.0065))
+        self.tamanio_fuente =  max(12, int(self.winfo_screenwidth() * 0.006))
 
         self.contenido_izq = CTkFrame(self, fg_color="#2e1045")
         self.contenido_izq.grid(row=0, column=0, sticky="ns")
@@ -70,7 +70,7 @@ class Inicio(CTkScrollableFrame):
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
 
-        factor = 1/3
+        factor = 1/4
         frame_height = self.master.winfo_screenheight()*factor
 
         new_width = frame_height* 622/371
