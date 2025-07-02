@@ -21,14 +21,14 @@ class LoginFrame(CTkFrame):
 
     def crear_login(self):
         '''Crea el loggin del contenido de Inicio'''
-        fuente_titulo = ("Libre Baskerville", 56, "bold")
-        fuente_normal = ("Arial", 28)
-        fuente_boton = ("Arial", 24, "bold")
+        fuente_titulo = ("Libre Baskerville", max(40, int(self.winfo_screenwidth() * 0.02)), "bold")
+        fuente_normal = ("Arial", max(28, int(self.winfo_screenwidth() * 0.01)))
+        fuente_boton = ("Arial", max(24,int(self.winfo_screenwidth() * 0.009)), "bold")
 
         # --- TÍTULO ---
-        titulo = CTkLabel(self, text="Ingresa tu usuario y\ncontraseña",
+        titulo = CTkLabel(self, text="Ingresa tu usuario\ny contraseña",
                           font=fuente_titulo, text_color="white", justify="center")
-        titulo.grid(row=1, column=0, pady=(30, 30), sticky="s")
+        titulo.grid(row=1, column=0, pady=(30, 30), sticky="ns")
 
         # --- USUARIO ---
         usuario_frame = CTkFrame(self, fg_color="transparent")
@@ -36,7 +36,7 @@ class LoginFrame(CTkFrame):
         usuario_frame.grid_columnconfigure(0, weight=4)
         usuario_frame.grid_columnconfigure(1, weight=1)
 
-        self.entry_usuario = CTkEntry(usuario_frame, placeholder_text=" Usuario", 
+        self.entry_usuario = CTkEntry(usuario_frame, placeholder_text="Usuario",
                                       font=fuente_normal, fg_color="whitesmoke", height=50)
 
         self.entry_usuario.grid(row=0, column=0, sticky="new")
@@ -47,7 +47,7 @@ class LoginFrame(CTkFrame):
         dominio.grid(row=0, column=1, sticky="w", padx=(10, 0))
 
         # --- CONTRASEÑA ---
-        self.entry_contra = CTkEntry(self, placeholder_text=" Contraseña",
+        self.entry_contra = CTkEntry(self, placeholder_text="Contraseña",
         font=fuente_normal, show="•", fg_color="whitesmoke", height=50)
 
         # Eventos para cambiar el color al escribir
