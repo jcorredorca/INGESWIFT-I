@@ -52,8 +52,9 @@ class Inicio(CTkScrollableFrame):
         "y asesoría profesional, fomentando hábitos de vida saludables, " \
         "mejorando la condición física y reduciendo el estrés académico."
 
+        wrap = 600 if self.winfo_screenwidth() < 2000 else 750
         desc = CTkLabel(self.contenido_izq, text=desc_afid, text_color = "whitesmoke",
-        font = ("Libre Baskerville", self.tamanio_fuente), wraplength=600, justify="center")
+        font = ("Libre Baskerville", self.tamanio_fuente), wraplength= wrap, justify="center")
         desc.grid(row=1, column=0, sticky="n")
 
     def abrir_imagen(self):
@@ -69,11 +70,12 @@ class Inicio(CTkScrollableFrame):
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
 
-        frame_width = self.master.winfo_screenheight()*2/3
+        factor = 1/3
+        frame_height = self.master.winfo_screenheight()*factor
 
-        new_height = frame_width * 371 / 622
+        new_width = frame_height* 622/371
 
-        imagen_inicio_tk = CTkImage(light_image=self.imagen_inicio, size=(frame_width, new_height))
+        imagen_inicio_tk = CTkImage(light_image=self.imagen_inicio, size=(new_width,frame_height))
 
         self.imagen_inicio_label.configure(image= imagen_inicio_tk)
 

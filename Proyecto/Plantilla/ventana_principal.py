@@ -42,7 +42,10 @@ class App(customtkinter.CTk):
         '''Reparte el espacio entre el encabezado contenido y pie de pagina'''
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(1, weight=4)
+
+        w_contenido = 4 if self.winfo_screenwidth() < 2000 else 6
+        self.grid_rowconfigure(1, weight= w_contenido)
+
         self.grid_rowconfigure(2, weight=1)
 
     def get_size(self):
