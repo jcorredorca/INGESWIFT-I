@@ -1,6 +1,6 @@
 ''' Pagina de inicio de atun '''
 
-from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel
+from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel, CTkOptionMenu, CTkToplevel
 
 
 class LoginFrame(CTkFrame):
@@ -16,8 +16,7 @@ class LoginFrame(CTkFrame):
     def repartir_espacio(self):
         '''Reparte el espacio '''
         self.grid_columnconfigure(0, weight=0)
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(5, weight=1)
+        #self.grid_rowconfigure(7, weight=1)
 
     def crear_login(self):
         '''Crea el loggin del contenido de Inicio'''
@@ -40,29 +39,112 @@ class LoginFrame(CTkFrame):
                                       font=fuente_normal, fg_color="whitesmoke", height=50)
 
         self.entry_usuario.grid(row=0, column=0, sticky="new")
+        self.entry_usuario.bind("<KeyRelease>",
+                                lambda event: self.revisar_color_entry(self.entry_usuario, event))
 
         dominio = CTkLabel(usuario_frame, text="@unal.edu.co",
         font=("Libre Baskerville", 20, "bold"), text_color="#CCCCCC")
 
         dominio.grid(row=0, column=1, sticky="w", padx=(10, 0))
 
+        # --- ROL ---
+        # TODO: Cambiar esto a una consulta de db
+        roles = ['-- Seleccionar --', 'Miembro', 'Funcionario', 'Administrador']
+        self.entry_rol = CTkOptionMenu(self, values=roles,
+            font=fuente_normal, text_color="gray", fg_color="whitesmoke",
+            command=lambda _: self.revisar_color_entry(self.entry_rol, True))
+
+        self.entry_rol.grid(row=3, column=0, pady=(0, 15), padx=30, sticky="new")
+
+        self.entry_rol.set("-- Seleccionar --")
+
+
         # --- CONTRASEÑA ---
         self.entry_contra = CTkEntry(self, placeholder_text="Contraseña",
-        font=fuente_normal, show="•", fg_color="whitesmoke", height=50)
+                                    font=fuente_normal, fg_color="whitesmoke", height=50, show='•' )
 
         # Eventos para cambiar el color al escribir
-        self.entry_contra.grid(row=3, column=0, pady=(0, 15), padx=30, sticky="new")
-        self.entry_contra.bind("<KeyRelease>", self.revisar_color_contra)
+        self.entry_contra.grid(row=4, column=0, pady=(0, 15), padx=30, sticky="nsew")
+        self.entry_contra.bind("<KeyRelease>",
+                               lambda event: self.revisar_color_entry(self.entry_contra, event))
 
         # --- BOTÓN DE LOGIN ---
         boton_login = CTkButton(self, text="Iniciar sesión", font=fuente_boton,
         fg_color="#F6A623", text_color="black", cursor="hand2", hover_color="#d38e14",
         corner_radius=6, border_spacing=10)
-        boton_login.grid(row=4, column=0, pady=(0, 50))
+        boton_login.grid(row=5, column=0, pady=(0, 50))
 
-    def revisar_color_contra(self, event):
-        '''Mantiene el color de texto de la contraseña en el tono correcto'''
-        if self.entry_contra.get().strip() == "":
-            self.entry_contra.configure(text_color="gray")
-        else:
-            self.entry_contra.configure(text_color="black")
+        # --- CAMBIO DE CONTRASEÑA ---
+        self.cambio_contra = CTkLabel(self,
+        text="Cambiar mi contraseña",
+        cursor="hand2",
+        text_color = "#F6A623" ,
+        font = ("Libre Baskerville", self.winfo_screenwidth() * 0.01)
+        )
+
+        self.cambio_contra.grid(row=6, column=0, sticky='w')
+
+        # Asociar evento de clic
+        self.cambio_contra.bind("<Button-1>", self.desplegar_cambio_contra)
+        self.cambio_contra.bind("<Enter>", self.entrada)
+        self.cambio_contra.bind("<Leave>", self.salida)
+
+    def revisar_color_entry(self, entry, event):
+        '''Mantiene el color de texto de las entradas en el tono correcto'''
+        if event:
+            if entry.get().strip() in ["", "-- Seleccionar --"]:
+                entry.configure(text_color="gray")
+            else:
+                entry.configure(text_color="black")
+
+    def desplegar_cambio_contra(self, event):
+        '''Despliega una ventana emergente para cambiar la conntraseña'''
+
+        color_fondo = "#a783c2"
+
+        if event:
+            #Creación de la ventana emergente
+            popup = CTkToplevel(self, fg_color=color_fondo)
+            ancho = self.winfo_screenwidth()//2
+            alto = self.winfo_screenheight()//2
+            popup.geometry(f"{ancho}x{alto}")
+            popup.title("Cambio de contraseña")
+
+            popup.grid_columnconfigure(0, weight=1)
+
+            popup.grid_rowconfigure(0, weight=2)
+            popup.grid_rowconfigure(1, weight=1)
+
+            #Creación de un fram para ubicar el formulario de cambio de contraseña
+            cambio_frame = CTkFrame(popup, fg_color=color_fondo)
+            cambio_frame.grid(row=0)
+            cambio_frame.grid_columnconfigure(0, weight=1)
+            cambio_frame.grid_columnconfigure(1, weight=2)
+            cambio_frame.grid_columnconfigure(2, weight=1)
+            cambio_frame.grid_rowconfigure(0, weight=1)
+            cambio_frame.grid_rowconfigure(1, weight=2)
+            cambio_frame.grid_rowconfigure(2, weight=1)
+            
+            label=CTkLabel(cambio_frame, text="Cambia la contraseñaaaa!")
+            label.grid(row=1, column=1)
+
+            #Frame para ubicar botones
+            botones = CTkFrame(popup, fg_color=color_fondo)
+            botones.grid(row=1)
+
+            button = CTkButton(botones, text="Cerrar", command=popup.destroy)
+            button.grid()
+
+            popup.transient(self)
+            popup.grab_set()
+            popup.focus()
+
+    def entrada(self, event):
+        '''Evento de entrada para simular un hover'''
+        if event:
+            self.cambio_contra.configure(text_color="#B7770F")
+
+    def salida(self, event):
+        '''Evento de salida para simular un hover'''
+        if event:
+            self.cambio_contra.configure(text_color="#F6A623")

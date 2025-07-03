@@ -70,7 +70,7 @@ class Inicio(CTkFrame):
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
 
-        factor = 1/4
+        factor = 1/3
         frame_height = self.master.winfo_screenheight()*factor
 
         new_width = frame_height* 622/371
