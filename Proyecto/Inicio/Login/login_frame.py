@@ -124,7 +124,7 @@ class LoginFrame(CTkFrame):
             cambio_frame.grid_rowconfigure(0, weight=1)
             cambio_frame.grid_rowconfigure(1, weight=2)
             cambio_frame.grid_rowconfigure(2, weight=1)
-            
+
             label=CTkLabel(cambio_frame, text="Cambia la contraseñaaaa!")
             label.grid(row=1, column=1)
 

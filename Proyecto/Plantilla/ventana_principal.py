@@ -7,6 +7,9 @@ import customtkinter
 from Plantilla import encabezado,pie_de_pagina
 from Inicio import inicio
 
+#Tests
+from Miembros import miembros
+
 class App(customtkinter.CTk):
     '''Representa la ventana  sobre la cual se pondran todos los elementos'''
 
@@ -21,9 +24,11 @@ class App(customtkinter.CTk):
 
         #Colocamos los 3 elementos principales
         self.encabezado = encabezado.Encabezado(self)
+
         self.encabezado.grid(row=0, column=0, sticky="nsew")
 
-        self.contenido = inicio.Inicio(self)
+        #self.contenido = inicio.Inicio(self)
+        self.contenido = miembros.Horarios(self)
         self.contenido.grid(row=1, column=0, sticky="nsew")
 
         self.pie = pie_de_pagina.PiePagina(self)
@@ -43,8 +48,7 @@ class App(customtkinter.CTk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
-        w_contenido = 6
-        self.grid_rowconfigure(1, weight= w_contenido)
+        self.grid_rowconfigure(1, weight= 6)
 
         self.grid_rowconfigure(2, weight=1)
 
