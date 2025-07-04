@@ -97,6 +97,48 @@ class LoginFrame(CTkFrame):
             else:
                 entry.configure(text_color="black")
 
+    def desplegar_cambio_contra(self, event):
+        '''Despliega una ventana emergente para cambiar la conntraseña'''
+
+        color_fondo = "#a783c2"
+
+        if event:
+            #Creación de la ventana emergente
+            popup = CTkToplevel(self, fg_color=color_fondo)
+            ancho = self.winfo_screenwidth()//2
+            alto = self.winfo_screenheight()//2
+            popup.geometry(f"{ancho}x{alto}")
+            popup.title("Cambio de contraseña")
+
+            popup.grid_columnconfigure(0, weight=1)
+
+            popup.grid_rowconfigure(0, weight=2)
+            popup.grid_rowconfigure(1, weight=1)
+
+            #Creación de un fram para ubicar el formulario de cambio de contraseña
+            cambio_frame = CTkFrame(popup, fg_color=color_fondo)
+            cambio_frame.grid(row=0)
+            cambio_frame.grid_columnconfigure(0, weight=1)
+            cambio_frame.grid_columnconfigure(1, weight=2)
+            cambio_frame.grid_columnconfigure(2, weight=1)
+            cambio_frame.grid_rowconfigure(0, weight=1)
+            cambio_frame.grid_rowconfigure(1, weight=2)
+            cambio_frame.grid_rowconfigure(2, weight=1)
+            
+            label=CTkLabel(cambio_frame, text="Cambia la contraseñaaaa!")
+            label.grid(row=1, column=1)
+
+            #Frame para ubicar botones
+            botones = CTkFrame(popup, fg_color=color_fondo)
+            botones.grid(row=1)
+
+            button = CTkButton(botones, text="Cerrar", command=popup.destroy)
+            button.grid()
+
+            popup.transient(self)
+            popup.grab_set()
+            popup.focus()
+
     def entrada(self, event):
         '''Evento de entrada para simular un hover'''
         if event:
