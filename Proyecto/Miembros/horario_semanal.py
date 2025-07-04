@@ -26,7 +26,7 @@ class HorarioSemanal(CTkFrame):
         fuente_dias = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.015)))
         dias = ["", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
         for col, dia in enumerate(dias):
-            label = CTkLabel(self, text=dia, font=fuente_dias)
+            label = CTkLabel(self, text=dia, font=fuente_dias,text_color='white')
             label.grid(row=0, column=col, sticky="nsew", padx=10, pady=10)
             self.dias.append(label)
 
@@ -37,7 +37,7 @@ class HorarioSemanal(CTkFrame):
             fila_celdas = []
 
             # Columna 0 (horarios)
-            hora_label = CTkLabel(self, text=hora, font=fuente_horas, anchor='w')
+            hora_label = CTkLabel(self, text=hora, font=fuente_horas, anchor='w', text_color='white')
             hora_label.grid(row=fila, column=0, sticky="nsew", padx=(4,5), pady=3)
 
             # Celdas de Lunes a Sábado
