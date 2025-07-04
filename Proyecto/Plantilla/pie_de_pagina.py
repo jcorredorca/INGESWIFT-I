@@ -111,7 +111,7 @@ class PiePagina(CTkFrame):
 
     def crear_direccion(self):
         '''Crea el espacio de direccion del footer'''
-        direccion_label = CTkLabel(self.direccion, 
+        direccion_label = CTkLabel(self.direccion,
         text="Sede Bogotá - Edificio 454 - Salón 403",
         text_color = "whitesmoke" ,
         font = ("Libre Baskerville", self.tamanio_fuente),
