@@ -1,7 +1,7 @@
 ''' Pagina de inicio de atun '''
 from os import path
 
-from customtkinter import CTkFrame, CTkImage, CTkLabel, CTkScrollableFrame
+from customtkinter import CTkFrame, CTkImage, CTkLabel
 from Inicio.Login import login_frame
 from PIL import Image
 

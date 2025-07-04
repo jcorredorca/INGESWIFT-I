@@ -1,10 +1,11 @@
-''' Pagina de inicio de atun '''
+''' Login para atun '''
 
+from tkinter import messagebox
 from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel, CTkOptionMenu, CTkToplevel
 
 
 class LoginFrame(CTkFrame):
-    '''Clase que representa la pagina de inicio de atun'''
+    '''Clase que representa el formulario de login de atun'''
     def __init__(self, master):
         super().__init__(master)
 
@@ -48,7 +49,7 @@ class LoginFrame(CTkFrame):
         dominio.grid(row=0, column=1, sticky="w", padx=(10, 0))
 
         # --- ROL ---
-        # TODO: Cambiar esto a una consulta de db
+        #TODO: Cambiar esto a una consulta de db
         roles = ['-- Seleccionar --', 'Miembro', 'Funcionario', 'Administrador']
         self.entry_rol = CTkOptionMenu(self, values=roles,
             font=fuente_normal, text_color="gray", fg_color="whitesmoke",
@@ -57,7 +58,6 @@ class LoginFrame(CTkFrame):
         self.entry_rol.grid(row=3, column=0, pady=(0, 15), padx=30, sticky="new")
 
         self.entry_rol.set("-- Seleccionar --")
-
 
         # --- CONTRASEÑA ---
         self.entry_contra = CTkEntry(self, placeholder_text="Contraseña",
@@ -85,7 +85,7 @@ class LoginFrame(CTkFrame):
         self.cambio_contra.grid(row=6, column=0, sticky='w')
 
         # Asociar evento de clic
-        self.cambio_contra.bind("<Button-1>", self.desplegar_cambio_contra)
+        self.cambio_contra.bind("<Button-1>", self.desplegar_popup)
         self.cambio_contra.bind("<Enter>", self.entrada)
         self.cambio_contra.bind("<Leave>", self.salida)
 
@@ -97,48 +97,6 @@ class LoginFrame(CTkFrame):
             else:
                 entry.configure(text_color="black")
 
-    def desplegar_cambio_contra(self, event):
-        '''Despliega una ventana emergente para cambiar la conntraseña'''
-
-        color_fondo = "#a783c2"
-
-        if event:
-            #Creación de la ventana emergente
-            popup = CTkToplevel(self, fg_color=color_fondo)
-            ancho = self.winfo_screenwidth()//2
-            alto = self.winfo_screenheight()//2
-            popup.geometry(f"{ancho}x{alto}")
-            popup.title("Cambio de contraseña")
-
-            popup.grid_columnconfigure(0, weight=1)
-
-            popup.grid_rowconfigure(0, weight=2)
-            popup.grid_rowconfigure(1, weight=1)
-
-            #Creación de un fram para ubicar el formulario de cambio de contraseña
-            cambio_frame = CTkFrame(popup, fg_color=color_fondo)
-            cambio_frame.grid(row=0)
-            cambio_frame.grid_columnconfigure(0, weight=1)
-            cambio_frame.grid_columnconfigure(1, weight=2)
-            cambio_frame.grid_columnconfigure(2, weight=1)
-            cambio_frame.grid_rowconfigure(0, weight=1)
-            cambio_frame.grid_rowconfigure(1, weight=2)
-            cambio_frame.grid_rowconfigure(2, weight=1)
-            
-            label=CTkLabel(cambio_frame, text="Cambia la contraseñaaaa!")
-            label.grid(row=1, column=1)
-
-            #Frame para ubicar botones
-            botones = CTkFrame(popup, fg_color=color_fondo)
-            botones.grid(row=1)
-
-            button = CTkButton(botones, text="Cerrar", command=popup.destroy)
-            button.grid()
-
-            popup.transient(self)
-            popup.grab_set()
-            popup.focus()
-
     def entrada(self, event):
         '''Evento de entrada para simular un hover'''
         if event:
@@ -148,3 +106,153 @@ class LoginFrame(CTkFrame):
         '''Evento de salida para simular un hover'''
         if event:
             self.cambio_contra.configure(text_color="#F6A623")
+
+    def desplegar_popup(self, event):
+        '''Crea una ventana para el cambio de contraseña'''
+        if event:
+            CambioPopup(self)
+
+class CambioPopup(CTkToplevel):
+    '''Clase que representa una ventana emergente para cambiar la contraseña'''
+
+    color_fondo = "#a783c2"
+
+    def __init__(self, master):
+        super().__init__(master)
+        self.fuente = ("Arial", max(18, int(self.winfo_screenwidth() * 0.007)))
+
+        self.configure(fg_color=CambioPopup.color_fondo)
+        ancho = self.winfo_screenwidth()//2
+        alto = self.winfo_screenheight()//2
+        self.geometry(f"{ancho}x{alto}")
+        self.title("Cambio de contraseña")
+
+        self.repartir_espacio()
+        self.crear_espacio_formulario()
+        self.construir_formulario()
+
+        self.transient(master)
+        self.grab_set()
+        self.focus()
+
+    def repartir_espacio(self):
+        '''Reparte el espacio '''
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=2)
+        self.grid_rowconfigure(1, weight=1)
+
+    def crear_espacio_formulario(self):
+        '''Reserva el espacio para el formulario'''
+        alto_rows = int(self.winfo_height()*0.2)
+
+        self.campos_frame = CTkFrame(self, fg_color=CambioPopup.color_fondo)
+        self.campos_frame.grid(row=0)
+        self.campos_frame.grid_columnconfigure(0, weight=1)
+        self.campos_frame.grid_columnconfigure(1, weight=4)
+        self.campos_frame.grid_rowconfigure(0, weight=1, minsize=alto_rows)
+        self.campos_frame.grid_rowconfigure(1, weight=2, minsize=alto_rows)
+        self.campos_frame.grid_rowconfigure(2, weight=2, minsize=alto_rows)
+        self.campos_frame.grid_rowconfigure(3, weight=2, minsize=alto_rows)
+        self.campos_frame.grid_rowconfigure(4, weight=2, minsize=alto_rows)
+        self.campos_frame.grid_rowconfigure(5, weight=1)
+
+    def construir_formulario(self):
+        '''Crea el formulario para la renovacion de la contraseña'''
+        # TITULO
+        fuente_titulo = ("Libre Baskerville", max(25, int(self.winfo_screenwidth()* 0.015)), "bold")
+        titulo = CTkLabel(self.campos_frame, text="Módulo de cambio de contraseña",
+                          font=fuente_titulo, text_color="white", justify="center")
+        titulo.grid(row=0, columnspan=2)
+
+        #Confirguar las etiquetas
+        usuario_label=CTkLabel(self.campos_frame, text="Usuario:",
+                               font=self.fuente, text_color='black')
+        usuario_label.grid(row=1, column=0, sticky='e')
+
+        contra_antigua_label=CTkLabel(self.campos_frame, text="Contraseña antigua:",
+                                      font=self.fuente, text_color='black')
+        contra_antigua_label.grid(row=2, column=0, sticky='e')
+
+        contra_nueva_label=CTkLabel(self.campos_frame, text="Contraseña nueva:",
+                                    font=self.fuente, text_color='black')
+        contra_nueva_label.grid(row=3, column=0, sticky='e')
+
+        self.confirmacion_label=CTkLabel(self.campos_frame, text="Confirmar contraseña nueva:",
+                                    font=self.fuente, text_color='black')
+        self.confirmacion_label.grid(row=4, column=0, sticky='e')
+
+        #Configurar las entradas
+        ancho_entry = int(self.winfo_width())*0.7
+        self.entry_usuario = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+                                    font=self.fuente, width=ancho_entry)
+        self.entry_usuario.grid(row=1, column=1)
+
+        self.entry_contra_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+                                        font=self.fuente, width=ancho_entry)
+        self.entry_contra_antigua.grid(row=2, column=1)
+
+        self.entry_contra_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+                                        font=self.fuente, width=ancho_entry)
+        self.entry_contra_nueva.grid(row=3, column=1)
+
+        self.entry_contra_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+                                                font=self.fuente, width=ancho_entry)
+        self.entry_contra_confirmacion.grid(row=4, column=1)
+
+        #Frame para ubicar botones
+        botones = CTkFrame(self, fg_color=CambioPopup.color_fondo)
+        botones.grid(row=1)
+        botones.grid_columnconfigure(0)
+        botones.grid_columnconfigure(1)
+        botones.grid_rowconfigure(0)
+
+        boton_aceptar = CTkButton(botones, text="Modificar contraseña",
+                                    command=self.modificar_contra)
+        boton_aceptar.grid(row=0, column = 0, sticky='e')
+
+        button = CTkButton(botones, text="Cancelar", command=self.destroy)
+        button.grid(row=0, column = 1, sticky='w')
+
+    def verificar_confirmacion(self):
+        '''Verifica que los campos nueva contraseña y confirmación coincidan'''
+        nueva = self.entry_contra_nueva.get()
+        confirmacion = self.entry_contra_confirmacion.get()
+
+        if confirmacion != nueva:
+            self.confirmacion_label.configure(text_color="#f03a3a")
+            messagebox.showerror('Error', 'La contraseña y la confirmación no coinciden')
+            return False
+
+        self.confirmacion_label.configure(text_color='black')
+        return True
+
+    def verificar_campos_vacios(self):
+        '''Verifica si hay algún campo sin llenar'''
+        alguno_vacio = False
+        if self.entry_usuario.get() == "":
+            alguno_vacio = True
+        if self.entry_contra_antigua.get() == "":
+            alguno_vacio = True
+        if self.entry_contra_nueva.get() == "":
+            alguno_vacio = True
+        if self.entry_contra_confirmacion.get() == "":
+            alguno_vacio = True
+
+        if alguno_vacio:
+            messagebox.showerror('Error', 'Hay al menos un campo vacío')
+
+        return alguno_vacio
+
+
+    def modificar_contra(self):
+        '''Funcion para modificar la contraseña'''
+        #Declaración de flags
+        credenciales_correctas = True #TODO función para validar credenciales
+        coincidencia_confirmacion = self.verificar_confirmacion()
+        campos_vacios = self.verificar_campos_vacios()
+
+        if (credenciales_correctas and coincidencia_confirmacion and not campos_vacios):
+            #TODO: editar contraseña en db
+            print('Cambio de contraseña')
+        else:
+            print('Algo falló con el cambio de contraseña')
