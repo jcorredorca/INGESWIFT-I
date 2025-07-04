@@ -54,39 +54,45 @@ class GestionEstado(CTkFrame):
         self.grid_columnconfigure(0, weight=2)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=2)
-        self.grid_rowconfigure(3, weight=0)
+
+        self.grid_rowconfigure(0, weight=0)  # Título
+        self.grid_rowconfigure(1, weight=1)  # Espacio entre título y listas
+        self.grid_rowconfigure(2, weight=4)  # Contenedores de listas y botones
+        self.grid_rowconfigure(3, weight=0)  # Barra de búsqueda
+
 
     def crear_listas(self):
         '''Crea los scrollables para miembros activos e inactivos'''
         fuente_label = ("Libre Baskerville", 20, "bold")
 
-        self.activos_label = CTkLabel(self, text="ACTIVOS", font=fuente_label, text_color="white")
-        self.activos_label.grid(row=1, column=0, sticky="n", pady=(10, 5))
-
+        # Activos
         self.scroll_activos = CTkScrollableFrame(self, fg_color="#3d1c57")
-        self.scroll_activos.grid(row=1, column=0, padx=20, sticky="nsew")
+        self.scroll_activos.grid(row=2, column=0, padx=20, sticky="nsew")
+        
+        label_activos = CTkLabel(self.scroll_activos, text="ACTIVOS", font=fuente_label, text_color="white")
+        label_activos.pack(pady=(10, 10))
 
-        self.inactivos_label = CTkLabel(self, text="INACTIVOS", font=fuente_label, text_color="white")
-        self.inactivos_label.grid(row=1, column=2, sticky="n", pady=(10, 5))
-
-        self.scroll_inactivos = CTkScrollableFrame(self, fg_color="#3d1c57")
-        self.scroll_inactivos.grid(row=1, column=2, padx=20, sticky="nsew")
-
-        self.scroll_activos.configure(height=350)
-        self.scroll_inactivos.configure(height=350)
-
-        # Test data
         for nombre in ["Miembro1", "Miembro2", "Miembro3", "Miembro4", "Miembro5"]:
-            CTkLabel(self.scroll_activos, text=nombre, text_color="white", anchor="w", font=("Libre Baskerville", 16)).pack(fill="x", padx=10, pady=4)
+            CTkLabel(self.scroll_activos, text=nombre, text_color="white",
+                    font=("Libre Baskerville", 16), anchor="center", justify="center"
+            ).pack(fill="x", padx=10, pady=4)
+
+        # Inactivos
+        self.scroll_inactivos = CTkScrollableFrame(self, fg_color="#3d1c57")
+        self.scroll_inactivos.grid(row=2, column=2, padx=20, sticky="nsew")
+
+        label_inactivos = CTkLabel(self.scroll_inactivos, text="INACTIVOS", font=fuente_label, text_color="white")
+        label_inactivos.pack(pady=(10, 10))
 
         for nombre in ["MiembroA", "MiembroB", "MiembroC", "MiembroD", "MiembroE"]:
-            CTkLabel(self.scroll_inactivos, text=nombre, text_color="white", anchor="w", font=("Libre Baskerville", 16)).pack(fill="x", padx=10, pady=4)
-
+            CTkLabel(self.scroll_inactivos, text=nombre, text_color="white",
+                    font=("Libre Baskerville", 16), anchor="center", justify="center"
+            ).pack(fill="x", padx=10, pady=4)
 
     def crear_botones(self):
         '''Botones para mover miembros entre listas'''
         contenedor = CTkFrame(self, fg_color="transparent")
-        contenedor.grid(row=1, column=1, sticky="nsew")
+        contenedor.grid(row=2, column=1, sticky="nsew")
 
         contenedor.grid_rowconfigure((0, 1, 2), weight=1)
         contenedor.grid_columnconfigure(0, weight=1)
