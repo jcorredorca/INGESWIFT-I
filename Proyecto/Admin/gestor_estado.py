@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import customtkinter
 from customtkinter import (CTkButton, CTkEntry, CTkFrame, CTkLabel,
                            CTkScrollableFrame)
 
@@ -25,7 +26,7 @@ class GestionEstado(CTkFrame):
     def crear_encabezado_derecho(self):
         '''Encabezado con TURNO y botón Log Out'''
         mini_encabezado = CTkFrame(self, fg_color="transparent")
-        mini_encabezado.grid(row=0, column=2, sticky="ne", padx=20, pady=(10, 0))
+        mini_encabezado.grid(row=0, column=2, sticky="ne", padx=20, pady=(20, 10))
 
         mini_encabezado.grid_columnconfigure(0, weight=1)
         mini_encabezado.grid_columnconfigure(1, weight=0)
@@ -54,7 +55,7 @@ class GestionEstado(CTkFrame):
         self.grid_columnconfigure(0, weight=2)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=2)
-        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(3, weight=0)
 
     def crear_listas(self):
         '''Crea los scrollables para miembros activos e inactivos'''
@@ -72,24 +73,52 @@ class GestionEstado(CTkFrame):
         self.scroll_inactivos = CTkScrollableFrame(self, fg_color="#3d1c57")
         self.scroll_inactivos.grid(row=1, column=2, padx=20, sticky="nsew")
 
+        self.scroll_activos.configure(height=350)
+        self.scroll_inactivos.configure(height=350)
+
         # Test data
         for nombre in ["Miembro1", "Miembro2", "Miembro3", "Miembro4", "Miembro5"]:
-            CTkLabel(self.scroll_activos, text=nombre, text_color="white").pack(anchor="w", padx=10, pady=2)
+            CTkLabel(self.scroll_activos, text=nombre, text_color="white", anchor="w", font=("Libre Baskerville", 16)).pack(fill="x", padx=10, pady=4)
 
         for nombre in ["MiembroA", "MiembroB", "MiembroC", "MiembroD", "MiembroE"]:
-            CTkLabel(self.scroll_inactivos, text=nombre, text_color="white").pack(anchor="w", padx=10, pady=2)
+            CTkLabel(self.scroll_inactivos, text=nombre, text_color="white", anchor="w", font=("Libre Baskerville", 16)).pack(fill="x", padx=10, pady=4)
+
 
     def crear_botones(self):
         '''Botones para mover miembros entre listas'''
-        self.boton_derecha = CTkButton(self, text="→", font=("Segoe UI", 26, "bold"), width=50)
-        self.boton_derecha.grid(row=1, column=1, pady=(100, 5))
+        contenedor = CTkFrame(self, fg_color="transparent")
+        contenedor.grid(row=1, column=1, sticky="nsew")
 
-        self.boton_izquierda = CTkButton(self, text="←", font=("Segoe UI", 26, "bold"), width=50)
-        self.boton_izquierda.grid(row=1, column=1, pady=(160, 5))
+        contenedor.grid_rowconfigure((0, 1, 2), weight=1)
+        contenedor.grid_columnconfigure(0, weight=1)
+
+        self.boton_derecha = CTkButton(contenedor, text="→", font=("Segoe UI", 26, "bold"), 
+                                    width=50, height=35,
+                                    fg_color="#f6a623", hover_color="#d18c1a", text_color="#2e1045")
+        self.boton_derecha.grid(row=0, column=0, pady=10)
+
+        self.boton_izquierda = CTkButton(contenedor, text="←", font=("Segoe UI", 26, "bold"), 
+                                        width=50, height=35,
+                                        fg_color="#f6a623", hover_color="#d18c1a", text_color="#2e1045")
+        self.boton_izquierda.grid(row=2, column=0, pady=10)
+
 
     def crear_busqueda(self):
         '''Barra para buscar miembros'''
         self.entry_busqueda = CTkEntry(self, placeholder_text="BUSCAR MIEMBRO",
                                        fg_color="white", text_color="black",
                                        font=("Libre Baskerville", 16), width=300)
-        self.entry_busqueda.grid(row=2, column=1, pady=20)
+        self.entry_busqueda.grid(row=3, column=0, columnspan=3, pady=(30, 20), sticky="n")
+class VentanaPrueba(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("Prueba Gestión Estado")
+        self.geometry("1200x700")
+        self.configure(fg_color="#2e1045")
+
+        self.gestion = GestionEstado(self)
+        self.gestion.pack(fill="both", expand=True)
+
+if __name__ == "__main__":
+    app = VentanaPrueba()
+    app.mainloop()
