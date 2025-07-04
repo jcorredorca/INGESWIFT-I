@@ -22,8 +22,8 @@ class LoginFrame(CTkFrame):
     def crear_login(self):
         '''Crea el loggin del contenido de Inicio'''
         fuente_titulo = ("Libre Baskerville", max(40, int(self.winfo_screenwidth() * 0.02)), "bold")
-        fuente_normal = ("Arial", max(28, int(self.winfo_screenwidth() * 0.01)))
-        fuente_boton = ("Arial", max(24,int(self.winfo_screenwidth() * 0.009)), "bold")
+        fuente_normal = ("Arial", max(25, int(self.winfo_screenwidth() * 0.01)))
+        fuente_boton = ("Arial", max(22,int(self.winfo_screenwidth() * 0.009)), "bold")
 
         # --- TÍTULO ---
         titulo = CTkLabel(self, text="Ingresa tu usuario\ny contraseña",
@@ -70,8 +70,8 @@ class LoginFrame(CTkFrame):
 
         # --- BOTÓN DE LOGIN ---
         boton_login = CTkButton(self, text="Iniciar sesión", font=fuente_boton,
-        fg_color="#F6A623", text_color="black", cursor="hand2", hover_color="#d38e14",
-        corner_radius=6, border_spacing=10)
+                    fg_color="#F6A623", text_color="black", cursor="hand2", hover_color="#d38e14",
+                    corner_radius=6, border_spacing=10, command=self.verificar_login)
         boton_login.grid(row=5, column=0, pady=(0, 50))
 
         # --- CAMBIO DE CONTRASEÑA ---
@@ -106,6 +106,33 @@ class LoginFrame(CTkFrame):
         '''Evento de salida para simular un hover'''
         if event:
             self.cambio_contra.configure(text_color="#F6A623")
+
+    def verificar_login(self):
+        '''Función para verificar las credenciales'''
+        #Creación de flags
+        campos_vacios = self.verificar_campos_vacios()
+        credenciales_correctas = True #TODO función para validar credenciales
+
+        if (not campos_vacios and credenciales_correctas):
+            # TODO función para redirigir a la ventana correcta
+            print('Acceso concedido')
+        else:
+            print('Acceso denegado')
+
+    def verificar_campos_vacios(self):
+        '''Verifica si hay algún campo sin llenar'''
+        alguno_vacio = False
+        if self.entry_usuario.get() == "":
+            alguno_vacio = True
+        if self.entry_contra.get() == "":
+            alguno_vacio = True
+        if self.entry_rol.get() == "-- Seleccionar --":
+            alguno_vacio = True
+
+        if alguno_vacio:
+            messagebox.showerror('Error', 'Hay al menos un campo sin llenar')
+
+        return alguno_vacio
 
     def desplegar_popup(self, event):
         '''Crea una ventana para el cambio de contraseña'''
@@ -188,15 +215,15 @@ class CambioPopup(CTkToplevel):
         self.entry_usuario.grid(row=1, column=1)
 
         self.entry_contra_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke",
-                                        font=self.fuente, width=ancho_entry)
+                                        font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_antigua.grid(row=2, column=1)
 
         self.entry_contra_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke",
-                                        font=self.fuente, width=ancho_entry)
+                                        font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_nueva.grid(row=3, column=1)
 
         self.entry_contra_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke",
-                                                font=self.fuente, width=ancho_entry)
+                                                font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_confirmacion.grid(row=4, column=1)
 
         #Frame para ubicar botones
