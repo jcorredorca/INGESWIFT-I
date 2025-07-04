@@ -26,8 +26,8 @@ class App(customtkinter.CTk):
 
         self.encabezado.grid(row=0, column=0, sticky="nsew")
 
-        self.contenido = inicio.Inicio(self)
-        #self.contenido = miembros.Horarios(self)
+        #self.contenido = inicio.Inicio(self)
+        self.contenido = miembros.Miembros(self)
 
         self.contenido.grid(row=1, column=0, sticky="nsew")
 

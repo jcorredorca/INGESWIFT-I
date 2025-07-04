@@ -6,6 +6,7 @@ from tkinter import messagebox
 
 from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel, CTkOptionMenu, CTkToplevel
 from .cambio_popup import CambioPopup
+from Funcionalidades import login
 
 class LoginFrame(CTkFrame):
     '''Clase que representa el formulario de login de atun'''
@@ -52,8 +53,7 @@ class LoginFrame(CTkFrame):
         dominio.grid(row=0, column=1, sticky="w", padx=(10, 0))
 
         # --- ROL ---
-        #TODO: Cambiar esto a una consulta de db
-        roles = ['-- Seleccionar --', 'Miembro', 'Funcionario', 'Administrador']
+        roles = ['-- Seleccionar --'] + login.recuperar_roles()
         self.entry_rol = CTkOptionMenu(self, values=roles,
             font=fuente_normal, text_color="gray", fg_color="whitesmoke",
             command=lambda _: self.revisar_color_entry(self.entry_rol, True))
@@ -154,15 +154,27 @@ class LoginFrame(CTkFrame):
 
     def verificar_login(self):
         '''Función para verificar las credenciales'''
+        usuario = self.entry_usuario.get()
+        contra = self.entry_contra.get()
+        rol = self.entry_rol.get()
+
         #Creación de flags
         campos_vacios = self.verificar_campos_vacios()
-        credenciales_correctas = True #TODO función para validar credenciales
 
-        if (not campos_vacios and credenciales_correctas):
-            # TODO función para redirigir a la ventana correcta
-            print('Acceso concedido')
+        if campos_vacios:
+            return
+
+        try:
+            credenciales_correctas = login.autenticar_credenciales(usuario, contra, rol)
+        except ValueError as e:
+            messagebox.showerror('Error', str(e))
         else:
-            print('Acceso denegado')
+            if credenciales_correctas:
+                origen = self.master.master
+                ventana = login.construir_ventana(rol, origen)
+                origen.contenido.destroy()
+                origen.contenido = ventana
+                origen.contenido.grid(row=1, column=0, sticky="nsew")
 
     def verificar_campos_vacios(self):
         '''Verifica si hay algún campo sin llenar'''
@@ -183,4 +195,3 @@ class LoginFrame(CTkFrame):
         '''Crea una ventana para el cambio de contraseña'''
         if event:
             CambioPopup(self)
-
