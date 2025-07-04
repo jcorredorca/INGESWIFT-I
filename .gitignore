@@ -23,6 +23,6 @@
 # === Archivos de bases de datos locales ===
 *.sqlite3
 *.db
-*.sql
+#*.sql
 *.dump
 *.bak.sql
