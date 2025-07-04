@@ -2,7 +2,7 @@
 from customtkinter import CTkFrame,CTkOptionMenu,CTkButton
 from .horario_semanal import HorarioSemanal
 
-class Horarios(CTkFrame):
+class Miembros(CTkFrame):
     ''' Esta clase representa el panel de horarios para miembros '''
     def __init__(self, master):
         super().__init__(master)
@@ -13,7 +13,7 @@ class Horarios(CTkFrame):
 
         self.horario = HorarioSemanal(self)
         #self.horario = CTkButton(self,width=500)
-        self.horario.grid(row=1, column=2, sticky='e')
+        self.horario.grid(row=1, column=3, sticky='e')
 
 
     def repartir_espacio(self):
@@ -21,9 +21,11 @@ class Horarios(CTkFrame):
 
         self.grid_rowconfigure(1, weight=10)
         self.grid_rowconfigure(2, weight=1)
-        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(3, weight=0)
+        self.grid_columnconfigure(4, weight=1)
 
     def crear_menu_opciones(self):
         '''Este metodo crea el menu de opciones para escoger un plan'''
@@ -50,5 +52,5 @@ class Horarios(CTkFrame):
         "NUTRICIÓN "
         ]
         )
-        self.opciones_busqueda.grid(row=1, column=0, sticky = 'n',
+        self.opciones_busqueda.grid(row=1, column=1, sticky = 'n',
         pady=self.winfo_screenwidth() * 0.03, padx=(5,0) )

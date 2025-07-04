@@ -201,4 +201,4 @@ CREATE TABLE IF NOT EXISTS `AFID`.`Penalizaciones` (
 ENGINE = InnoDB;
 
 CREATE USER IF NOT EXISTS 'atun_user'@'localhost' IDENTIFIED BY 'Admin01';
-GRANT ALL PRIVILEGES ON afid.* TO 'atun_user'@'localhost';
+GRANT INSERT, SELECT, UPDATE, DELETE ON afid.* TO 'atun_user'@'localhost';

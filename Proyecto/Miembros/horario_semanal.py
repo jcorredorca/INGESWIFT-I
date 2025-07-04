@@ -26,7 +26,7 @@ class HorarioSemanal(CTkFrame):
         fuente_dias = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.012)))
         dias = ["", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
         for col, dia in enumerate(dias):
-            label = CTkLabel(self, text=dia, font=fuente_dias, text_color='white', width= self.winfo_screenwidth() * 0.05 )
+            label = CTkLabel(self, text=dia, font=fuente_dias, text_color='white', width= self.winfo_screenwidth() * 0.075 )
             label.grid(row=0, column=col, sticky="nsew", padx=10, pady=10)
             self.dias.append(label)
 

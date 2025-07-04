@@ -41,5 +41,6 @@ class Conexion:
         self.conectar()
         self.cursor.execute(consulta, parametros)
         resultados = self.cursor.fetchall()
+        self.conexion.commit()
         self.desconectar()
         return resultados
