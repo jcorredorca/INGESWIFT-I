@@ -7,6 +7,7 @@ import customtkinter
 from Plantilla import encabezado,pie_de_pagina
 from Inicio import inicio
 
+#TODO: remover test
 from Miembros import miembros
 class App(customtkinter.CTk):
     '''Representa la ventana  sobre la cual se pondran todos los elementos'''
@@ -25,8 +26,8 @@ class App(customtkinter.CTk):
 
         self.encabezado.grid(row=0, column=0, sticky="nsew")
 
-        #self.contenido = inicio.Inicio(self)
-        self.contenido = miembros.Horarios(self)
+        self.contenido = inicio.Inicio(self)
+        #self.contenido = miembros.Horarios(self)
 
         self.contenido.grid(row=1, column=0, sticky="nsew")
 

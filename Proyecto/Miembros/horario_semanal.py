@@ -37,7 +37,8 @@ class HorarioSemanal(CTkFrame):
             fila_celdas = []
 
             # Columna 0 (horarios)
-            hora_label = CTkLabel(self, text=hora, font=fuente_horas, anchor='w', text_color='white')
+            hora_label = CTkLabel(self, text=hora, font=fuente_horas, anchor='w', 
+                                  text_color='white')
             hora_label.grid(row=fila, column=0, sticky="nsew", padx=(4,5), pady=3)
 
             # Celdas de Lunes a Sábado
