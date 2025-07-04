@@ -13,7 +13,7 @@ class Horarios(CTkFrame):
 
         self.horario = HorarioSemanal(self)
         #self.horario = CTkButton(self,width=500)
-        self.horario.grid(row=1, column=1, sticky='e')
+        self.horario.grid(row=1, column=2, sticky='e')
 
 
     def repartir_espacio(self):
@@ -23,12 +23,13 @@ class Horarios(CTkFrame):
         self.grid_rowconfigure(2, weight=1)
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=0)
+        self.grid_columnconfigure(2, weight=1)
 
     def crear_menu_opciones(self):
         '''Este metodo crea el menu de opciones para escoger un plan'''
 
         fuente_seleccion = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.02)), 'bold')
-        fuente_opciones = ("Segoe UI", 28, 'bold')
+        fuente_opciones = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.015)), 'bold')
 
         self.opciones_busqueda = CTkOptionMenu(self, font=fuente_seleccion,
         dropdown_font=fuente_opciones, fg_color= "#F6A623", text_color="#2e1045",
