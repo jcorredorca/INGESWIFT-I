@@ -25,13 +25,19 @@ class HorarioSemanal(CTkFrame):
         '''Crea la cabecera con los dias de la semana'''
         fuente_dias = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.012)))
         dias = ["", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+
+        #Facto de redimencionamiento para el ancho de las columnas
+        factor = 0.075 if self.winfo_screenwidth() < 2000 else 0.05
+
         for col, dia in enumerate(dias):
-            label = CTkLabel(self, text=dia, font=fuente_dias, text_color='white', width= self.winfo_screenwidth() * 0.075 )
+            label = CTkLabel(self, text=dia, font=fuente_dias, text_color='white',
+                             width= self.winfo_screenwidth() * factor)
             label.grid(row=0, column=col, sticky="nsew", padx=10, pady=10)
             self.dias.append(label)
 
     def crear_horario(self):
         '''Crea el resto del horario inclullendo los bloques horarios'''
+
         fuente_horas = ("Segoe UI", max(15,int(self.winfo_screenwidth() * 0.01)))
         for fila, hora in enumerate(self.horas, start=1):
             fila_celdas = []
