@@ -1,6 +1,5 @@
 from datetime import datetime
 
-#import customtkinter  # Prueba ventana
 from customtkinter import (CTkButton, CTkEntry, CTkFrame, CTkLabel,
                            CTkScrollableFrame)
 
@@ -115,18 +114,3 @@ class GestionEstado(CTkFrame):
                                        fg_color="white", text_color="black",
                                        font=("Libre Baskerville", 16), width=300)
         self.entry_busqueda.grid(row=3, column=0, columnspan=3, pady=(30, 20), sticky="n")
-
-# PRUEBA VENTANA
-# class VentanaPrueba(customtkinter.CTk):
-#     def __init__(self):
-#         super().__init__()
-#         self.title("Prueba Gestión Estado")
-#         self.geometry("1200x700")
-#         self.configure(fg_color="#2e1045")
-
-#         self.gestion = GestionEstado(self)
-#         self.gestion.pack(fill="both", expand=True)
-
-# if __name__ == "__main__":
-#     app = VentanaPrueba()
-#     app.mainloop()

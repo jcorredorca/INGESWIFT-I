@@ -1,9 +1,9 @@
 ''' Pagina de inicio de atun '''
 from os import path
-
 from customtkinter import CTkFrame, CTkImage, CTkLabel
-from Inicio.Login import login_frame
 from PIL import Image
+from . import login_frame
+from config import IMG_PATH
 
 
 class Inicio(CTkFrame):
@@ -60,9 +60,8 @@ class Inicio(CTkFrame):
     def abrir_imagen(self):
         '''Este metodo crea los objetos imagen para mostrarlo en un label'''
 
-        base_dir = path.dirname(__file__)
         # Rutas a imagen
-        ruta_inicio_img = path.join(base_dir,"..","Imagenes", "Inicio.png")
+        ruta_inicio_img = path.join(IMG_PATH, "Inicio.png")
 
         self.imagen_inicio = Image.open(ruta_inicio_img)
 

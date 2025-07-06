@@ -2,6 +2,7 @@
 
 from tkinter import messagebox
 from customtkinter import CTkToplevel, CTkFrame, CTkLabel, CTkEntry, CTkButton
+from services import login
 
 
 class CambioPopup(CTkToplevel):
@@ -115,7 +116,7 @@ class CambioPopup(CTkToplevel):
         confirmacion = self.entry_contra_confirmacion.get()
 
         if confirmacion != nueva:
-            self.confirmacion_label.configure(text_color="#f03a3a")
+            self.confirmacion_label.configure(text_color="#a70c0c")
             messagebox.showerror('Error', 'La contraseña y la confirmación no coinciden')
             return False
 
@@ -142,13 +143,25 @@ class CambioPopup(CTkToplevel):
 
     def modificar_contra(self):
         '''Funcion para modificar la contraseña'''
-        #Declaración de flags
-        credenciales_correctas = True #TODO función para validar credenciales
-        coincidencia_confirmacion = self.verificar_confirmacion()
-        campos_vacios = self.verificar_campos_vacios()
+        usuario = self.entry_usuario.get()
+        contra = self.entry_contra_antigua.get()
+        contra_nueva = self.entry_contra_nueva.get()
+        credenciales_correctas = False
 
-        if (credenciales_correctas and coincidencia_confirmacion and not campos_vacios):
-            #TODO: editar contraseña en db
-            print('Cambio de contraseña')
-        else:
-            print('Algo falló con el cambio de contraseña')
+        #Declaración de flags
+        campos_vacios = self.verificar_campos_vacios()
+        coincidencia_confirmacion = self.verificar_confirmacion()
+        
+        if campos_vacios or not coincidencia_confirmacion:
+            return
+        
+        try:
+            credenciales_correctas = login.autenticar_credenciales(usuario, contra)
+        except ValueError as e:
+            messagebox.showerror('Error', str(e))
+        
+        if credenciales_correctas:
+            #TODO: que mande correo
+            login.cambiar_contrasena(usuario, contra_nueva)
+            messagebox.showinfo('Actualización de contraseña', 'Su contraseña fue actualizada exitosamente')
+            self.destroy()

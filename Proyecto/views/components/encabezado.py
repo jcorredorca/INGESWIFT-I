@@ -2,6 +2,7 @@
 from os import path
 from PIL import Image
 from customtkinter import CTkFrame,CTkLabel,CTkImage
+from config import IMG_PATH
 
 class Encabezado(CTkFrame):
     '''Clase que representa el encabezado'''
@@ -32,10 +33,10 @@ class Encabezado(CTkFrame):
 
     def abrir_imagenes(self):
         '''Este método abre las imágenes necesarias para el encabezado'''
-        base_dir = path.dirname(__file__)
+
         # Rutas a imagenes
-        ruta_logo_un = path.join(base_dir,"..","Imagenes", "LogoUNAL.png")
-        ruta_logo_atun = path.join(base_dir,"..","Imagenes", "LogoATUN.png")
+        ruta_logo_un = path.join(IMG_PATH, "LogoUNAL.png")
+        ruta_logo_atun = path.join(IMG_PATH, "LogoATUN.png")
 
         self.imagen_un =Image.open(ruta_logo_un)
         self.imagen_atun =Image.open(ruta_logo_atun)

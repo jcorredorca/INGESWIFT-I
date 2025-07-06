@@ -1,8 +1,9 @@
 ''' Vista del panel de horarios para miembros'''
-from customtkinter import CTkFrame,CTkOptionMenu,CTkButton
-from .horario_semanal import HorarioSemanal
-from Funcionalidades import horarios,logout
-from Plantilla import boton_adicional
+from customtkinter import CTkFrame,CTkOptionMenu
+from ..components.horario_semanal import HorarioSemanal
+from ..components.boton_adicional import BotonAdicional
+from core import utils
+from services import miembros
 
 class Miembros(CTkFrame):
     ''' Esta clase representa el panel de horarios para miembros '''
@@ -16,7 +17,7 @@ class Miembros(CTkFrame):
         self.horario = HorarioSemanal(self)
         self.horario.grid(row=1, column=3, sticky='e')
 
-        self.logout = boton_adicional.BotonAdicional(master.encabezado.links,
+        self.logout = BotonAdicional(master.encabezado.links,
                                                     texto='LogOut', comando= self.llamar_a_logout)
         self.logout.pack(padx=(10,0))
 
@@ -45,10 +46,10 @@ class Miembros(CTkFrame):
         dropdown_fg_color="#3d1c57", dropdown_text_color= "#f0f0f0",
         dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.2,
         anchor= 'center',
-        values= ['Escoge tu Plan'] + horarios.recuperar_actividades()
+        values= ['Escoge tu Plan'] + miembros.recuperar_actividades()
         )
         self.opciones_busqueda.grid(row=1, column=1, sticky = 'n', padx=(5,0) )
 
     def llamar_a_logout(self):
         '''Este metodo llama a la funcion logout'''
-        logout.log_out(self.master,self)
+        utils.log_out(self.master)

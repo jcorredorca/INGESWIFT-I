@@ -5,8 +5,10 @@
 from tkinter import messagebox
 
 from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel, CTkOptionMenu, CTkToplevel
+from services import login
 from .cambio_popup import CambioPopup
-from Funcionalidades import login
+from core import utils
+#from Funcionalidades import login
 
 class LoginFrame(CTkFrame):
     '''Clase que representa el formulario de login de atun'''
@@ -165,16 +167,13 @@ class LoginFrame(CTkFrame):
             return
 
         try:
-            credenciales_correctas = login.autenticar_credenciales(usuario, contra, rol)
+            login.autenticar_credenciales(usuario, contra)
+            login.verificar_rol(usuario, rol)
         except ValueError as e:
             messagebox.showerror('Error', str(e))
         else:
-            if credenciales_correctas:
-                origen = self.master.master
-                ventana = login.construir_ventana(rol, origen)
-                origen.contenido.destroy()
-                origen.contenido = ventana
-                origen.contenido.grid(row=1, column=0, sticky="nsew")
+            origen = self.master.master
+            utils.redirigir_pantalla(origen, rol)
 
     def verificar_campos_vacios(self):
         '''Verifica si hay algún campo sin llenar'''
