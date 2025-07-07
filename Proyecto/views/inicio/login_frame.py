@@ -157,7 +157,7 @@ class LoginFrame(CTkFrame):
         if event:
             self.cambio_contra.configure(text_color="#F6A623")
 
-    def verificar_login(self, event=None):
+    def verificar_login(self, event=True):
         '''Función para verificar las credenciales'''
         if event:
             usuario = self.entry_usuario.get()
