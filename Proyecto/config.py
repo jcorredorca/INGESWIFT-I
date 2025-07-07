@@ -1,3 +1,4 @@
+''' Este modulo se encarga de crear las constantes globales del sistema '''
 import os
 import sys
 

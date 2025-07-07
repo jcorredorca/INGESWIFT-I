@@ -18,11 +18,15 @@ class Encabezado(CTkFrame):
         self.logo_atun.grid(row=0, column=0, sticky='w')
 
         self.logo_un = CTkLabel(self, text='')
-        self.logo_un.grid(row=0, column=2, sticky='e')
+        self.logo_un.grid(row=0, column=3, sticky='e')
 
         self.actualizar_dimensiones_imagen()
+        self.logout = CTkFrame(self,fg_color="white")
+        self.logout.grid(row=0, column=2, sticky='e')
+
         self.links = CTkFrame(self,fg_color="white")
         self.links.grid(row=0, column=1, sticky='w')
+
 
     def repartir_espacio(self):
         '''Reparte el espacio '''
@@ -30,6 +34,7 @@ class Encabezado(CTkFrame):
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=0)
+        self.grid_columnconfigure(3, weight=0)
 
     def abrir_imagenes(self):
         '''Este método abre las imágenes necesarias para el encabezado'''

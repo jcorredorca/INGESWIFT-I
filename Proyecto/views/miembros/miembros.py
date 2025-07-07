@@ -17,9 +17,9 @@ class Miembros(CTkFrame):
         self.horario = HorarioSemanal(self)
         self.horario.grid(row=1, column=3, sticky='e')
 
-        self.logout = BotonAdicional(master.encabezado.links,
-                                                    texto='LogOut', comando= self.llamar_a_logout)
-        self.logout.pack(padx=(10,0))
+        self.logout = BotonAdicional(master.encabezado.logout,
+                                    texto='LogOut', comando= self.llamar_a_logout)
+        self.logout.pack(padx=10)
 
 
     def repartir_espacio(self):

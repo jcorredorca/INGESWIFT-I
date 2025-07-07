@@ -22,5 +22,7 @@ def log_out(master):
     master.contenido.destroy()
     master.contenido = inicio.Inicio(master)
     master.contenido.grid(row=1, column=0, sticky="nsew")
+    for widget in master.encabezado.logout.winfo_children():
+        widget.destroy()
     for widget in master.encabezado.links.winfo_children():
         widget.destroy()

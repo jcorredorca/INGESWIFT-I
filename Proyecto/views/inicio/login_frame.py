@@ -94,6 +94,9 @@ class LoginFrame(CTkFrame):
         self.cambio_contra.bind("<Enter>", self.entrada)
         self.cambio_contra.bind("<Leave>", self.salida)
 
+        #Asociar evento de enter
+        self.entry_contra.bind("<Return>", self.verificar_login)
+
     def revisar_color_entry(self, entry, event):
         '''Mantiene el color de texto de las entradas en el tono correcto'''
         if event:
@@ -154,26 +157,27 @@ class LoginFrame(CTkFrame):
         if event:
             self.cambio_contra.configure(text_color="#F6A623")
 
-    def verificar_login(self):
+    def verificar_login(self, event=None):
         '''Función para verificar las credenciales'''
-        usuario = self.entry_usuario.get()
-        contra = self.entry_contra.get()
-        rol = self.entry_rol.get()
+        if event:
+            usuario = self.entry_usuario.get()
+            contra = self.entry_contra.get()
+            rol = self.entry_rol.get()
 
-        #Creación de flags
-        campos_vacios = self.verificar_campos_vacios()
+            #Creación de flags
+            campos_vacios = self.verificar_campos_vacios()
 
-        if campos_vacios:
-            return
+            if campos_vacios:
+                return
 
-        try:
-            login.autenticar_credenciales(usuario, contra)
-            login.verificar_rol(usuario, rol)
-        except ValueError as e:
-            messagebox.showerror('Error', str(e))
-        else:
-            origen = self.master.master
-            utils.redirigir_pantalla(origen, rol)
+            try:
+                login.autenticar_credenciales(usuario, contra)
+                login.verificar_rol(usuario, rol)
+            except ValueError as e:
+                messagebox.showerror('Error', str(e))
+            else:
+                origen = self.master.master
+                utils.redirigir_pantalla(origen, rol)
 
     def verificar_campos_vacios(self):
         '''Verifica si hay algún campo sin llenar'''
