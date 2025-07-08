@@ -41,3 +41,11 @@ class PantallaRoles(CTkFrame):
 
         for index, boton in enumerate(botones):
             boton.grid(column=index, row=0)
+
+        self.logout = BotonAdicional(self.master.encabezado.logout,
+                                    texto='LogOut', comando= self.llamar_a_logout)
+        self.logout.pack(padx=10)
+
+    def llamar_a_logout(self):
+        '''Este metodo llama a la funcion logout'''
+        utils.log_out(self.master)
