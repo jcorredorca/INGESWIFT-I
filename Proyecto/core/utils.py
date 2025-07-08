@@ -1,8 +1,10 @@
 '''Funciones de backend generales'''
 
+from views.admin import modulo_crear_funcionario
+from views.funcionarios import modulo_asistencia
 from views.inicio import inicio
 from views.miembros import miembros
-from views.funcionarios import modulo_asistencia
+
 from views.admin import admin
 
 def redirigir_pantalla(origen, rol):
@@ -10,7 +12,7 @@ def redirigir_pantalla(origen, rol):
     ventanas = {
         'MIEMBRO': miembros.Miembros,
         'FUNCIONARIO': modulo_asistencia.ModuloAsistencia,
-        'ADMINISTRADOR': admin.Admin
+        'ADMINISTRADOR': None #TODO poner pagina principal de ADMIN (JUAN PABLO)
     }
 
     ventana = ventanas[rol](origen)

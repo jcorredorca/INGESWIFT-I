@@ -1,8 +1,10 @@
 from tkinter import messagebox
 
-#import customtkinter  # pruebas
+from core import utils
 from customtkinter import (CTkButton, CTkEntry, CTkFrame, CTkLabel,
                            CTkScrollableFrame, CTkTextbox)
+
+from ..components.boton_adicional import BotonAdicional
 
 
 class CrearFuncionarios(CTkFrame):
@@ -10,7 +12,7 @@ class CrearFuncionarios(CTkFrame):
 
     def __init__(self, master):
         super().__init__(master)
-        self.configure(fg_color="#2e1045")
+        self.configure(fg_color="#2e1045", corner_radius=1)
 
         self.registrados = {
             "jcorredorca@unal.edu.co": "Juan Pablo Corredor Castañeda",
@@ -29,16 +31,20 @@ class CrearFuncionarios(CTkFrame):
         self.mostrar_lista_funcionarios()
 
     def crear_encabezado_derecho(self):
+        '''Crea el encabezado superior derecho con el botón de cierre de sesión.'''
         mini_encabezado = CTkFrame(self, fg_color="transparent")
         mini_encabezado.grid(row=0, column=2, sticky="ne", padx=20, pady=(20, 10))
         mini_encabezado.grid_columnconfigure(0, weight=1)
         mini_encabezado.grid_columnconfigure(1, weight=0)
-        CTkButton(mini_encabezado, text="Log Out", font=("Arial", 14),
-                  width=70, height=30,
-                  fg_color="#a246cd", hover_color="#872fc0",
-                  text_color="white", corner_radius=6).grid(row=0, column=1, sticky="e")
+
+        self.logout = BotonAdicional(mini_encabezado,
+                                    texto="Log Out",
+                                    comando=self.llamar_a_logout)
+        self.logout.grid(row=0, column=1, sticky="e")
+
 
     def repartir_espacio(self):
+        '''Configura el layout del frame principal, distribuyendo el espacio entre filas y columnas.'''
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -46,6 +52,7 @@ class CrearFuncionarios(CTkFrame):
         self.grid_columnconfigure(2, weight=1)
 
     def mostrar_lista_funcionarios(self):
+        '''Muestra la lista de funcionarios activos en una sección scrollable.'''
         for widget in self.seccion.winfo_children():
             widget.destroy()
 
@@ -70,6 +77,7 @@ class CrearFuncionarios(CTkFrame):
             .grid(row=2, column=1, pady=(0, 30))
 
     def mostrar_formulario_correo(self):
+        '''Muestra el formulario inicial para ingresar y validar el correo del nuevo funcionario.'''
         for widget in self.seccion.winfo_children():
             widget.destroy()
         self.seccion.grid_columnconfigure((0,1,2), weight=1)
@@ -99,6 +107,7 @@ class CrearFuncionarios(CTkFrame):
                   command=self.verificar_correo).grid(row=4, column=1, pady=(0, 30))
 
     def verificar_correo(self):
+        '''Verifica si el correo ingresado está registrado previamente o es nuevo.'''
         correo = self.entry_correo.get().strip().lower()
 
         if not correo:
@@ -111,6 +120,7 @@ class CrearFuncionarios(CTkFrame):
             self.mostrar_formulario_completo(correo)
 
     def mostrar_confirmacion_existente(self, correo):
+        '''Muestra confirmación si el correo ya está en la base de datos.'''
         for widget in self.seccion.winfo_children():
             widget.destroy()
         self.seccion.grid_columnconfigure((0,1,2), weight=1)
@@ -137,6 +147,7 @@ class CrearFuncionarios(CTkFrame):
             .grid(row=3, column=1, pady=(0, 30))
 
     def mostrar_formulario_completo(self, correo):
+        '''Muestra el formulario completo para registrar un nuevo funcionario.'''
         for widget in self.seccion.winfo_children():
             widget.destroy()
         self.seccion.grid_columnconfigure((0,1,2), weight=1)
@@ -172,12 +183,14 @@ class CrearFuncionarios(CTkFrame):
                   command=self.registrar_nuevo).grid(row=5, column=1, pady=(0, 30))
 
     def registrar_existente(self, correo):
+        '''Agrega a la lista de activos a un funcionario ya registrado si aún no está.'''
         nombre = self.registrados.get(correo, correo)
         if nombre not in self.funcionarios_activos:
             self.funcionarios_activos.append(nombre)
         self.mostrar_lista_funcionarios()
 
     def registrar_nuevo(self):
+        '''Valida y registra un nuevo funcionario, si no existe ya en la lista.'''
         nombre = self.entry_nombre.get().strip()
         rol = self.entry_rol.get().strip()
 
@@ -192,17 +205,6 @@ class CrearFuncionarios(CTkFrame):
         self.funcionarios_activos.append(nombre)
         self.mostrar_lista_funcionarios()
 
-# PRUEBAS
-# class VentanaPrueba(customtkinter.CTk):
-#     def __init__(self):
-#         super().__init__()
-#         self.title("Prueba Crear Funcionarios")
-#         self.geometry("1200x700")
-#         self.configure(fg_color="#2e1045")
-
-#         self.gestion = CrearFuncionarios(self)
-#         self.gestion.pack(fill="both", expand=True)
-
-# if __name__ == "__main__":
-#     app = VentanaPrueba()
-#     app.mainloop()
+    def llamar_a_logout(self):
+        '''Cierra la sesión actual'''
+        utils.log_out(self.master)
