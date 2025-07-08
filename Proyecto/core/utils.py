@@ -12,7 +12,7 @@ def redirigir_pantalla(origen, rol):
     ventanas = {
         'MIEMBRO': miembros.Miembros,
         'FUNCIONARIO': modulo_asistencia.ModuloAsistencia,
-        'ADMINISTRADOR': None #TODO poner pagina principal de ADMIN (JUAN PABLO)
+        'ADMINISTRADOR': admin.Admin
     }
 
     ventana = ventanas[rol](origen)
