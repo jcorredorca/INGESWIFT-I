@@ -75,7 +75,7 @@ class LoginFrame(CTkFrame):
 
         # --- BOTÓN DE LOGIN ---
         boton_login = CTkButton(self, text="Iniciar sesión", font=fuente_boton,
-                    fg_color="#F6A623", text_color="black", cursor="hand2", hover_color="#d38e14",
+                    fg_color="#F6A623", text_color="#2e1045", cursor="hand2", hover_color="#d38e14",
                     corner_radius=6, border_spacing=10, command=self.verificar_login)
         boton_login.grid(row=5, column=0, pady=(0, 50))
 

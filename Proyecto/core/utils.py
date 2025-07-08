@@ -3,13 +3,14 @@
 from views.inicio import inicio
 from views.miembros import miembros
 from views.funcionarios import modulo_asistencia
+from views.admin import admin
 
 def redirigir_pantalla(origen, rol):
     '''Esta función construye la ventana de cada rol para ser redirigido luego del login'''
     ventanas = {
         'MIEMBRO': miembros.Miembros,
         'FUNCIONARIO': modulo_asistencia.ModuloAsistencia,
-        'ADMINISTRADOR': None #TODO poner pagina principal de ADMIN (JUAN PABLO)
+        'ADMINISTRADOR': admin.Admin
     }
 
     ventana = ventanas[rol](origen)
