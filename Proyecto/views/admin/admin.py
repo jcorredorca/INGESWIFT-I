@@ -15,10 +15,6 @@ class Admin(CTkFrame):
 
         self.crear_menu_opciones()
 
-        self.logout = BotonAdicional(master.encabezado.logout,
-                                    texto='LogOut', comando= self.llamar_a_logout)
-        self.logout.pack(padx=10)
-
 
     def repartir_espacio(self):
         '''Reparte el espacio'''
@@ -62,7 +58,3 @@ class Admin(CTkFrame):
                                         width=ancho)
 
         self.boton_miembros.grid(row=2, column=1)
-
-    def llamar_a_logout(self):
-        '''Este metodo llama a la funcion logout'''
-        utils.log_out(self.master)

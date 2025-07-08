@@ -28,10 +28,6 @@ class Miembros(CTkFrame):
         self.horario = HorarioSemanal(self)
         self.horario.grid(row=1, column=3, sticky='e', rowspan=2)
 
-        self.logout = BotonAdicional(master.encabezado.logout,
-                                    texto='LogOut', comando= self.llamar_a_logout)
-        self.logout.pack(padx=10)
-
 
     def repartir_espacio(self):
         '''Reparte el espacio '''
@@ -85,7 +81,3 @@ class Miembros(CTkFrame):
         self.imagen_convencion_label.configure(image= imagen_inicio_tk)
 
         self.master.update()
-
-    def llamar_a_logout(self):
-        '''Este metodo llama a la funcion logout'''
-        utils.log_out(self.master)

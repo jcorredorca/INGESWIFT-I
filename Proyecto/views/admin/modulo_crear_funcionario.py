@@ -37,12 +37,6 @@ class CrearFuncionarios(CTkFrame):
         mini_encabezado.grid_columnconfigure(0, weight=1)
         mini_encabezado.grid_columnconfigure(1, weight=0)
 
-        self.logout = BotonAdicional(mini_encabezado,
-                                    texto="Log Out",
-                                    comando=self.llamar_a_logout)
-        self.logout.grid(row=0, column=1, sticky="e")
-
-
     def repartir_espacio(self):
         '''Configura el layout del frame principal, distribuyendo el espacio entre filas y columnas.'''
         self.grid_rowconfigure(0, weight=0)
@@ -205,6 +199,3 @@ class CrearFuncionarios(CTkFrame):
         self.funcionarios_activos.append(nombre)
         self.mostrar_lista_funcionarios()
 
-    def llamar_a_logout(self):
-        '''Cierra la sesión actual'''
-        utils.log_out(self.master)
