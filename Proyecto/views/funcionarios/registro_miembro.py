@@ -1,6 +1,7 @@
 from customtkinter import *
 from datetime import datetime
-
+from core import utils
+from ..components import boton_adicional
 
 class RegistroMiembro(CTkFrame):
     def __init__(self, master):
@@ -25,11 +26,9 @@ class RegistroMiembro(CTkFrame):
                                text_color="white", font=("Arial", 16, "bold"))
         turno_label.grid(row=0, column=0, sticky="e", padx=(0, 10))
 
-        boton_logout = CTkButton(encabezado, text="Log Out", font=("Arial", 14),
-                                 width=70, height=30,
-                                 fg_color="#a246cd", hover_color="#872fc0",
-                                 text_color="white", corner_radius=6)
-        boton_logout.grid(row=0, column=1, sticky="e")
+        boton_logout = boton_adicional.BotonAdicional(self.master.encabezado.logout,
+                                                      texto='LogOut', comando=self.llamar_a_logout)
+        boton_logout.pack(padx=10)
 
     def crear_contenido(self):
         contenedor = CTkFrame(self, fg_color="transparent")
@@ -77,7 +76,7 @@ class RegistroMiembro(CTkFrame):
         combo_programa.grid(row=2, column=1, padx=15, pady=10)
         self.entries["Programa"] = combo_programa
 
-        # Botón registrar
+        # Boton registrar
         boton = CTkButton(contenedor, text="REGISTRAR",
                           font=("Arial", self.fuente_general + 2, "bold"),
                           fg_color="#f6a623", text_color="black",
@@ -92,3 +91,7 @@ class RegistroMiembro(CTkFrame):
             sufijo = "am" if siguiente < 12 else "pm"
             return f"{hora}–{siguiente}{sufijo}"
         return "Fuera de horario"
+
+    def llamar_a_logout(self):
+        '''Este metodo llama a la funcion logout'''
+        utils.log_out(self.master)
