@@ -2,6 +2,7 @@
 
 import bcrypt
 from core.conexion import Conexion
+from core import utils
 
 
 def hash_contrasena(contrasena: str) -> bytes:
@@ -28,18 +29,6 @@ def autenticar_credenciales(usuario, contrasena):
     
     return True
 
-def verificar_rol(usuario, rol):
-    '''Verifica que un usuario tenga el rol que dice tener'''
-    query_rol = "SELECT rol_nombre FROM rol_persona WHERE personas_usuario = ?"
-    conexion = Conexion()
-
-    #Excepcion 3: Usuario y rol no coinciden
-    rol_db = conexion.ejecutar_consulta(query_rol, [usuario])
-    if (rol,) not in rol_db:
-        raise ValueError('El usuario no cuenta con este rol.')
-
-    return True
-
 def cambiar_contrasena(usuario, nueva_contr):
     '''Esta funcion permite actualizar en la db el hash de una contraseña'''
     query = 'UPDATE personas SET hash_contrasena = ? WHERE usuario = ?'
@@ -49,11 +38,11 @@ def cambiar_contrasena(usuario, nueva_contr):
 
     conexion.ejecutar_consulta(query, [hash_nuevo, usuario])
 
-def recuperar_roles():
+def recuperar_roles(usuario):
     '''Esta función recupera los posibles roles de un usuario'''
-    query = 'SELECT nombre FROM rol'
+    query = 'SELECT rol_nombre FROM rol_persona WHERE personas_usuario = ?'
 
     conexion = Conexion()
-    roles = [rol[0] for rol in conexion.ejecutar_consulta(query)]
+    roles = [rol[0] for rol in conexion.ejecutar_consulta(query, [usuario])]
 
     return roles

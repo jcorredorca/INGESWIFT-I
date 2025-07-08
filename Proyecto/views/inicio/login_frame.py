@@ -54,16 +54,6 @@ class LoginFrame(CTkFrame):
 
         dominio.grid(row=0, column=1, sticky="w", padx=(10, 0))
 
-        # --- ROL ---
-        roles = ['-- Seleccionar --'] + login.recuperar_roles()
-        self.entry_rol = CTkOptionMenu(self, values=roles,
-            font=fuente_normal, text_color="gray", fg_color="whitesmoke",
-            command=lambda _: self.revisar_color_entry(self.entry_rol, True))
-
-        self.entry_rol.grid(row=3, column=0, pady=(0, 15), padx=30, sticky="new")
-
-        self.entry_rol.set("-- Seleccionar --")
-
         # --- CONTRASEÑA ---
         self.entry_contra = CTkEntry(self, placeholder_text="Contraseña",
                                     font=fuente_normal, fg_color="whitesmoke", height=50, show='•' )
@@ -162,7 +152,6 @@ class LoginFrame(CTkFrame):
         if event:
             usuario = self.entry_usuario.get()
             contra = self.entry_contra.get()
-            rol = self.entry_rol.get()
 
             #Creación de flags
             campos_vacios = self.verificar_campos_vacios()
@@ -172,12 +161,12 @@ class LoginFrame(CTkFrame):
 
             try:
                 login.autenticar_credenciales(usuario, contra)
-                login.verificar_rol(usuario, rol)
             except ValueError as e:
                 messagebox.showerror('Error', str(e))
             else:
                 origen = self.master.master
-                utils.redirigir_pantalla(origen, rol)
+                roles = login.recuperar_roles(usuario)
+                utils.redirigir_pantalla(origen, roles)
 
     def verificar_campos_vacios(self):
         '''Verifica si hay algún campo sin llenar'''
@@ -185,8 +174,6 @@ class LoginFrame(CTkFrame):
         if self.entry_usuario.get() == "":
             alguno_vacio = True
         if self.entry_contra.get() == "":
-            alguno_vacio = True
-        if self.entry_rol.get() == "-- Seleccionar --":
             alguno_vacio = True
 
         if alguno_vacio:
