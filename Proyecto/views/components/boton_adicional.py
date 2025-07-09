@@ -8,4 +8,5 @@ class BotonAdicional(CTkButton):
 
         fuente= ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.008)), 'bold')
         self.configure(font=fuente, fg_color="#5e3081", command=comando,
-                       hover_color="#3E1D58", text=texto, text_color='white')      
+                       hover_color="#3E1D58", text=texto, text_color='white', anchor = 'center',
+                       border_spacing=5)
