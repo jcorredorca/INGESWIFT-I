@@ -4,9 +4,7 @@ from config import IMG_PATH
 from PIL import Image
 from customtkinter import CTkFrame, CTkOptionMenu, CTkImage, CTkLabel
 from ..components.horario_semanal import HorarioSemanal
-from ..components.boton_adicional import BotonAdicional
-from core import utils
-from services import miembros
+from services import general
 
 class Miembros(CTkFrame):
     ''' Esta clase representa el panel de horarios para miembros '''
@@ -54,7 +52,7 @@ class Miembros(CTkFrame):
         dropdown_fg_color="#3d1c57", dropdown_text_color= "#f0f0f0",
         dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.2,
         anchor= 'center',
-        values= ['Escoge tu Plan'] + miembros.recuperar_actividades()
+        values= ['Escoge tu Plan'] + general.recuperar_actividades()
         )
         self.opciones_busqueda.grid(row=1, column=1, sticky = 'n', padx=(5,0) )
 

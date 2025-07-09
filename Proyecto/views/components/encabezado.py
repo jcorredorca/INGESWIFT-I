@@ -21,10 +21,10 @@ class Encabezado(CTkFrame):
         self.logo_un.grid(row=0, column=3, sticky='e')
 
         self.actualizar_dimensiones_imagen()
-        self.logout = CTkFrame(self,fg_color="white")
+        self.logout = CTkFrame(self,fg_color="white", height=0)
         self.logout.grid(row=0, column=2, sticky='e')
 
-        self.links = CTkFrame(self,fg_color="white")
+        self.links = CTkFrame(self,fg_color="white", height=0)
         self.links.grid(row=0, column=1, sticky='w')
 
 
@@ -49,7 +49,7 @@ class Encabezado(CTkFrame):
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
 
-        frame_heigth = self.master.winfo_height()/2
+        frame_heigth = self.master.winfo_height()*2/3
         new_width_un = frame_heigth * 370 / 200
         new_width_atun = frame_heigth * 631 / 215
 

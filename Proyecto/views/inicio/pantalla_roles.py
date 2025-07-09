@@ -2,7 +2,6 @@
 
 from customtkinter import CTkFrame, CTkLabel
 from ..components.boton_adicional import BotonAdicional
-
 from core import utils
 
 class PantallaRoles(CTkFrame):
@@ -21,7 +20,8 @@ class PantallaRoles(CTkFrame):
 
         fuente = ("Segoe UI", max(40,int(self.winfo_screenwidth() * 0.02)), 'bold')
 
-        label = CTkLabel(self, text='Bienvenido!', font=fuente, text_color='Whitesmoke', anchor='center')
+        label = CTkLabel(self, text='Bienvenido!', font=fuente,
+                         text_color='Whitesmoke', anchor='center')
         label.grid(row=1, column=1)
         
         self.crear_botones()

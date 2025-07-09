@@ -12,7 +12,7 @@ class Conexion:
     def conectar(self):
         ''' Este metodo crea la conexion con la baase de datos y genera
             respectivo cursor'''
-        
+
         self.conexion = sqlite3.connect(DB_PATH)
         self.cursor = self.conexion.cursor()
 
@@ -23,8 +23,9 @@ class Conexion:
         if self.conexion:
             self.conexion.close()
 
-    def ejecutar_consulta(self, consulta, parametros=[]):
+    def ejecutar_consulta(self, consulta, parametros=None):
         ''' Este metodo ejecuta las consultas sql '''
+        parametros = [] if parametros is None else parametros
         resultados = []
 
         self.conectar()
@@ -33,7 +34,7 @@ class Conexion:
         self.conexion.commit()
         self.desconectar()
         return resultados
-    
+
     def ejecutar_multiples_consulta(self, consulta, parametros=None):
         ''' Este metodo ejecuta las consultas sql '''
         resultados = []
@@ -44,4 +45,3 @@ class Conexion:
         self.conexion.commit()
         self.desconectar()
         return resultados
-    
