@@ -56,7 +56,7 @@ class CambioPopup(CTkToplevel):
     def construir_formulario(self):
         '''Crea el formulario para la renovacion de la contraseña'''
         # TITULO
-        fuente_titulo = ("Libre Baskerville", max(25, int(self.winfo_screenwidth()* 0.015)), "bold")
+        fuente_titulo = ("Segoe UI", max(25, int(self.winfo_screenwidth()* 0.015)), "bold")
         titulo = CTkLabel(self.campos_frame, text="Módulo de cambio de contraseña",
                           font=fuente_titulo, text_color="white", justify="center")
         titulo.grid(row=0, columnspan=2)

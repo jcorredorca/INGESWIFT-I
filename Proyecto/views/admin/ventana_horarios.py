@@ -1,13 +1,11 @@
 ''' Vista del panel de horarios para Administradores'''
-from os import path
-from config import IMG_PATH
-from PIL import Image
-from customtkinter import CTkFrame, CTkOptionMenu, CTkImage, CTkLabel
-from ..components.horario_semanal import HorarioSemanal
-from ..components.boton_adicional import BotonAdicional
-from core import utils
 
-class Miembros(CTkFrame):
+from datetime import datetime, timedelta
+from customtkinter import CTkFrame, CTkOptionMenu, CTkLabel
+from ..components.horario_semanal import HorarioSemanal
+from services.general import recuperar_actividades
+
+class VentanaHorarios(CTkFrame):
     ''' Esta clase representa el panel de creacion y edicion de horarios para miembros '''
     def __init__(self, master):
         super().__init__(master)
@@ -17,12 +15,7 @@ class Miembros(CTkFrame):
 
         self.crear_menu_opciones()
 
-        self.abrir_imagen()
-
-        self.imagen_convencion_label = CTkLabel(self, text='')
-        self.imagen_convencion_label.grid(row=2, column=1, sticky="ns")
-
-        self.actualizar_dimensiones_imagen()
+        self.indicador_semana()
 
         self.horario = HorarioSemanal(self)
         self.horario.grid(row=1, column=3, sticky='e', rowspan=2)
@@ -53,30 +46,26 @@ class Miembros(CTkFrame):
         dropdown_fg_color="#3d1c57", dropdown_text_color= "#f0f0f0",
         dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.2,
         anchor= 'center',
-        values= ['Escoge tu Plan'] + miembros.recuperar_actividades()
+        values= ['Escoge tu Plan'] + recuperar_actividades()
         )
         self.opciones_busqueda.grid(row=1, column=1, sticky = 'n', padx=(5,0) )
 
-    def abrir_imagen(self):
-        '''Este metodo crea los objetos imagen para mostrarlo en un label'''
+    def indicador_semana(self):
+        '''Este metodo crea el indicador de la semana a editar'''
+        fuente = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.02)), 'bold')
+        self.semana = self.rango_semana_actual()
+        texto = 'Semana del '+ str(self.semana[0]) + ' al '+ str(self.semana[1])
+        self.label_semana = CTkLabel(self, text=texto, font=fuente)
+        self.label_semana.grid(row=0, column=1, columnspan=3)
 
-        # Rutas a imagen
-        ruta_convencion_img = path.join(IMG_PATH, "Convencion.png")
+    def rango_semana_actual(self):
+        '''Crea el rango de una determinada semana'''
+        hoy = datetime.now()
 
-        self.imagen_convencion = Image.open(ruta_convencion_img)
+        # Lunes = 0, Domingo = 6
+        lunes = hoy - timedelta(days=hoy.weekday()) + timedelta(days=7)
+        sabado = lunes + timedelta(days=5)
 
-
-    def actualizar_dimensiones_imagen(self):
-        '''Ajusta automáticamente las dimensiones de la imagen al frame'''
-
-        factor = 1/6
-        frame_height = self.master.winfo_screenheight()*factor
-
-        new_width = frame_height* 407/277
-
-        imagen_inicio_tk = CTkImage(light_image=self.imagen_convencion,
-                                    size=(new_width,frame_height))
-
-        self.imagen_convencion_label.configure(image= imagen_inicio_tk)
-
-        self.master.update()
+        return lunes.date(), sabado.date()
+    
+    def crear_ventana()

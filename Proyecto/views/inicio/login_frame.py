@@ -14,7 +14,7 @@ class LoginFrame(CTkFrame):
         self.configure(fg_color="#2e1045", corner_radius=1)
         self.repartir_espacio()
 
-        self.fuente_titulo = ("Libre Baskerville",
+        self.fuente_titulo = ("Segoe UI",
                               max(40, int(self.winfo_screenwidth() * 0.02)), "bold")
 
         self.fuente_normal = ("Segoe UI",
@@ -61,7 +61,7 @@ class LoginFrame(CTkFrame):
         self.entry_usuario.focus()
 
         dominio = CTkLabel(usuario_frame, text="@unal.edu.co",
-        font=("Libre Baskerville", 20, "bold"), text_color="#CCCCCC")
+        font=("Segoe UI", 20, "bold"), text_color="#CCCCCC")
 
         dominio.grid(row=0, column=1, sticky="w", padx=(10, 0))
 

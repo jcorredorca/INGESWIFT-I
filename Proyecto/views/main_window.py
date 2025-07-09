@@ -1,8 +1,6 @@
 '''Ventana principal de atun. 
     Inicia el encabezado y pie de pagina'''
 
-from os import path
-from ctypes import windll
 import customtkinter
 from .components import encabezado,pie_de_pagina
 from .inicio import inicio
@@ -14,7 +12,6 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("ATUN")
-        self.agregar_fuente()
         self.configure(fg_color = "#09FF00")
         self.configurar_dimensiones()
         self.repartir_espacio()
@@ -61,12 +58,3 @@ class App(customtkinter.CTk):
     def desactivar_fullscreen(self):
         '''Desactiva la pantalla completa'''
         self.attributes("-fullscreen", False)
-
-    def agregar_fuente(self):
-        '''Carga una fuente TTF desde archivo'''
-        base_dir = path.dirname(__file__)
-        # Ruta al archivo TTF
-        fuente_regular = path.join(base_dir,"..","Fuentes", "LibreBaskerville-Regular.ttf")
-
-        # Cargar fuente temporalmente (solo Windows)
-        windll.gdi32.AddFontResourceExW(fuente_regular, 0x10, 0)

@@ -33,7 +33,7 @@ class PiePagina(CTkFrame):
         cp_mssg = "\u00A9 2025 Sistema ATUN Universidad Nacional de Colombia. All rights reserved."
         self.copy = CTkLabel(self, text=cp_mssg,
         text_color = "#b0b0b0",
-        font = ("Libre Baskerville", self.tamanio_fuente),
+        font = ("Segoe UI", self.tamanio_fuente),
         )
         self.copy.grid(row=2, column=0, sticky="nsew", padx=10, columnspan=3)
 
@@ -54,13 +54,13 @@ class PiePagina(CTkFrame):
         nombre = CTkLabel(self.descripcion,
         text="Sistema ATUN",
         text_color = "#F6A623" ,
-        font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
+        font = ("Segoe UI", self.tamanio_fuente, 'bold')
         )
 
         desc = CTkLabel(self.descripcion,
         text="Asignación de turnos Universidad Nacional",
         text_color = "whitesmoke",
-        font = ("Libre Baskerville", self.tamanio_fuente),
+        font = ("Segoe UI", self.tamanio_fuente),
         )
         nombre.pack(anchor="w", padx=padding_x, pady=(padding_y, 0))
         desc.pack(anchor="nw", padx=padding_x)
@@ -78,7 +78,7 @@ class PiePagina(CTkFrame):
         contacto_label = CTkLabel(self.contacto,
         text="Contacto: ",
         text_color = "whitesmoke" ,
-        font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
+        font = ("Segoe UI", self.tamanio_fuente, 'bold')
         )
         contacto_label.grid(row=0, column=0, sticky='e', pady=(padding_y,0))
 
@@ -86,21 +86,21 @@ class PiePagina(CTkFrame):
         text="atunsoporte@unal.edu.co",
         cursor="hand2",
         text_color = "#F6A623" ,
-        font = ("Libre Baskerville", self.tamanio_fuente)
+        font = ("Segoe UI", self.tamanio_fuente)
         )
         self.correo.grid(row=0, column=1, sticky='w', pady=(padding_y,0))
 
         telefono_label = CTkLabel(self.contacto,
         text="Tel: ",
         text_color = "whitesmoke" ,
-        font = ("Libre Baskerville", self.tamanio_fuente, 'bold')
+        font = ("Segoe UI", self.tamanio_fuente, 'bold')
         )
         telefono_label.grid(row=1, column=0, sticky='e')
 
         telefono = CTkLabel(self.contacto,
         text="(+57) 316 5000 ext:12345",
         text_color = "#F6A623" ,
-        font = ("Libre Baskerville", self.tamanio_fuente)
+        font = ("Segoe UI", self.tamanio_fuente)
         )
         telefono.grid(row=1, column=1, sticky='w')
 
@@ -114,7 +114,7 @@ class PiePagina(CTkFrame):
         direccion_label = CTkLabel(self.direccion,
         text="Sede Bogotá - Edificio 454 - Salón 403",
         text_color = "whitesmoke" ,
-        font = ("Libre Baskerville", self.tamanio_fuente),
+        font = ("Segoe UI", self.tamanio_fuente),
         )
         direccion_label.pack(anchor="e", padx=20, pady=(20, 0))
 

@@ -54,7 +54,7 @@ class Inicio(CTkFrame):
 
         wrap = 600 if self.winfo_screenwidth() < 2000 else 750
         desc = CTkLabel(self.contenido_izq, text=desc_afid, text_color = "whitesmoke",
-        font = ("Libre Baskerville", self.tamanio_fuente), wraplength= wrap, justify="center")
+        font = ("Segoe UI", self.tamanio_fuente), wraplength= wrap, justify="center")
         desc.grid(row=1, column=0, sticky="n")
 
     def abrir_imagen(self):
