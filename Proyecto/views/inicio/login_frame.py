@@ -48,6 +48,7 @@ class LoginFrame(CTkFrame):
         self.entry_usuario.grid(row=0, column=0, sticky="new")
         self.entry_usuario.bind("<KeyRelease>",
                                 lambda event: self.revisar_color_entry(self.entry_usuario, event))
+        self.entry_usuario.focus()
 
         dominio = CTkLabel(usuario_frame, text="@unal.edu.co",
         font=("Libre Baskerville", 20, "bold"), text_color="#CCCCCC")

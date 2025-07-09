@@ -3,7 +3,7 @@ from os import path
 from config import IMG_PATH
 from customtkinter import CTkFrame, CTkLabel, CTkButton
 from ..components.boton_adicional import BotonAdicional
-from core import utils
+from core import rol_admin
 
 class Admin(CTkFrame):
     ''' Esta clase representa la venatana principal para administradores '''
@@ -36,8 +36,8 @@ class Admin(CTkFrame):
                                         anchor='center', font=fuente_opciones,
                                         fg_color="#F6A623", text_color="#2e1045",
                                         cursor="hand2", hover_color="#d38e14",
-                                        corner_radius=6, border_spacing=10,
-                                        width=ancho)
+                                        corner_radius=6, border_spacing=10, width=ancho, 
+                                        command=lambda: rol_admin.redirigir_pantalla_funcionarios(self.master))
 
         self.boton_funcionarios.grid(row=1, column=1)
 
@@ -45,8 +45,8 @@ class Admin(CTkFrame):
                                         anchor='center', font=fuente_opciones,
                                         fg_color="#F6A623", text_color="#2e1045",
                                         cursor="hand2", hover_color="#d38e14",
-                                        corner_radius=6, border_spacing=10,
-                                        width=ancho)
+                                        corner_radius=6, border_spacing=10, width=ancho,
+                                        command=lambda: rol_admin.redirigir_pantalla_horarios(self.master))
 
         self.boton_horarios.grid(row=0, column=1)
 
@@ -54,7 +54,7 @@ class Admin(CTkFrame):
                                         anchor='center', font=fuente_opciones,
                                         fg_color="#F6A623", text_color="#2e1045",
                                         cursor="hand2", hover_color="#d38e14",
-                                        corner_radius=6, border_spacing=10,
-                                        width=ancho)
+                                        corner_radius=6, border_spacing=10, width=ancho, 
+                                        command=lambda: rol_admin.redirigir_pantalla_estado_miembros(self.master))
 
         self.boton_miembros.grid(row=2, column=1)
