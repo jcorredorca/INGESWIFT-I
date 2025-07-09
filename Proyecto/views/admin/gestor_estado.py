@@ -35,12 +35,6 @@ class GestionEstado(CTkFrame):
                             text_color="white", font=("Arial", 16, "bold"))
         turno_label.grid(row=0, column=0, sticky="e", padx=(0, 10))
 
-        boton_logout = CTkButton(mini_encabezado, text="Log Out", font=("Arial", 14),
-                                width=70, height=30,
-                                fg_color="#a246cd", hover_color="#872fc0",
-                                text_color="white", corner_radius=6)
-        boton_logout.grid(row=0, column=1, sticky="e")
-
     def obtener_turno_actual(self):
         '''Devuelve el turno actual como string (7–8am, etc)'''
         hora = datetime.now().hour

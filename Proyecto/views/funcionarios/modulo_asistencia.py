@@ -29,11 +29,6 @@ class ModuloAsistencia(CTkFrame):
                                text_color="white", font=("Arial", 16, "bold"))
         turno_label.grid(row=0, column=0, sticky="e", padx=(0, 10))
 
-        # Botón Log Out
-        boton_logout = boton_adicional.BotonAdicional(self.master.encabezado.logout,
-                                                    texto='LogOut', comando= self.llamar_a_logout)
-        boton_logout.pack(padx=10)
-
     def crear_contenido(self):
         '''Formulario central'''
         contenido = CTkFrame(self, fg_color="transparent")
@@ -76,7 +71,3 @@ class ModuloAsistencia(CTkFrame):
             sufijo_fin = "am" if siguiente < 12 else "pm"
             return f"{hora}–{siguiente}{sufijo_fin}"
         return "Fuera de horario"
-
-    def llamar_a_logout(self):
-        '''Este metodo llama a la funcion logout'''
-        utils.log_out(self.master)

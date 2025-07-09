@@ -1,21 +1,38 @@
 '''Funciones de backend generales'''
 
-from views.admin import modulo_crear_funcionario
-from views.funcionarios import modulo_asistencia
-from views.inicio import inicio
+from views.inicio import inicio, pantalla_roles
 from views.miembros import miembros
-
+from views.funcionarios import funcionario
 from views.admin import admin
 
-def redirigir_pantalla(origen, rol):
+def redirigir_pantalla(origen, roles:list):
     '''Esta función construye la ventana de cada rol para ser redirigido luego del login'''
-    ventanas = {
-        'MIEMBRO': miembros.Miembros,
-        'FUNCIONARIO': modulo_asistencia.ModuloAsistencia,
-        'ADMINISTRADOR': admin.Admin
-    }
 
-    ventana = ventanas[rol](origen)
+    ventana = pantalla_roles.PantallaRoles(origen, roles)
+    origen.contenido.destroy()
+    origen.contenido = ventana
+    origen.contenido.grid(row=1, column=0, sticky="nsew")
+
+def redirigir_pantalla_miembro(origen):
+    '''Esta función construye la ventana de miembros'''
+
+    ventana = miembros.Miembros(origen)
+    origen.contenido.destroy()
+    origen.contenido = ventana
+    origen.contenido.grid(row=1, column=0, sticky="nsew")
+
+def redirigir_pantalla_funcionario(origen):
+    '''Esta función construye la ventana de funcionarios'''
+
+    ventana = funcionario.Funcionario(origen)
+    origen.contenido.destroy()
+    origen.contenido = ventana
+    origen.contenido.grid(row=1, column=0, sticky="nsew")
+
+def redirigir_pantalla_admin(origen):
+    '''Esta función construye la ventana de administradores'''
+
+    ventana = admin.Admin(origen)
     origen.contenido.destroy()
     origen.contenido = ventana
     origen.contenido.grid(row=1, column=0, sticky="nsew")
