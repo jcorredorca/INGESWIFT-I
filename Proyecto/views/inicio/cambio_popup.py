@@ -15,9 +15,13 @@ class CambioPopup(CTkToplevel):
         self.fuente = ("Arial", max(18, int(self.winfo_screenwidth() * 0.007)))
 
         self.configure(fg_color=CambioPopup.color_fondo)
-        ancho = self.winfo_screenwidth()//2
-        alto = self.winfo_screenheight()//2
-        self.geometry(f"{ancho}x{alto}")
+        ancho = self.master.winfo_width()
+        alto = self.master.winfo_height()//2
+        x = self.winfo_screenwidth()//2 - ancho
+        y = self.winfo_screenheight()//2 - alto
+        self.geometry(f"{ancho}x{alto}+{x}+{y}")
+
+
         self.title("Cambio de contraseña")
 
         self.repartir_espacio()
@@ -100,9 +104,9 @@ class CambioPopup(CTkToplevel):
 
         padx_botones = int(self.winfo_width()*0.25)
         boton_aceptar = CTkButton(
-                    botones, text="Modificar contraseña", command=self.modificar_contra, font=self.fuente,
-                    fg_color="#F6A623", text_color="black", cursor="hand2", hover_color="#d38e14",
-                    corner_radius=6)
+                    botones, text="Modificar contraseña", command=self.modificar_contra,
+                    font=self.fuente, fg_color="#F6A623", text_color="black",
+                    cursor="hand2", hover_color="#d38e14", corner_radius=6)
         boton_aceptar.grid(row=0, column=0, padx=padx_botones)
 
         button = CTkButton(botones, text="Cancelar", command=self.destroy, font=self.fuente,
@@ -151,17 +155,18 @@ class CambioPopup(CTkToplevel):
         #Declaración de flags
         campos_vacios = self.verificar_campos_vacios()
         coincidencia_confirmacion = self.verificar_confirmacion()
-        
+
         if campos_vacios or not coincidencia_confirmacion:
             return
-        
+
         try:
             credenciales_correctas = login.autenticar_credenciales(usuario, contra)
         except ValueError as e:
             messagebox.showerror('Error', str(e))
-        
+
         if credenciales_correctas:
             #TODO: que mande correo
             login.cambiar_contrasena(usuario, contra_nueva)
-            messagebox.showinfo('Actualización de contraseña', 'Su contraseña fue actualizada exitosamente')
+            messagebox.showinfo('Actualización de contraseña',
+                                'Su contraseña fue actualizada exitosamente')
             self.destroy()
