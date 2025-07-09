@@ -1,8 +1,11 @@
 # Proyecto: Asignación de Turnos de la Universidad Nacional de Colombia (ATUN)
 
-![Logo de ATUN](Documentación/Diagramas/LogoATUN.png)
+<div style="display: flex; justify-content: center;">
+  <img src="Documentación/Diagramas/LogoATUN.png" alt="Logo de ATUN" width=250 />
+</div>
 
 ## 👥 Equipo de Desarrollo — INGESWIFT
+Correo general: [atun.bog@gmail.com](mailto:atun.bog@gmail.com)  
 
 - **Laura Vanesa Álvarez Lafont** — [lalvarezla@unal.edu.co](mailto:lalvarezla@unal.edu.co)  
 - **Juan Pablo Corredor Castañeda** — [jcorredorca@unal.edu.co](mailto:jcorredorca@unal.edu.co)  
@@ -25,4 +28,8 @@ físicas, ofreciendo una alternativa eficiente, organizada y digital para el man
 flujo de personas.
 
 ---
+
+## 💻 Modo Developer
+Si desea bajar y correr este proyecto, asegurese de hacerlo mediante la ejecución del script para modo developer ([ModoDev.bat](Proyecto/ModoDev.bat) para Windows y [ModoDev.sh](Proyecto/ModoDev.sh) para Linux). Este archivo comprobará que su dispositivo cumpla con los requerimientos necesarios para ejecutar el proyecto y, en caso de ser necesario, instalar las librerías que aún no tenga.
+
 
