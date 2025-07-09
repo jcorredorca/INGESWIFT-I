@@ -13,7 +13,7 @@ for %%i in (customtkinter dotenv pillow bcrypt sib_api_v3_sdk) do (
     if errorlevel 1 (
         echo %%i no está instalado. Procediendo con su intalacion...
         pip install %%i
-        La libreria ha sido instalada correctamente!
+        echo La libreria ha sido instalada correctamente!
     ) else (
         echo %%i esta instalado.
     )
