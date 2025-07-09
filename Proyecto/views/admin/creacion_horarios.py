@@ -6,7 +6,6 @@ from customtkinter import CTkFrame, CTkOptionMenu, CTkImage, CTkLabel
 from ..components.horario_semanal import HorarioSemanal
 from ..components.boton_adicional import BotonAdicional
 from core import utils
-from services import miembros
 
 class Miembros(CTkFrame):
     ''' Esta clase representa el panel de creacion y edicion de horarios para miembros '''

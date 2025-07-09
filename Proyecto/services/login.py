@@ -1,8 +1,7 @@
 '''Funciones de backend para la ventana login'''
 
 import bcrypt
-from core.conexion import Conexion
-from core import utils
+from models.conexion import Conexion
 
 
 def hash_contrasena(contrasena: str) -> bytes:
@@ -26,7 +25,7 @@ def autenticar_credenciales(usuario, contrasena):
     credenciales_coinciden = bcrypt.checkpw(contrasena.encode(), hash_db[0][0].encode())
     if not credenciales_coinciden:
         raise ValueError('El usuario o contraseña ingresado no son correctos.')
-    
+
     return True
 
 def cambiar_contrasena(usuario, nueva_contr):

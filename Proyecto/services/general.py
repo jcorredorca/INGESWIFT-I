@@ -1,5 +1,5 @@
-'''Funciones de backend para la ventana miembros'''
-from core.conexion import Conexion
+'''Servicios generales de la app'''
+from models.conexion import Conexion
 
 def recuperar_actividades():
     '''Esta funcion recupera los tipos de actividad ofertados'''
