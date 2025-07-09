@@ -6,10 +6,6 @@ from ctypes import windll
 import customtkinter
 from .components import encabezado,pie_de_pagina
 from .inicio import inicio
-#from Admin import gestor_estado
-
-#TODO: remover test
-#from views.miembros import miembros
 
 class App(customtkinter.CTk):
     '''Representa la ventana  sobre la cual se pondran todos los elementos'''
@@ -29,8 +25,6 @@ class App(customtkinter.CTk):
         self.encabezado.grid(row=0, column=0, sticky="nsew")
 
         self.contenido = inicio.Inicio(self)
-        #self.contenido = miembros.Miembros(self)
-        #self.contenido = gestor_estado.GestionEstado(self)
 
         self.contenido.grid(row=1, column=0, sticky="nsew")
 

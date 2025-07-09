@@ -1,17 +1,15 @@
 '''Programa principal desde el cual se crea la ventana'''
 from ctypes import windll
-import scripts.datos_test
 import views.main_window as vp
-import scripts.crear_db
 
-#from Pruebas import crear_datosDb_ficticios
+def run_app():
+    '''Esta funcion corre la aplicacion'''
 
-if __name__ == '__main__':
+    #Para indicar que la app ya tiene en cuenta el reescalamiento
     windll.shcore.SetProcessDpiAwareness(1)
-
-    #crear_datosDb_ficticios.usar()
-    #scripts.crear_db.create_afid_database()
-    #scripts.datos_test.create_afid_test()
 
     app = vp.App()
     app.mainloop()
+
+if __name__ == '__main__':
+    run_app()

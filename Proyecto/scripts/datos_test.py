@@ -10,7 +10,8 @@ def create_afid_test():
     con1 = login.hash_contrasena('1')
 
     # Insert personas
-    cursor.executemany("INSERT INTO personas (usuario, nombre, apellido, hash_contrasena, estado, correo) VALUES (?, ?, ?, ?, ?, ?)", [
+    cursor.executemany("INSERT INTO personas (usuario, nombre, apellido, \
+                       hash_contrasena, estado, correo) VALUES (?, ?, ?, ?, ?, ?)", [
         ('user1', 'Ana', 'García', con1, 'ACTIVO', 'ana@example.com'),
         ('user2', 'Luis', 'Martínez', con1, None, 'luis@example.com'),
         ('user3', 'María', 'López', con1, None, 'maria@example.com'),
@@ -27,6 +28,8 @@ def create_afid_test():
         ('Admin0', 'FUNCIONARIO'),
         ('Admin0', 'ADMINISTRADOR')
     ])
+
+    #Insert activities
 
     conn.commit()
     cursor.close()

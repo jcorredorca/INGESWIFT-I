@@ -8,7 +8,6 @@ from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel, CTkOptionMenu
 from services import login
 from .cambio_popup import CambioPopup
 from core import utils
-#from Funcionalidades import login
 
 class LoginFrame(CTkFrame):
     '''Clase que representa el formulario de login de atun'''
@@ -19,11 +18,15 @@ class LoginFrame(CTkFrame):
         self.repartir_espacio()
         self.crear_login()
 
-
     def repartir_espacio(self):
         '''Reparte el espacio '''
-        self.grid_columnconfigure(0, weight=0)
-        #self.grid_rowconfigure(7, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+        self.grid_rowconfigure(2, weight=0)
+        self.grid_rowconfigure(3, weight=0)
+        self.grid_rowconfigure(4, weight=0)
+        self.grid_rowconfigure(5, weight=0)
+        self.grid_rowconfigure(6, weight=1)
 
     def crear_login(self):
         '''Crea el loggin del contenido de Inicio'''
