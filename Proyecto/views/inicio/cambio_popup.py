@@ -15,10 +15,10 @@ class CambioPopup(CTkToplevel):
         self.fuente = ("Arial", max(18, int(self.winfo_screenwidth() * 0.007)))
 
         self.configure(fg_color=CambioPopup.color_fondo)
-        ancho = self.master.winfo_width()
-        alto = self.master.winfo_height()//2
-        x = self.winfo_screenwidth()//2 - ancho
-        y = self.winfo_screenheight()//2 - alto
+        ancho = self.master.winfo_screenwidth() // 2
+        alto = self.master.winfo_screenheight()//2
+        x = (self.winfo_screenwidth() - ancho)//2 
+        y = (self.winfo_screenheight() - alto) //2 
         self.geometry(f"{ancho}x{alto}+{x}+{y}")
 
 
