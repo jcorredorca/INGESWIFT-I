@@ -2,6 +2,7 @@
 
 import bcrypt
 from models.conexion import Conexion
+from .general import enviar_correo
 
 
 def hash_contrasena(contrasena: str) -> bytes:
@@ -31,11 +32,25 @@ def autenticar_credenciales(usuario, contrasena):
 def cambiar_contrasena(usuario, nueva_contr):
     '''Esta funcion permite actualizar en la db el hash de una contraseña'''
     query = 'UPDATE personas SET hash_contrasena = ? WHERE usuario = ?'
+    query_correo = "SELECT correo FROM personas WHERE usuario = ?"
 
     conexion = Conexion()
     hash_nuevo = hash_contrasena(nueva_contr)
 
+    #Actualiza la contraseña en la db
     conexion.ejecutar_consulta(query, [hash_nuevo, usuario])
+
+    #Consulta el correo del usuario
+    correo = conexion.ejecutar_consulta(query_correo, [usuario])
+
+    enviar_correo(
+        destinatario=correo[0][0],
+        asunto= 'ATUN - Cambio de contraseña',
+        contenido_html="""
+        <h2>¡Hola!</h2>
+        <p>Tu contraseña en el sistema ATUN ha sido <strong>actualizada correctamente</strong>.</p>
+        <p>Si no fuiste tú o consideras que hubo un error, por favor comunicate al correo de soporte de ATUN.</p>
+        """)
 
 def recuperar_roles(usuario):
     '''Esta función recupera los posibles roles de un usuario'''
