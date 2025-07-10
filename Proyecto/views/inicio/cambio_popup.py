@@ -81,19 +81,19 @@ class CambioPopup(CTkToplevel):
 
         #Configurar las entradas
         ancho_entry = int(self.winfo_width())*0.7
-        self.entry_usuario = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+        self.entry_usuario = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
                                     font=self.fuente, width=ancho_entry)
         self.entry_usuario.grid(row=1, column=1)
 
-        self.entry_contra_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+        self.entry_contra_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
                                         font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_antigua.grid(row=2, column=1)
 
-        self.entry_contra_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+        self.entry_contra_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
                                         font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_nueva.grid(row=3, column=1)
 
-        self.entry_contra_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+        self.entry_contra_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
                                                 font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_confirmacion.grid(row=4, column=1)
 
@@ -169,5 +169,6 @@ class CambioPopup(CTkToplevel):
             #TODO: que mande correo
             login.cambiar_contrasena(usuario, contra_nueva)
             messagebox.showinfo('Actualización de contraseña',
-                                'Su contraseña fue actualizada exitosamente')
+                                'Su contraseña fue actualizada exitosamente. \
+                                    El cambio ha sido notificado a su correo.')
             self.destroy()

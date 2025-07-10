@@ -2,6 +2,8 @@
 import os
 import sys
 
+from dotenv import load_dotenv
+
 def resource_path(relative_path):
     """Obtiene la ruta absoluta al recurso, compatible con PyInstaller."""
     try:
@@ -29,3 +31,6 @@ FUENTE_TITULO = ("Libre Baskerville", 28, "bold")
 FUENTE_GENERAL = ("Arial", 14)
 
 # Otros parámetros globales...
+# Carga las credenciales desde .env
+load_dotenv()
+API_KEY = os.getenv("BREVO_API_KEY")
