@@ -38,7 +38,8 @@ class CrearFuncionarios(CTkFrame):
         mini_encabezado.grid_columnconfigure(1, weight=0)
 
     def repartir_espacio(self):
-        '''Configura el layout del frame principal, distribuyendo el espacio entre filas y columnas.'''
+        '''Configura el layout del frame principal,
+        distribuyendo el espacio entre filas y columnas.'''
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -52,7 +53,7 @@ class CrearFuncionarios(CTkFrame):
 
         self.seccion.grid_columnconfigure((0,1,2), weight=1)
         CTkLabel(self.seccion, text="FUNCIONARIOS ACTIVOS",
-                 font=("Libre Baskerville", 28, "bold"), text_color="white")\
+                 font=("Segoe UI", 28, "bold"), text_color="white")\
             .grid(row=0, column=1, pady=(30, 10))
 
         lista_scroll = CTkScrollableFrame(self.seccion, fg_color="#3d1c57")
@@ -60,7 +61,7 @@ class CrearFuncionarios(CTkFrame):
 
         for nombre in self.funcionarios_activos:
             CTkLabel(lista_scroll, text=nombre, text_color="white",
-                     font=("Libre Baskerville", 18), anchor="center", justify="center")\
+                     font=("Segoe UI", 18), anchor="center", justify="center")\
                      .pack(fill="x", pady=6, padx=20)
 
         CTkButton(self.seccion, text="Registrar Funcionario",
@@ -82,15 +83,15 @@ class CrearFuncionarios(CTkFrame):
                   command=self.mostrar_lista_funcionarios).grid(row=0, column=0, padx=(30, 0), sticky="w")
 
         CTkLabel(self.seccion, text="MÓDULO DE REGISTRO",
-                 font=("Libre Baskerville", 28, "bold"), text_color="white")\
+                 font=("Segoe UI", 28, "bold"), text_color="white")\
             .grid(row=1, column=1, pady=(30, 10))
 
         CTkLabel(self.seccion, text="Introduce el correo electrónico para continuar",
-                 font=("Libre Baskerville", 18), text_color="white")\
+                 font=("Segoe UI", 18), text_color="white")\
             .grid(row=2, column=1, pady=(10, 10))
 
         self.entry_correo = CTkEntry(self.seccion, placeholder_text="Correo",
-                                     font=("Libre Baskerville", 16), width=400,
+                                     font=("Segoe UI", 16), width=400,
                                      fg_color="white", text_color="black")
         self.entry_correo.grid(row=3, column=1, pady=(5, 20))
 
@@ -125,12 +126,12 @@ class CrearFuncionarios(CTkFrame):
                   command=self.mostrar_formulario_correo).grid(row=0, column=0, padx=(30, 0), sticky="w")
 
         CTkLabel(self.seccion, text="MÓDULO DE REGISTRO",
-                 font=("Libre Baskerville", 28, "bold"), text_color="white")\
+                 font=("Segoe UI", 28, "bold"), text_color="white")\
             .grid(row=1, column=1, pady=(30, 10))
 
         CTkLabel(self.seccion,
                  text="Este usuario ya está en la base de datos, ¿Desea registrarlo?",
-                 font=("Libre Baskerville", 18), text_color="white", wraplength=600, justify="center")\
+                 font=("Segoe UI", 18), text_color="white", wraplength=600, justify="center")\
             .grid(row=2, column=1, pady=(10, 20))
 
         CTkButton(self.seccion, text="VALIDAR",
@@ -152,16 +153,16 @@ class CrearFuncionarios(CTkFrame):
                   command=self.mostrar_formulario_correo).grid(row=0, column=0, padx=(30, 0), sticky="w")
 
         CTkLabel(self.seccion, text="MÓDULO DE REGISTRO",
-                 font=("Libre Baskerville", 28, "bold"), text_color="white")\
+                 font=("Segoe UI", 28, "bold"), text_color="white")\
             .grid(row=1, column=1, pady=(30, 10))
 
         self.entry_nombre = CTkEntry(self.seccion, placeholder_text="Nombre completo",
-                                     font=("Libre Baskerville", 16), width=400,
+                                     font=("Segoe UI", 16), width=400,
                                      fg_color="white", text_color="black")
         self.entry_nombre.grid(row=2, column=1, pady=(10, 10))
 
         self.entry_rol = CTkEntry(self.seccion, placeholder_text="Rol en la universidad",
-                                  font=("Libre Baskerville", 16), width=400,
+                                  font=("Segoe UI", 16), width=400,
                                   fg_color="white", text_color="black")
         self.entry_rol.grid(row=3, column=1, pady=(10, 10))
 

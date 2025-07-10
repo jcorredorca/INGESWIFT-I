@@ -1,12 +1,14 @@
 '''Programa principal desde el cual se crea la ventana'''
-from ctypes import windll
+try:
+    from ctypes import windll
+    #Para indicar que la app ya tiene en cuenta el reescalamiento 
+    windll.shcore.SetProcessDpiAwareness(1)
+except (ImportError, AttributeError):
+    pass
 import views.main_window as vp
 
 def run_app():
     '''Esta funcion corre la aplicacion'''
-
-    #Para indicar que la app ya tiene en cuenta el reescalamiento
-    windll.shcore.SetProcessDpiAwareness(1)
 
     app = vp.App()
     app.mainloop()

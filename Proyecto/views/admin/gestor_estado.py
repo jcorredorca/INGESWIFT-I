@@ -14,7 +14,7 @@ class GestionEstado(CTkFrame):
         self.repartir_espacio()
 
         self.titulo = CTkLabel(self, text="GESTIÓN DE ESTADO DE MIEMBROS", 
-                                font=("Libre Baskerville", 28, "bold"), text_color="white")
+                                font=("Segoe UI", 28, "bold"), text_color="white")
         self.titulo.grid(row=0, column=0, columnspan=3, pady=20)
 
         self.crear_encabezado_derecho()
@@ -57,7 +57,7 @@ class GestionEstado(CTkFrame):
 
     def crear_listas(self):
         '''Crea los scrollables para miembros activos e inactivos'''
-        fuente_label = ("Libre Baskerville", 20, "bold")
+        fuente_label = ("Segoe UI", 20, "bold")
 
         # Activos
         self.scroll_activos = CTkScrollableFrame(self, fg_color="#3d1c57")
@@ -68,7 +68,7 @@ class GestionEstado(CTkFrame):
 
         for nombre in ["Miembro1", "Miembro2", "Miembro3", "Miembro4", "Miembro5"]:
             CTkLabel(self.scroll_activos, text=nombre, text_color="white",
-                    font=("Libre Baskerville", 16), anchor="center", justify="center"
+                    font=("Segoe UI", 16), anchor="center", justify="center"
             ).pack(fill="x", padx=10, pady=4)
 
         # Inactivos
@@ -80,7 +80,7 @@ class GestionEstado(CTkFrame):
 
         for nombre in ["MiembroA", "MiembroB", "MiembroC", "MiembroD", "MiembroE"]:
             CTkLabel(self.scroll_inactivos, text=nombre, text_color="white",
-                    font=("Libre Baskerville", 16), anchor="center", justify="center"
+                    font=("Segoe UI", 16), anchor="center", justify="center"
             ).pack(fill="x", padx=10, pady=4)
 
     def crear_botones(self):
@@ -106,5 +106,5 @@ class GestionEstado(CTkFrame):
         '''Barra para buscar miembros'''
         self.entry_busqueda = CTkEntry(self, placeholder_text="BUSCAR MIEMBRO",
                                        fg_color="white", text_color="black",
-                                       font=("Libre Baskerville", 16), width=300)
+                                       font=("Segoe UI", 16), width=300)
         self.entry_busqueda.grid(row=3, column=0, columnspan=3, pady=(30, 20), sticky="n")
