@@ -21,6 +21,5 @@ for %%i in (customtkinter dotenv pillow bcrypt sib_api_v3_sdk) do (
 )
 
 python script_modo_dev.py
-python app.py
-
 pause
+python app.py

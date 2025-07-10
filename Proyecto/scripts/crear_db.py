@@ -131,6 +131,15 @@ def create_afid_database():
         ("NUTRICIÓN", -1)
     ])
 
+     # Insert locations
+    cursor.executemany("INSERT INTO ubicaciones (ubicacion) VALUES (?)", [
+        ('PEROLA',),
+        ('ESTADIO',),
+        ('EDIFICIO 701-116',),
+        ('EDIFICIO 701-203',),
+        ('POLIDEPORTIVO',)
+    ])
+
     conn.commit()
     cursor.close()
     conn.close()

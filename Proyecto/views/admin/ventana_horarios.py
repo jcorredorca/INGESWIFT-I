@@ -1,9 +1,11 @@
 ''' Vista del panel de horarios para Administradores'''
 
 from datetime import datetime, timedelta
+from tkinter import Event
 from customtkinter import CTkFrame, CTkOptionMenu, CTkLabel
 from ..components.horario_semanal import HorarioSemanal
 from services.general import recuperar_actividades
+from .state_horario import StateHorario, Creacion, EdicionEliminacion
 
 class VentanaHorarios(CTkFrame):
     ''' Esta clase representa el panel de creacion y edicion de horarios para miembros '''
@@ -19,6 +21,9 @@ class VentanaHorarios(CTkFrame):
 
         self.horario = HorarioSemanal(self)
         self.horario.grid(row=1, column=3, sticky='e', rowspan=2)
+        for columna in self.horario.celdas:
+            for celda in columna:
+                celda.bind('<Button-1>', self.crear_ventana)
 
 
     def repartir_espacio(self):
@@ -67,5 +72,10 @@ class VentanaHorarios(CTkFrame):
         sabado = lunes + timedelta(days=5)
 
         return lunes.date(), sabado.date()
-    
-    def crear_ventana()
+
+    def crear_ventana(self, event:Event):
+        '''Esta funcion crea la ventana emergente luego de un click'''
+        if event:
+            celda = event.widget
+            ventana = StateHorario(self, Creacion())
+            ventana.renderizar_contenido()

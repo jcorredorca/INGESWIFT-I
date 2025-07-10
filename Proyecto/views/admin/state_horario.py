@@ -2,7 +2,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from customtkinter import CTkToplevel
-from crear_horario import CrearHorario
+from .crear_horario import CrearHorario
 
 class StateHorario(CTkToplevel):
     """
@@ -25,10 +25,11 @@ class StateHorario(CTkToplevel):
     def configurar_ventana(self):
         '''Configura las dimensiones y posicion de la ventana'''
         self.configure(fg_color="#3d1c57")
-        ancho = self.master.winfo_screenwidth() // 2
-        alto = self.master.winfo_screenheight()//2
-        x = (self.winfo_screenwidth() - ancho)//2
-        y = (self.winfo_screenheight() - alto) //2
+        factor = 2 if self.master.winfo_screenwidth() < 2000 else 3
+        ancho = self.master.winfo_screenwidth() // factor
+        alto = self.master.winfo_screenheight()//factor
+        x = (self.winfo_screenwidth() - ancho)//factor
+        y = (self.winfo_screenheight() - alto) //factor
         self.geometry(f"{ancho}x{alto}+{x}+{y}")
 
         self.transient(self.master)
@@ -72,7 +73,7 @@ class Creacion(State):
     '''Esta clase representa el widget del estado de creacion'''
     def renderizar(self) -> None:
         contenido = CrearHorario(self.context)
-        contenido.pack(ill="both", expand=True)
+        contenido.pack(fill="both", expand=True)
 
 class EdicionEliminacion(State):
     '''Esta clase representa el widget del estado de edicion y eliminacion'''

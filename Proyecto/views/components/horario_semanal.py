@@ -16,7 +16,8 @@ class HorarioSemanal(CTkFrame):
             f"{time(hour=h).strftime('%I:%M')} - {time(hour=h+1).strftime('%I:%M %p')}"
             for h in range(6, 20)]
 
-        self.celdas = []  # ← Lista de celdas: [ [(0,0), (0,1), ...], [(1,0), ...] ]
+        # Lista de columnas: [ [(0,0), (0,1), ...], [(1,0), ...] ]
+        self.celdas: list[list[CTkLabel]] = []
 
         self.crear_cabecera()
         self.crear_horario()

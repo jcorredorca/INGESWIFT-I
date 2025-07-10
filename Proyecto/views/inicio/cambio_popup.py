@@ -14,11 +14,12 @@ class CambioPopup(CTkToplevel):
         super().__init__(master)
         self.fuente = ("Arial", max(18, int(self.winfo_screenwidth() * 0.007)))
 
+        factor = 2 if self.master.winfo_screenwidth() < 2000 else 3
         self.configure(fg_color=CambioPopup.color_fondo)
-        ancho = self.master.winfo_screenwidth() // 2
-        alto = self.master.winfo_screenheight()//2
-        x = (self.winfo_screenwidth() - ancho)//2 
-        y = (self.winfo_screenheight() - alto) //2 
+        ancho = self.master.winfo_screenwidth() // factor
+        alto = self.master.winfo_screenheight()//factor
+        x = (self.winfo_screenwidth() - ancho)//factor
+        y = (self.winfo_screenheight() - alto) //factor
         self.geometry(f"{ancho}x{alto}+{x}+{y}")
 
 
