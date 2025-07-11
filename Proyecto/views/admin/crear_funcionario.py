@@ -1,6 +1,6 @@
 from tkinter import messagebox
 
-from core.conexion import Conexion
+from models.conexion import Conexion
 from customtkinter import (CTkButton, CTkEntry, CTkFrame, CTkLabel,
                            CTkScrollableFrame)
 

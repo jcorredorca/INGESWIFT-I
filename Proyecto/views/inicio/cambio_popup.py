@@ -85,16 +85,20 @@ class CambioPopup(CTkToplevel):
                                     font=self.fuente, width=ancho_entry)
         self.entry_usuario.grid(row=1, column=1)
 
-        self.entry_contra_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
+        self.entry_contra_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+                                             text_color='black',
                                         font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_antigua.grid(row=2, column=1)
 
-        self.entry_contra_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
+        self.entry_contra_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+                                           text_color='black',
                                         font=self.fuente, width=ancho_entry, show='•')
         self.entry_contra_nueva.grid(row=3, column=1)
 
-        self.entry_contra_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
-                                                font=self.fuente, width=ancho_entry, show='•')
+        self.entry_contra_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+                                                text_color='black',
+                                                font=self.fuente, width=ancho_entry,
+                                                show='•')
         self.entry_contra_confirmacion.grid(row=4, column=1)
 
         #Frame para ubicar botones
@@ -111,7 +115,8 @@ class CambioPopup(CTkToplevel):
         boton_aceptar.grid(row=0, column=0, padx=padx_botones)
 
         button = CTkButton(botones, text="Cancelar", command=self.destroy, font=self.fuente,
-                        fg_color="#F6A623", text_color="black", cursor="hand2", hover_color="#d38e14",
+                        fg_color="#F6A623", text_color="black", cursor="hand2",
+                        hover_color="#d38e14",
                         corner_radius=6)
         button.grid(row=0, column=1, padx=padx_botones)
 
@@ -166,7 +171,6 @@ class CambioPopup(CTkToplevel):
             messagebox.showerror('Error', str(e))
 
         if credenciales_correctas:
-            #TODO: que mande correo
             login.cambiar_contrasena(usuario, contra_nueva)
             messagebox.showinfo('Actualización de contraseña',
                                 'Su contraseña fue actualizada exitosamente. \

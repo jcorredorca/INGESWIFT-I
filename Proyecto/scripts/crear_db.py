@@ -15,7 +15,7 @@ def create_afid_database():
         hash_contrasena TEXT NOT NULL,
         estado TEXT DEFAULT 'INACTIVO' CHECK(estado IN ('ACTIVO', 'INACTIVO')),
         correo TEXT NOT NULL UNIQUE,
-        rol_en_universidad TEXT CHECK(rol_en_universidad IN ('GENERAL', 'FUNCIONARIO', 'FODUN', 'CUIDADO')),
+        rol_en_universidad TEXT DEFAULT 'GENERAL' CHECK(rol_en_universidad IN ('GENERAL', 'FUNCIONARIO', 'FODUN', 'CUIDADO')),
         grupo_especial TEXT CHECK(grupo_especial IN ('JOVENES', 'SELECCION'))
     )
     """)
