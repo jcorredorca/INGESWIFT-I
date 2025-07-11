@@ -1,4 +1,4 @@
-''' Vista de la ventana principal para Administradores'''
+''' Vista de la ventana principal para funcionarios'''
 from os import path
 from config import IMG_PATH
 from customtkinter import CTkFrame, CTkButton
@@ -8,7 +8,7 @@ from ..components import menu_opciones
 
 
 class Funcionario(CTkFrame):
-    ''' Esta clase representa la venatana principal para administradores '''
+    ''' Esta clase representa la venatana principal para funcionarios '''
     def __init__(self, master):
         super().__init__(master)
 

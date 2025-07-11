@@ -2,7 +2,7 @@
 
 from views.admin import gestor_estado, ventana_horarios
 
-from Proyecto.views.admin import crear_funcionario
+from views.admin import crear_funcionario
 
 
 def redirigir_pantalla_horarios(origen):
