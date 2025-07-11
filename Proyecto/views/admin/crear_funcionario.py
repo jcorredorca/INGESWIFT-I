@@ -203,7 +203,11 @@ class CrearFuncionarios(CTkFrame):
                                     fg_color="white", text_color="black")
         self.entry_grupo.grid(row=5, column=1, pady=(10, 10))
 
-        self.entry_correo_final = CTkEntry(self.seccion)
+        self.entry_correo_final = CTkEntry(self.seccion,
+                                           font=("Libre Baskerville", 32),
+                                           width=400,
+                                           fg_color="white",
+                                           text_color="black")
         self.entry_correo_final.insert(0, correo)
         self.entry_correo_final.configure(state="disabled")
         self.entry_correo_final.grid(row=6, column=1, pady=(10, 20))
@@ -255,7 +259,7 @@ class CrearFuncionarios(CTkFrame):
             messagebox.showwarning("Rol inválido", "El rol en la universidad no es válido.")
             return
 
-        usuario = correo.split('@')[0]  # sin uuid, como pediste
+        usuario = correo.split('@')[0]
         contrasena_default = login.hash_contrasena("1")
         estado = "ACTIVO"
 
