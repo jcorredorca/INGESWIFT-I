@@ -1,7 +1,9 @@
 '''Funciones de backend para el rol Administrador'''
 
-from views.admin import ventana_horarios
-from views.admin import gestor_estado, modulo_crear_funcionario
+from views.admin import gestor_estado, ventana_horarios
+
+from views.admin import crear_funcionario
+
 
 def redirigir_pantalla_horarios(origen):
     '''Esta función construye la ventana de crear horarios'''
@@ -22,7 +24,7 @@ def redirigir_pantalla_estado_miembros(origen):
 def redirigir_pantalla_funcionarios(origen):
     '''Esta función construye la ventana para gestionar a los funcionarios'''
 
-    ventana = modulo_crear_funcionario.CrearFuncionarios(origen)
+    ventana = crear_funcionario.CrearFuncionarios(origen)
     origen.contenido.destroy()
     origen.contenido = ventana
     origen.contenido.grid(row=1, column=0, sticky="nsew")
