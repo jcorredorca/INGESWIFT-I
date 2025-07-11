@@ -116,7 +116,7 @@ def actualizar_publico_ubicacion(id_sesion, publico, ubicacion):
     '''Esta funcon actualiza el publico y ubicacion de una sesion'''
     id_ubicacion = recuperar_id_ubicacion(ubicacion)
     query_actualizacion = '''UPDATE sesiones
-                            SET publico = ?,
-                            ubicaciones_id_ubicaciones = ?
-                            WHERE id = ?;'''
-    Conexion().ejecutar_consulta(query_actualizacion, (id_sesion, publico, id_ubicacion))
+                            SET publico =?,
+                            ubicaciones_id_ubicaciones =?
+                            WHERE id =?;'''
+    Conexion().ejecutar_consulta(query_actualizacion, (publico,  id_ubicacion, id_sesion))

@@ -205,7 +205,7 @@ class EditarHorario(CTkFrame):
                 if ind != indice:
                     opcion[1].set(False) #desactivamos el check
                 else:
-                    self.profesor = opcion[0]
+                    self.profesor = opcion
 
     def actualizar_sesion(self):
         '''Este metodo recupera la información 
@@ -226,7 +226,7 @@ class EditarHorario(CTkFrame):
                                  'Asegurese de escoger almenos un funcionario y un profesor')
             return
 
-        print(profesor)
+        print('profesor\n',profesor)
         administrador.eliminar_funcionarios_en_sesion(id_sesion=id_sesion)
         administrador.asignar_funcionarios(seleccionados, id_sesion, profesor[0])
         administrador.actualizar_publico_ubicacion(id_sesion, publico=publico, ubicacion=ubicacion)
