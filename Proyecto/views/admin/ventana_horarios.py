@@ -6,7 +6,7 @@ from customtkinter import CTkFrame, CTkOptionMenu, CTkLabel
 from ..components.horario_semanal import HorarioSemanal
 from services.general import recuperar_actividades
 from .state_horario import StateHorario, Creacion, EdicionEliminacion
-from services import administrador
+from services import general
 
 class VentanaHorarios(CTkFrame):
     ''' Esta clase representa el panel de creacion y edicion de horarios para miembros '''
@@ -21,7 +21,7 @@ class VentanaHorarios(CTkFrame):
 
         self.indicador_semana()
 
-        self.horario = HorarioSemanal(self)
+        self.horario = HorarioSemanal(self, 'ADMINISTRADOR')
         self.horario.grid(row=1, column=3, sticky='e', rowspan=2)
 
         for columna in self.horario.celdas:
@@ -62,12 +62,12 @@ class VentanaHorarios(CTkFrame):
     def indicador_semana(self):
         '''Este metodo crea el indicador de la semana a editar'''
         fuente = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.02)), 'bold')
-        self.semana = self.rango_semana_actual()
+        self.semana = self.rango_semana_siguiente()
         texto = 'Semana del '+ str(self.semana[0]) + ' al '+ str(self.semana[1])
         self.label_semana = CTkLabel(self, text=texto, font=fuente)
         self.label_semana.grid(row=0, column=1, columnspan=3)
 
-    def rango_semana_actual(self):
+    def rango_semana_siguiente(self):
         '''Crea el rango de una determinada semana'''
         hoy = datetime.now()
 
@@ -79,7 +79,7 @@ class VentanaHorarios(CTkFrame):
 
     def actualizar_horario(self, actividad=None):
         '''Actualiza la ventana de horarios para el nuevo plan'''
-        self.horario.actualizar_celdas(actividad)
+        self.horario.actualizar_celdas_administrador(actividad)
 
     def crear_ventana(self, event:Event):
         '''Esta funcion crea la ventana emergente luego de un click'''
@@ -87,7 +87,7 @@ class VentanaHorarios(CTkFrame):
             celda = event.widget
             plan = self.opciones_busqueda.get()
             fecha_hora = celda.master.fecha_hora
-            id_horario = administrador.hay_sesiones(plan, fecha_hora)
+            id_horario = general.hay_sesiones(plan, fecha_hora)
             if id_horario:
                 ventana = StateHorario(celda, EdicionEliminacion())
                 ventana.renderizar_contenido()

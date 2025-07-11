@@ -142,6 +142,7 @@ class LoginFrame(CTkFrame):
                 origen = self.master.master
                 roles = login.recuperar_roles(usuario)
                 utils.redirigir_pantalla(origen, roles)
+                self.master.master.usuario = usuario
 
     def verificar_campos_vacios(self):
         '''Verifica si hay algún campo sin llenar'''

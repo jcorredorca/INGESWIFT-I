@@ -4,7 +4,7 @@ from customtkinter import (CTkScrollableFrame,
                            CTkButton, BooleanVar,
                            CTkLabel, CTkFrame,
                            CTkCheckBox, CTkOptionMenu)
-from services import administrador
+from services import administrador, general
 
 class EditarHorario(CTkFrame):
     '''Clase que representa una ventana emergente para la edicion de horarios'''
@@ -151,7 +151,7 @@ class EditarHorario(CTkFrame):
         fecha_hora = celda.fecha_hora
         actividad = seleccion_actividad.get()
 
-        return administrador.hay_sesiones(actividad, fecha_hora)
+        return general.hay_sesiones(actividad, fecha_hora)
 
     def desplegable_funcionarios(self):
         '''Crea el desplegable para escoger funcinarios'''
@@ -226,7 +226,6 @@ class EditarHorario(CTkFrame):
                                  'Asegurese de escoger almenos un funcionario y un profesor')
             return
 
-        print('profesor\n',profesor)
         administrador.eliminar_funcionarios_en_sesion(id_sesion=id_sesion)
         administrador.asignar_funcionarios(seleccionados, id_sesion, profesor[0])
         administrador.actualizar_publico_ubicacion(id_sesion, publico=publico, ubicacion=ubicacion)
