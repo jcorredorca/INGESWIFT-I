@@ -1,4 +1,3 @@
-import uuid
 from tkinter import messagebox
 
 from customtkinter import (CTkButton, CTkEntry, CTkFrame, CTkLabel,
@@ -150,22 +149,22 @@ class CrearFuncionarios(CTkFrame):
                 font=("Libre Baskerville", 56, "bold"), text_color="white")\
             .grid(row=1, column=1, pady=(40, 20))
 
-        self.entry_nombre = CTkEntry(self.seccion, placeholder_text="Nombre",
+        self.entry_nombre = CTkEntry(self.seccion, placeholder_text="Nombre *",
                                     font=("Libre Baskerville", 32), width=400,
                                     fg_color="white", text_color="black")
         self.entry_nombre.grid(row=2, column=1, pady=(10, 10))
 
-        self.entry_apellido = CTkEntry(self.seccion, placeholder_text="Apellido",
+        self.entry_apellido = CTkEntry(self.seccion, placeholder_text="Apellido *",
                                     font=("Libre Baskerville", 32), width=400,
                                     fg_color="white", text_color="black")
         self.entry_apellido.grid(row=3, column=1, pady=(10, 10))
 
-        self.entry_rol = CTkEntry(self.seccion, placeholder_text="Rol en la universidad",
+        self.entry_rol = CTkEntry(self.seccion, placeholder_text="Rol en la universidad *",
                                 font=("Libre Baskerville", 32), width=400,
                                 fg_color="white", text_color="black")
         self.entry_rol.grid(row=4, column=1, pady=(10, 10))
 
-        self.entry_grupo = CTkEntry(self.seccion, placeholder_text="Grupo especial (opcional)",
+        self.entry_grupo = CTkEntry(self.seccion, placeholder_text="Grupo especial",
                                     font=("Libre Baskerville", 32), width=400,
                                     fg_color="white", text_color="black")
         self.entry_grupo.grid(row=5, column=1, pady=(10, 10))
@@ -183,20 +182,28 @@ class CrearFuncionarios(CTkFrame):
             .grid(row=7, column=1, pady=(0, 30))
 
     def registrar_existente(self, correo):
-        '''Agrega a la lista de activos a un funcionario ya registrado si aún no está.'''
+        '''Agrega a la base de datos el rol FUNCIONARIO si aún no lo tiene'''
         conexion = Conexion()
-        query = "SELECT correo FROM personas WHERE correo = ?"
+        query = "SELECT usuario FROM personas WHERE correo = ?"
         resultado = conexion.ejecutar_consulta(query, [correo])
 
         if resultado:
-            nombre_completo = f"{correo}" #PRUEBA
-        else:
-            nombre_completo = correo  # fallback
+            usuario = resultado[0][0]
 
-        if nombre_completo not in self.funcionarios_activos:
-            self.funcionarios_activos.append(nombre_completo)
+            rol_existente = conexion.ejecutar_consulta("""
+                SELECT 1 FROM rol_persona WHERE personas_usuario = ? AND rol_nombre = 'FUNCIONARIO'
+            """, [usuario])
 
-        self.mostrar_lista_funcionarios()
+            if not rol_existente:
+                conexion.ejecutar_consulta("""
+                    INSERT INTO rol_persona (personas_usuario, rol_nombre)
+                    VALUES (?, 'FUNCIONARIO')
+                """, [usuario])
+
+            if correo not in self.funcionarios_activos:
+                self.funcionarios_activos.append(correo)
+
+            self.mostrar_lista_funcionarios()
 
     def registrar_nuevo(self):
         '''Valida y registra un nuevo funcionario completo.'''
