@@ -1,7 +1,8 @@
+import re
 from tkinter import messagebox
 
 from customtkinter import (CTkButton, CTkEntry, CTkFrame, CTkLabel,
-                           CTkScrollableFrame)
+                           CTkOptionMenu, CTkScrollableFrame)
 from models.conexion import Conexion
 from services import login
 
@@ -32,6 +33,7 @@ class CrearFuncionarios(CTkFrame):
 
     def mostrar_lista_funcionarios(self):
         '''Muestra la lista de funcionarios activos en una sección scrollable.'''
+        self.funcionarios_activos = self.cargar_funcionarios_activos()
         for widget in self.seccion.winfo_children():
             widget.destroy()
 
@@ -95,14 +97,42 @@ class CrearFuncionarios(CTkFrame):
             messagebox.showwarning("Campo vacío", "Por favor ingrese un correo antes de validar.")
             return
 
-        conexion = Conexion()
-        query = "SELECT correo FROM personas WHERE correo = ?"
-        resultado = conexion.ejecutar_consulta(query, [correo])
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", correo):
+            messagebox.showwarning("Correo inválido", "Por favor ingrese un correo válido.")
+            return
 
-        if resultado:
+        conexion = Conexion()
+
+        query_usuario = "SELECT usuario FROM personas WHERE correo = ?"
+        resultado = conexion.ejecutar_consulta(query_usuario, [correo])
+
+        if not resultado:
+            self.mostrar_formulario_completo(correo)
+            return
+
+        usuario = resultado[0][0]
+
+        query_funcionario = """
+            SELECT 1 FROM rol_persona
+            WHERE personas_usuario = ? AND rol_nombre = 'FUNCIONARIO'
+        """
+        es_funcionario = conexion.ejecutar_consulta(query_funcionario, [usuario])
+
+        if es_funcionario:
+            messagebox.showerror("Acción inválida", "El usuario ya es Funcionario. Ingrese un correo válido.")
+            return
+
+        query_miembro = """
+            SELECT 1 FROM rol_persona
+            WHERE personas_usuario = ? AND rol_nombre = 'MIEMBRO'
+        """
+        es_miembro = conexion.ejecutar_consulta(query_miembro, [usuario])
+
+        if es_miembro:
             self.mostrar_confirmacion_existente(correo)
         else:
             self.mostrar_formulario_completo(correo)
+
 
     def mostrar_confirmacion_existente(self, correo):
         '''Muestra confirmación si el correo ya está en la base de datos.'''
@@ -159,10 +189,14 @@ class CrearFuncionarios(CTkFrame):
                                     fg_color="white", text_color="black")
         self.entry_apellido.grid(row=3, column=1, pady=(10, 10))
 
-        self.entry_rol = CTkEntry(self.seccion, placeholder_text="Rol en la universidad *",
-                                font=("Libre Baskerville", 32), width=400,
-                                fg_color="white", text_color="black")
-        self.entry_rol.grid(row=4, column=1, pady=(10, 10))
+        self.opciones_rol = ["GENERAL", "FUNCIONARIO", "FODUN", "CUIDADO"]
+        self.rol_seleccionado = CTkOptionMenu(self.seccion, values=self.opciones_rol,
+                                            font=("Libre Baskerville", 32), width=400,
+                                            fg_color="white", button_color="#e5e5e5",
+                                            text_color="black", dropdown_fg_color="white",
+                                            dropdown_text_color="black")
+        self.rol_seleccionado.set("GENERAL")
+        self.rol_seleccionado.grid(row=4, column=1, pady=(10, 10))
 
         self.entry_grupo = CTkEntry(self.seccion, placeholder_text="Grupo especial",
                                     font=("Libre Baskerville", 32), width=400,
@@ -206,9 +240,10 @@ class CrearFuncionarios(CTkFrame):
             self.mostrar_lista_funcionarios()
 
     def registrar_nuevo(self):
+        '''Agrega a la base de datos a un nuevo funcionario.'''
         nombre = self.entry_nombre.get().strip()
         apellido = self.entry_apellido.get().strip()
-        rol_uni = self.entry_rol.get().strip().upper()
+        rol_uni = self.rol_seleccionado.get()
         grupo = self.entry_grupo.get().strip().upper() or None
         correo = self.entry_correo_final.get().strip().lower()
 
@@ -244,6 +279,7 @@ class CrearFuncionarios(CTkFrame):
             messagebox.showerror("Error", f"Ocurrió un error al registrar: {e}")
 
     def cargar_funcionarios_activos(self):
+        '''Carga los correos de los funcionarios activos desde la base de datos.'''
         conexion = Conexion()
         query = """
             SELECT p.correo
