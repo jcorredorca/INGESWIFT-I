@@ -3,6 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from customtkinter import CTkToplevel
 from .crear_horario import CrearHorario
+from .editar_horario import EditarHorario
 
 class StateHorario(CTkToplevel):
     """
@@ -78,4 +79,5 @@ class Creacion(State):
 class EdicionEliminacion(State):
     '''Esta clase representa el widget del estado de edicion y eliminacion'''
     def renderizar(self) -> None:
-        print('hola')
+        contenido = EditarHorario(self.context)
+        contenido.pack(fill="both", expand=True)
