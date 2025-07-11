@@ -206,7 +206,6 @@ class CrearFuncionarios(CTkFrame):
             self.mostrar_lista_funcionarios()
 
     def registrar_nuevo(self):
-        '''Valida y registra un nuevo funcionario completo.'''
         nombre = self.entry_nombre.get().strip()
         apellido = self.entry_apellido.get().strip()
         rol_uni = self.entry_rol.get().strip().upper()
@@ -217,24 +216,26 @@ class CrearFuncionarios(CTkFrame):
             messagebox.showwarning("Campos incompletos", "Por favor complete todos los campos obligatorios.")
             return
 
-        usuario = correo.split('@')[0]
-        contrasena_default = login.hash_contrasena("1")  # default
+        if rol_uni not in ['GENERAL', 'FUNCIONARIO', 'FODUN', 'CUIDADO']:
+            messagebox.showwarning("Rol inválido", "El rol en la universidad no es válido.")
+            return
+
+        usuario = correo.split('@')[0]  # sin uuid, como pediste
+        contrasena_default = login.hash_contrasena("1")
         estado = "ACTIVO"
 
         conexion = Conexion()
 
         try:
-            # Insert en personas
             conexion.ejecutar_consulta("""
                 INSERT INTO personas (usuario, nombre, apellido, hash_contrasena, estado, correo, rol_en_universidad, grupo_especial)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, [usuario, nombre, apellido, contrasena_default, estado, correo, rol_uni, grupo])
 
-            # Insert en rol_persona
             conexion.ejecutar_consulta("""
                 INSERT INTO rol_persona (personas_usuario, rol_nombre)
-                VALUES (?, ?)
-            """, [usuario, "FUNCIONARIO"])
+                VALUES (?, ?), (?, ?)
+            """, [usuario, "FUNCIONARIO", usuario, "MIEMBRO"])
 
             self.funcionarios_activos.append(correo)
             messagebox.showinfo("Éxito", f"Funcionario {nombre} registrado con éxito.")
@@ -243,14 +244,13 @@ class CrearFuncionarios(CTkFrame):
             messagebox.showerror("Error", f"Ocurrió un error al registrar: {e}")
 
     def cargar_funcionarios_activos(self):
-        '''Consulta la base de datos y devuelve solo los correos de funcionarios activos.'''
         conexion = Conexion()
         query = """
             SELECT p.correo
             FROM personas p
             JOIN rol_persona rp ON p.usuario = rp.personas_usuario
             JOIN rol r ON rp.rol_nombre = r.nombre
-            WHERE (r.nombre = 'FUNCIONARIO' OR r.nombre = 'ADMINISTRADOR')
+            WHERE r.nombre IN ('FUNCIONARIO', 'ADMINISTRADOR')
         """
         resultados = conexion.ejecutar_consulta(query)
         return [correo for (correo,) in resultados]
