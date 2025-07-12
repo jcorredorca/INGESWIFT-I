@@ -16,7 +16,7 @@ def create_afid_test():
     # Insert personas
     cursor.executemany("INSERT INTO personas (usuario, nombre, apellido, \
                        hash_contrasena, estado, correo, rol_en_universidad, grupo_especial) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-        ('user1', 'Ana', 'García', con1, 'ACTIVO', 'ana@example.com', 'GENERAL', None),
+        ('user1', 'Ana', 'García', con1, 'ACTIVO', 'ana@example.com', 'FUNCIONARIO', None),
         ('user2', 'Luis', 'Martínez', con1, 'ACTIVO', 'luis@example.com', 'FUNCIONARIO', None),
         ('user3', 'María', 'López', con1, 'ACTIVO', 'maria@example.com', 'GENERAL', 'JOVENES'),
         ('Admin0', 'Juan', 'Pérez', con1, 'INACTIVO', 'juan@example.com', 'FUNCIONARIO', None),
@@ -49,7 +49,7 @@ def create_afid_test():
     # Insert sesiones (proximas 2 semanas)
     base_date = datetime.now()
     actividades = ["PLUS", "CARDIO", "FUERZA", "FULLBODY", "SPINNING", "YOGA", "MIND BODY", "PRUEBAS FÍSICAS", "NUTRICIÓN"]
-    publicos = ["GENERAL", "FUNCIONARIOS", "FODUN"]
+    publicos = ["GENERAL", "FUNCIONARIO", "FODUN"]
     ubicaciones_ids = [1, 2, 3, 4, 5]  # IDs de ubicaciones insertadas en create_afid_database
     
     sesiones_data = []

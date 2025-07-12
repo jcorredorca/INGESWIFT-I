@@ -184,7 +184,6 @@ class GestionEstado(CTkFrame):
                 '¿Está seguro de inactivar a TODOS los miembros?\nEsta acción NO se puede deshacer')
 
         if confirmacion:
-            print('hola')
             usuarios = [usuario for usuario in self.activos.keys()]
             administrador.desactivar_miembros(usuarios)
 

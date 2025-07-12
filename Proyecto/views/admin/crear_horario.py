@@ -57,7 +57,7 @@ class CrearHorario(CTkFrame):
         corner_radius=1, dropdown_fg_color="#3d1c57", dropdown_text_color= "#f0f0f0",
         dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.1,
         anchor= 'center', button_color="#3d1c57", button_hover_color="#3d1c57",
-        values= ['PUBLICO','GENERAL', 'FUNCIONARIOS', 'FODUN'] )
+        values= ['PUBLICO','GENERAL', 'FUNCIONARIO', 'FODUN'] )
         self.publico.grid(row=1, column=1)
 
         #---Ubicacion---#

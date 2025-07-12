@@ -107,10 +107,30 @@ def recuperar_cupos(sesion):
     respuesta = Conexion().ejecutar_consulta(query_cupos, (sesion,))
     aforo = respuesta[0][0]
     if aforo == -1:
-        return True
+        return 'SIN RESERVA'
     query_reservas = '''SELECT COUNT(*)
         FROM reservas
         WHERE sesiones_id = ?'''
     respuesta = Conexion().ejecutar_consulta(query_reservas, (sesion,))
     reservas = respuesta[0][0]
     return aforo - reservas
+
+def rol_sesion(usuario, id_sesion):
+    '''Revisa que el rol de la persona sea el apropiado para la sesion
+    roles: 'GENERAL', 'FUNCIONARIO', 'FODUN', 'CUIDADO')'''
+    query_publico = '''SELECT publico
+            FROM sesiones
+            WHERE id = ?;'''
+    resultado = Conexion().ejecutar_consulta(query_publico, (id_sesion, ))
+    if resultado[0][0] == 'GENERAL':
+        return True
+
+    query = """ SELECT 1
+        FROM personas p
+        JOIN sesiones s ON s.id = ?
+        WHERE p.usuario = ?
+        AND p.rol_en_universidad = s.publico;
+        """
+
+    resultado = Conexion().ejecutar_consulta(query, (id_sesion, usuario))
+    return len(resultado) > 0

@@ -1,9 +1,9 @@
 ''' Vista del panel de horarios para miembros'''
 from os import path
 from datetime import datetime, timedelta
+from tkinter import messagebox
 from config import IMG_PATH
 from PIL import Image
-from tkinter import messagebox
 from customtkinter import CTkFrame, CTkOptionMenu, CTkImage, CTkLabel
 from services import general, miembros
 from ..components.horario_semanal import HorarioSemanal
@@ -36,30 +36,39 @@ class Miembros(CTkFrame):
 
         self.horario = HorarioSemanal(self, 'MIEMBRO')
         self.horario.grid(row=1, column=3, sticky='e', rowspan=7)
-
+        self.habilitar_celdas()
         self.revisar_y_actualizar()
 
 
     def habilitar_celdas(self):
         '''Habilita las celdas en las que se puede hacer reserva'''
+
         for columna in self.horario.celdas:
             for celda in columna:
+
                 plan = self.opciones_busqueda.get()
                 fecha_hora = celda.fecha_hora
                 id_sesion = general.hay_sesiones(plan, fecha_hora)
-                if id_sesion and miembros.sesion_disponible(id_sesion):
-                    if miembros.recuperar_estado(self.usuario) == 'ACTIVO':
-                        celda.unbind('<Button-1>')
-                        celda.bind('<Button-1>', self.crear_ventana)
-                    fg_color, hover_color = self.colores_correspondientes(id_sesion)
-                    celda.configure(text=miembros.recuperar_cupos(id_sesion))
-                    celda.update()
-                    celda.actualizar_colores(fg_color, hover_color)
-                else:
+
+                if id_sesion is False or fecha_hora < datetime.now():
                     celda.unbind('<Button-1>')
                     celda.configure(text='')
                     fg_color= "#f0f0f0"
                     hover_color ="#A8A4A4"
+                    celda.actualizar_colores(fg_color, hover_color)
+                else:
+                    estado_activo = miembros.recuperar_estado(self.usuario) == 'ACTIVO'
+                    publico_adecuado = miembros.rol_sesion(self.usuario, id_sesion)
+
+                    if estado_activo and miembros.sesion_disponible(id_sesion):
+                        celda.unbind('<Button-1>')
+                        funcion = self.crear_ventana if publico_adecuado else self.advertencia
+                        celda.bind('<Button-1>', funcion)
+
+                        celda.update()
+
+                    celda.configure(text=miembros.recuperar_cupos(id_sesion))
+                    fg_color, hover_color = self.colores_correspondientes(id_sesion)
                     celda.actualizar_colores(fg_color, hover_color)
 
     def revisar_y_actualizar(self):
@@ -67,6 +76,10 @@ class Miembros(CTkFrame):
         self.habilitar_celdas()
         self.after(5000,self.revisar_y_actualizar)
 
+    def advertencia(self, event):
+        '''Advierte que no pertenece al publico objetivo de la sesion'''
+        if event:
+            messagebox.showinfo('','No pertenece al publico objetivo de la sesión')
     def colores_correspondientes(self, id_sesion):
         '''Este metodo devuelve los colores correspondientes\
             dependiendo de si hay o no una reserva a el momento'''

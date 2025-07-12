@@ -39,7 +39,7 @@ class EditarHorario(CTkFrame):
                   text_color="#3d1c57",
                   hover_color="#FFB641").grid(row=1, column=1, sticky='we')
 
-        CTkButton(self.contenido, text = 'GUARDAR',
+        CTkButton(self.contenido, text = 'EDITAR',
                   font= self.fuente,
                   command=self.editar_sesion,
                   fg_color= "#F6A623",
@@ -103,7 +103,7 @@ class EditarHorario(CTkFrame):
         corner_radius=1, dropdown_fg_color="#3d1c57", dropdown_text_color= "#f0f0f0",
         dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.1,
         anchor= 'center', button_color="#3d1c57", button_hover_color="#3d1c57",
-        values= ['PUBLICO','GENERAL', 'FUNCIONARIOS', 'FODUN'] )
+        values= ['PUBLICO','GENERAL', 'FUNCIONARIO', 'FODUN'] )
         self.publico.grid(row=1, column=1)
         self.publico.set(publico)
 
@@ -136,7 +136,7 @@ class EditarHorario(CTkFrame):
         self.desplegable_funcionarios()
         self.desplegable_profesor()
 
-        CTkButton(self.contenido, text = 'EDITAR',
+        CTkButton(self.contenido, text = 'GUARDAR',
                   font= self.fuente,
                   command=self.actualizar_sesion,
                   fg_color= "#F6A623",

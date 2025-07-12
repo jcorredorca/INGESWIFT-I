@@ -1,9 +1,11 @@
+'''Creacion de la base de datos'''
 import sqlite3
 
 from config import DB_PATH
 
 
 def create_afid_database():
+    '''Esta funcion crea la base de datos'''
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -41,7 +43,7 @@ def create_afid_database():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS sesiones (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        publico TEXT NOT NULL CHECK(publico IN ('GENERAL', 'FUNCIONARIOS', 'FODUN')),
+        publico TEXT NOT NULL CHECK(publico IN ('GENERAL', 'FUNCIONARIO', 'FODUN')),
         fecha DATETIME NOT NULL,
         actividad_tipo TEXT NOT NULL,
         ubicaciones_id_ubicaciones INTEGER NOT NULL,

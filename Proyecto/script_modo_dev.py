@@ -8,7 +8,7 @@ if not os.path.exists(RUTA):
     #Creacion y configuracion db
     crear_db.create_afid_database()
     datos_test.create_afid_test()
-    print("La base de datos de virus ha sido actualizada.")
+
     print("La base de datos fue creada y configurada correctamente.\
           \nPara probar la aplicacion haga uso de las siguientes credenciales:\
           \n\tusr=Admin0 pwd=1")
