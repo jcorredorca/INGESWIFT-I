@@ -2,6 +2,7 @@ import sqlite3
 
 from config import DB_PATH
 
+
 def create_afid_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
