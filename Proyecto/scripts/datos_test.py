@@ -51,7 +51,7 @@ def create_afid_test():
     actividades = ["PLUS", "CARDIO", "FUERZA", "FULLBODY", "SPINNING", "YOGA", "MIND BODY", "PRUEBAS FÍSICAS", "NUTRICIÓN"]
     publicos = ["GENERAL", "FUNCIONARIO", "FODUN"]
     ubicaciones_ids = [1, 2, 3, 4, 5]  # IDs de ubicaciones insertadas en create_afid_database
-    
+
     sesiones_data = []
     for i in range(50):  # 50 sesiones de ejemplo
         fecha = base_date + timedelta(days=random.randint(0, 14), hours=random.randint(6, 20))
@@ -60,7 +60,7 @@ def create_afid_test():
         ubicacion_id = random.choice(ubicaciones_ids)
         
         sesiones_data.append((publico, fecha, actividad, ubicacion_id))
-    
+
     cursor.executemany("INSERT INTO sesiones (publico, fecha, actividad_tipo, ubicaciones_id_ubicaciones) VALUES (?, ?, ?, ?)", 
                       sesiones_data)
 
