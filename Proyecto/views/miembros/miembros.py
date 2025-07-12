@@ -4,8 +4,10 @@ from datetime import datetime, timedelta
 from config import IMG_PATH
 from PIL import Image
 from customtkinter import CTkFrame, CTkOptionMenu, CTkImage, CTkLabel
-from ..components.horario_semanal import HorarioSemanal
 from services import general, miembros
+from ..components.horario_semanal import HorarioSemanal
+from .state_horario import StateHorarioMiembros, Reservar, Eliminar
+
 
 class Miembros(CTkFrame):
     ''' Esta clase representa el panel de horarios para miembros '''
@@ -35,6 +37,41 @@ class Miembros(CTkFrame):
         self.horario.grid(row=1, column=3, sticky='e', rowspan=2)
 
 
+    def habilitar_celdas(self):
+        '''Habilita las celdas en las que se puede hacer reserva'''
+        for columna in self.horario.celdas:
+            for celda in columna:
+                plan = self.opciones_busqueda.get()
+                fecha_hora = celda.fecha_hora
+                id_sesion = general.hay_sesiones(plan, fecha_hora)
+                if id_sesion and miembros.sesion_disponible(id_sesion):
+                    if miembros.recuperar_estado(self.usuario) == 'ACTIVO':
+                        celda.unbind('<Button-1>')
+                        celda.bind('<Button-1>', self.crear_ventana)
+                    fg_color, hover_color = self.colores_correspondientes(id_sesion)
+                    celda.actualizar_colores(fg_color, hover_color)
+                else:
+                    celda.unbind('<Button-1>')
+                    fg_color= "#f0f0f0"
+                    hover_color ="#A8A4A4"
+                    celda.actualizar_colores(fg_color, hover_color)
+
+    def revisar_y_actualizar(self):
+        '''Este metodo actualiza la ventana de horario cada 30s'''
+        self.habilitar_celdas()
+
+        self.after(30000,self.revisar_y_actualizar)
+
+    def colores_correspondientes(self, id_sesion):
+        '''Este metodo devuelve los colores correspondientes\
+            dependiendo de si hay o no una reserva a el momento'''
+        usuario = self.usuario
+        if miembros.buscar_reserva(usuario, id_sesion):
+            return '#c3f7c8', '#e3fae3'
+        if miembros.hay_cupos_disponibles(id_sesion):
+            return '#fff7a1', '#fcfcca'
+        return '#ffd9d9', '#fff0f0'
+    
     def repartir_espacio(self):
         '''Reparte el espacio '''
 
@@ -67,6 +104,7 @@ class Miembros(CTkFrame):
     def actualizar_horario(self, actividad=None):
         '''Actualiza la ventana de horarios para el nuevo plan'''
         self.horario.actualizar_celdas_miembro(actividad)
+        self.habilitar_celdas()
 
     def abrir_imagen(self):
         '''Este metodo crea los objetos imagen para mostrarlo en un label'''
@@ -117,3 +155,18 @@ class Miembros(CTkFrame):
         self.imagen_convencion_label.configure(image= imagen_inicio_tk)
 
         self.master.update()
+
+    def crear_ventana(self, event):
+        '''Esta funcion crea la ventana emergente luego de un click'''
+        if event:
+            celda = event.widget
+            plan = self.opciones_busqueda.get()
+            fecha_hora = celda.master.fecha_hora
+            id_horario = general.hay_sesiones(plan, fecha_hora)
+
+
+            if miembros.buscar_reserva(self.usuario, id_horario):
+                ventana = StateHorarioMiembros(celda, Eliminar())
+            else:
+                ventana = StateHorarioMiembros(celda, Reservar())
+            ventana.renderizar_contenido()

@@ -39,7 +39,7 @@ class EditarHorario(CTkFrame):
                   text_color="#3d1c57",
                   hover_color="#FFB641").grid(row=1, column=1, sticky='we')
 
-        CTkButton(self.contenido, text = 'EDITAR',
+        CTkButton(self.contenido, text = 'GUARDAR',
                   font= self.fuente,
                   command=self.editar_sesion,
                   fg_color= "#F6A623",

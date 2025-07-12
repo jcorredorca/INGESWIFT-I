@@ -97,7 +97,7 @@ class HorarioSemanal(CTkFrame):
                 fg_color= "#f0f0f0"
                 hover_color ="#A8A4A4"
                 id_sesion = general.hay_sesiones(actividad, fecha)
-                if id_sesion:
+                if id_sesion and miembros.sesion_disponible(id_sesion):
 
                     fg_color, hover_color = self.colores_correspondientes(id_sesion)
 
