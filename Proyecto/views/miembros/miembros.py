@@ -23,7 +23,7 @@ class Miembros(CTkFrame):
         self.abrir_imagen()
 
         self.imagen_convencion_label = CTkLabel(self, text='')
-        self.imagen_convencion_label.grid(row=2, column=1, sticky="ns")
+        self.imagen_convencion_label.grid(row=5, column=1, sticky="n")
 
         self.actualizar_dimensiones_imagen()
 
@@ -32,7 +32,7 @@ class Miembros(CTkFrame):
         self.indicador_estado()
 
         self.horario = HorarioSemanal(self, 'MIEMBRO')
-        self.horario.grid(row=1, column=3, sticky='e', rowspan=2)
+        self.horario.grid(row=1, column=3, sticky='e', rowspan=7)
 
 
     def repartir_espacio(self):
@@ -47,6 +47,10 @@ class Miembros(CTkFrame):
         self.grid_columnconfigure(2, weight=1)
         self.grid_columnconfigure(3, weight=0)
         self.grid_columnconfigure(4, weight=1)
+        self.grid_columnconfigure(5, weight=0)
+        self.grid_columnconfigure(6, weight=1)
+        self.grid_columnconfigure(7, weight=0)
+        self.grid_columnconfigure(8, weight=1)
 
     def crear_menu_opciones(self):
         '''Este metodo crea el menu de opciones para escoger un plan'''
@@ -55,13 +59,13 @@ class Miembros(CTkFrame):
         fuente_opciones = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.012)), 'bold')
 
         self.opciones_busqueda = CTkOptionMenu(self, font=fuente_seleccion,
-        dropdown_font=fuente_opciones, fg_color= "#F6A623", text_color="#2e1045",
-        button_color="", button_hover_color="", corner_radius=0,
-        dropdown_fg_color="#3d1c57", dropdown_text_color= "#f0f0f0",
-        dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.2,
-        anchor= 'center', command= self.actualizar_horario,
-        values= ['Escoge tu Plan'] + general.recuperar_actividades()
-        )
+            dropdown_font=fuente_opciones, fg_color= "#F6A623", text_color="#2e1045",
+            button_color="", button_hover_color="", corner_radius=0,
+            dropdown_fg_color="#3d1c57", dropdown_text_color= "#f0f0f0",
+            dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.2,
+            anchor= 'center', command= self.actualizar_horario,
+            values= ['Escoge tu Plan'] + general.recuperar_actividades())
+
         self.opciones_busqueda.grid(row=1, column=1, sticky = 'n', padx=(5,0) )
 
     def actualizar_horario(self, actividad=None):
@@ -80,9 +84,9 @@ class Miembros(CTkFrame):
         '''Este metodo crea el indicador de la semana a editar'''
         fuente = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.02)), 'bold')
         semana = self.rango_semana_actual()
-        texto = 'Semana del '+ str(semana[0]) + ' al '+ str(semana[1])
-        self.label_semana = CTkLabel(self, text=texto, font=fuente)
-        self.label_semana.grid(row=0, column=1, columnspan=3)
+        texto = 'Semana del '+ str(semana[0]) + '\nal '+ str(semana[1])
+        self.label_semana = CTkLabel(self, text=texto, font=fuente, text_color='whitesmoke')
+        self.label_semana.grid(row=3, column=1)
 
     def rango_semana_actual(self):
         '''Crea el rango de una determinada semana'''
@@ -101,7 +105,7 @@ class Miembros(CTkFrame):
         texto = f'Actualmente estas: {estado}'
         color = '#ffd9d9' if estado == 'INACTIVO' else '#e3fae3'
         self.label_estado = CTkLabel(self, text=texto, font=fuente, text_color=color)
-        self.label_estado.grid(row=3, column=2, columnspan=3)
+        self.label_estado.grid(row=7, column=1)
 
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''

@@ -49,7 +49,8 @@ class Encabezado(CTkFrame):
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
 
-        frame_heigth = self.master.winfo_height()*2/3
+        factor = 2/3 if self.winfo_screenwidth() > 2000 else 1/3
+        frame_heigth = self.master.winfo_height()*factor
         new_width_un = frame_heigth * 370 / 200
         new_width_atun = frame_heigth * 631 / 215
 

@@ -203,7 +203,7 @@ class GestionEstado(CTkFrame):
             for miembro in self.activos:
                 if miembro == usuario_a_buscar:
                     boton = self.botones[miembro]
-                    messagebox.showinfo('Consulta exitosa', 
+                    messagebox.showinfo('Consulta exitosa',
                                         'El miembro se encuentra ACTIVO. ' +
                                         'Recorra los miembros activos hasta encontrarlo')
 

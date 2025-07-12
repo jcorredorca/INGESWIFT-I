@@ -63,9 +63,9 @@ class VentanaHorarios(CTkFrame):
         '''Este metodo crea el indicador de la semana a editar'''
         fuente = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.02)), 'bold')
         self.semana = self.rango_semana_siguiente()
-        texto = 'Semana del '+ str(self.semana[0]) + ' al '+ str(self.semana[1])
-        self.label_semana = CTkLabel(self, text=texto, font=fuente)
-        self.label_semana.grid(row=0, column=1, columnspan=3)
+        texto = 'Semana del '+ str(self.semana[0]) + ' \nal '+ str(self.semana[1])
+        self.label_semana = CTkLabel(self, text=texto, font=fuente, text_color='whitesmoke')
+        self.label_semana.grid(row=2, column=1)
 
     def rango_semana_siguiente(self):
         '''Crea el rango de una determinada semana'''
