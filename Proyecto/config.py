@@ -4,6 +4,7 @@ import sys
 
 from dotenv import load_dotenv
 
+
 def resource_path(relative_path):
     """Obtiene la ruta absoluta al recurso, compatible con PyInstaller."""
     try:
@@ -18,6 +19,9 @@ DB_PATH = resource_path(os.path.join("data", "AFID.db"))
 
 # Ruta absoluta a la carpeta de imagenes del proyecto
 IMG_PATH = resource_path(os.path.join("assets", "images"))
+
+# Ruta absoluta al icono de la aplicación
+APP_ICON = resource_path(os.path.join("assets", "images", "iconATUN.ico"))
 
 # Configuración de la aplicación
 APP_TITLE = "ATUN"

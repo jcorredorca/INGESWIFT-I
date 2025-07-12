@@ -2,6 +2,7 @@
 from hashlib import sha256
 from datetime import datetime, timedelta
 from models.conexion import Conexion
+from .general import enviar_correo
 
 def recuperar_estado(usuario):
     '''Esta funcion recupera el estado de un miembro'''
@@ -63,7 +64,19 @@ def crear_reserva(codigo, sesion, usuario):
     '''Esta funcion crea una nueva reserva para el codigo dado'''
     query_reserva = '''    INSERT INTO reservas (codigo, sesiones_id, personas_usuario)
     VALUES (?, ?, ?) '''
-    Conexion().ejecutar_consulta(query_reserva, (codigo, sesion, usuario))
+    query_correo= 'SELECT correo FROM personas WHERE usuario = ?'
+    conexion = Conexion()
+
+    conexion.ejecutar_consulta(query_reserva, (codigo, sesion, usuario))
+    correo = conexion.ejecutar_consulta(query_correo, [usuario])
+
+    enviar_correo(correo[0][0], 'ATUN - Confirmación de reserva',
+        contenido_html=f"""
+        <h2>¡Hola!</h2>
+        <p>Tu reserva en el sistema ATUN ha sido <strong>registrada correctamente</strong>.</p>
+        <p>Tu código de acceso es: <strong>{codigo}</strong>.</p>
+        <p>Recuerda presentarlo antes de entrar a la sesión para la que reservaste</p>
+        """ )
 
 def eliminar_reserva(codigo):
     '''Esta funcion crea una nueva reserva para el codigo dado'''

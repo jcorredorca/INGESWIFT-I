@@ -45,9 +45,10 @@ class CrearFuncionarios(CTkFrame):
         lista_scroll = CTkScrollableFrame(self.seccion, fg_color="#3d1c57")
         lista_scroll.grid(row=1, column=1, padx=30, pady=(10, 20), sticky="nsew")
 
-        for correo in self.funcionarios_activos:
-            CTkLabel(lista_scroll, text=correo, text_color="white",
-                    font=("Libre Baskerville", 28), anchor="center", justify="center")\
+        for nombre, apellido, correo in self.funcionarios_activos:
+            texto = f"👤 {nombre} {apellido}\n📧 {correo}"
+            CTkLabel(lista_scroll, text=texto, text_color="white",
+                    font=("Libre Baskerville", 26), anchor="center", justify="center")\
                     .pack(fill="x", pady=6, padx=20)
 
         CTkButton(self.seccion, text="Registrar Funcionario",
@@ -286,11 +287,12 @@ class CrearFuncionarios(CTkFrame):
         '''Carga los correos de los funcionarios activos desde la base de datos.'''
         conexion = Conexion()
         query = """
-            SELECT p.correo
+            SELECT p.nombre, p.apellido, p.correo
             FROM personas p
             JOIN rol_persona rp ON p.usuario = rp.personas_usuario
             JOIN rol r ON rp.rol_nombre = r.nombre
             WHERE r.nombre IN ('FUNCIONARIO', 'ADMINISTRADOR')
+            GROUP BY p.usuario
         """
         resultados = conexion.ejecutar_consulta(query)
-        return [correo for (correo,) in resultados]
+        return [(nombre, apellido, correo) for (nombre, apellido, correo) in resultados]
