@@ -6,7 +6,7 @@ from services import general, miembros
 
 class HorarioSemanal(CTkFrame):
     '''Clase que crea el horario semanal'''
-    def __init__(self, master, rol):
+    def __init__(self, master, rol, horario=0):
         super().__init__(master)
 
         self.configure(fg_color="#3d1c57", corner_radius=10)
@@ -14,7 +14,10 @@ class HorarioSemanal(CTkFrame):
         self.rowconfigure(tuple(range(15)), weight=1)
 
         if rol == 'ADMINISTRADOR':
-            self.dias = self.dias_semana_siguiente()
+            if horario == 0:
+                self.dias = self.dias_semana_siguiente()
+            else:
+                self.dias = self.dias_semana_actual()
         else:
             self.dias = self.dias_semana_actual()
 
