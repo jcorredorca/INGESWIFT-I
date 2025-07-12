@@ -40,6 +40,7 @@ def redirigir_pantalla_admin(origen):
 def log_out(master):
     '''Esta fucnion devuelve al usuario a la ventana principal'''
     master.contenido.destroy()
+    master.usuario = None
     master.contenido = inicio.Inicio(master)
     master.contenido.grid(row=1, column=0, sticky="nsew")
     for widget in master.encabezado.logout.winfo_children():

@@ -12,6 +12,7 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("ATUN")
+        self.usuario = None
         self.configure(fg_color = "#09FF00")
         self.configurar_dimensiones()
         self.repartir_espacio()

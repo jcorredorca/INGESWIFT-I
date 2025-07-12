@@ -1,8 +1,10 @@
+import re
 from tkinter import messagebox
 
-from models.conexion import Conexion
 from customtkinter import (CTkButton, CTkEntry, CTkFrame, CTkLabel,
-                           CTkScrollableFrame)
+                           CTkOptionMenu, CTkScrollableFrame)
+from models.conexion import Conexion
+from services import login
 
 
 class CrearFuncionarios(CTkFrame):
@@ -31,6 +33,7 @@ class CrearFuncionarios(CTkFrame):
 
     def mostrar_lista_funcionarios(self):
         '''Muestra la lista de funcionarios activos en una sección scrollable.'''
+        self.funcionarios_activos = self.cargar_funcionarios_activos()
         for widget in self.seccion.winfo_children():
             widget.destroy()
 
@@ -94,14 +97,42 @@ class CrearFuncionarios(CTkFrame):
             messagebox.showwarning("Campo vacío", "Por favor ingrese un correo antes de validar.")
             return
 
-        conexion = Conexion()
-        query = "SELECT correo FROM personas WHERE correo = ?"
-        resultado = conexion.ejecutar_consulta(query, [correo])
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", correo):
+            messagebox.showwarning("Correo inválido", "Por favor ingrese un correo válido.")
+            return
 
-        if resultado:
+        conexion = Conexion()
+
+        query_usuario = "SELECT usuario FROM personas WHERE correo = ?"
+        resultado = conexion.ejecutar_consulta(query_usuario, [correo])
+
+        if not resultado:
+            self.mostrar_formulario_completo(correo)
+            return
+
+        usuario = resultado[0][0]
+
+        query_funcionario = """
+            SELECT 1 FROM rol_persona
+            WHERE personas_usuario = ? AND rol_nombre = 'FUNCIONARIO'
+        """
+        es_funcionario = conexion.ejecutar_consulta(query_funcionario, [usuario])
+
+        if es_funcionario:
+            messagebox.showerror("Acción inválida", "El usuario ya es Funcionario. Ingrese un correo válido.")
+            return
+
+        query_miembro = """
+            SELECT 1 FROM rol_persona
+            WHERE personas_usuario = ? AND rol_nombre = 'MIEMBRO'
+        """
+        es_miembro = conexion.ejecutar_consulta(query_miembro, [usuario])
+
+        if es_miembro:
             self.mostrar_confirmacion_existente(correo)
         else:
             self.mostrar_formulario_completo(correo)
+
 
     def mostrar_confirmacion_existente(self, correo):
         '''Muestra confirmación si el correo ya está en la base de datos.'''
@@ -139,78 +170,127 @@ class CrearFuncionarios(CTkFrame):
         self.seccion.grid_columnconfigure((0,1,2), weight=1)
 
         CTkButton(self.seccion, text="←", width=80, height=70,
-                  font=("Segoe UI", 40, "bold"), fg_color="#f6a623",
-                  hover_color="#d18c1a", text_color="#2e1045",
-                  command=self.mostrar_formulario_correo)\
+                font=("Segoe UI", 40, "bold"), fg_color="#f6a623",
+                hover_color="#d18c1a", text_color="#2e1045",
+                command=self.mostrar_formulario_correo)\
                     .grid(row=0, column=0, padx=(30, 0), sticky="w")
 
         CTkLabel(self.seccion, text="MÓDULO DE REGISTRO",
-                 font=("Libre Baskerville", 56, "bold"), text_color="white")\
+                font=("Libre Baskerville", 56, "bold"), text_color="white")\
             .grid(row=1, column=1, pady=(40, 20))
 
-        self.entry_nombre = CTkEntry(self.seccion, placeholder_text="Nombre completo",
-                                     font=("Libre Baskerville", 32), width=400,
-                                     fg_color="white", text_color="black")
+        self.entry_nombre = CTkEntry(self.seccion, placeholder_text="Nombre *",
+                                    font=("Libre Baskerville", 32), width=400,
+                                    fg_color="white", text_color="black")
         self.entry_nombre.grid(row=2, column=1, pady=(10, 10))
 
-        self.entry_rol = CTkEntry(self.seccion, placeholder_text="Rol en la universidad",
-                                  font=("Libre Baskerville", 32), width=400,
-                                  fg_color="white", text_color="black")
-        self.entry_rol.grid(row=3, column=1, pady=(10, 10))
+        self.entry_apellido = CTkEntry(self.seccion, placeholder_text="Apellido *",
+                                    font=("Libre Baskerville", 32), width=400,
+                                    fg_color="white", text_color="black")
+        self.entry_apellido.grid(row=3, column=1, pady=(10, 10))
 
-        self.entry_correo_final = CTkEntry(self.seccion)
+        self.opciones_rol = ["GENERAL", "FUNCIONARIO", "FODUN", "CUIDADO"]
+        self.rol_seleccionado = CTkOptionMenu(self.seccion, values=self.opciones_rol,
+                                            font=("Libre Baskerville", 32), width=400,
+                                            fg_color="white", button_color="#e5e5e5",
+                                            text_color="black", dropdown_fg_color="white",
+                                            dropdown_text_color="black")
+        self.rol_seleccionado.set("GENERAL")
+        self.rol_seleccionado.grid(row=4, column=1, pady=(10, 10))
+
+        self.entry_grupo = CTkEntry(self.seccion, placeholder_text="Grupo especial",
+                                    font=("Libre Baskerville", 32), width=400,
+                                    fg_color="white", text_color="black")
+        self.entry_grupo.grid(row=5, column=1, pady=(10, 10))
+
+        self.entry_correo_final = CTkEntry(self.seccion,
+                                           font=("Libre Baskerville", 32),
+                                           width=400,
+                                           fg_color="white",
+                                           text_color="black")
         self.entry_correo_final.insert(0, correo)
         self.entry_correo_final.configure(state="disabled")
-        self.entry_correo_final.grid(row=4, column=1, pady=(10, 20))
+        self.entry_correo_final.grid(row=6, column=1, pady=(10, 20))
 
-        CTkButton(self.seccion, text="VALIDAR",
-                  font=("Segoe UI", 36, "bold"), width=240,
-                  fg_color="#f6a623", hover_color="#d18c1a",
-                  text_color="#2e1045", corner_radius=10,
-                  command=self.registrar_nuevo).grid(row=5, column=1, pady=(0, 30))
+        CTkButton(self.seccion, text="REGISTRAR",
+                font=("Segoe UI", 36, "bold"), width=240,
+                fg_color="#f6a623", hover_color="#d18c1a",
+                text_color="#2e1045", corner_radius=10,
+                command=self.registrar_nuevo)\
+            .grid(row=7, column=1, pady=(0, 30))
 
     def registrar_existente(self, correo):
-        '''Agrega a la lista de activos a un funcionario ya registrado si aún no está.'''
+        '''Agrega a la base de datos el rol FUNCIONARIO si aún no lo tiene'''
         conexion = Conexion()
-        query = "SELECT correo FROM personas WHERE correo = ?"
+        query = "SELECT usuario FROM personas WHERE correo = ?"
         resultado = conexion.ejecutar_consulta(query, [correo])
 
         if resultado:
-            nombre_completo = f"{correo}" #PRUEBA
-        else:
-            nombre_completo = correo  # fallback
+            usuario = resultado[0][0]
 
-        if nombre_completo not in self.funcionarios_activos:
-            self.funcionarios_activos.append(nombre_completo)
+            rol_existente = conexion.ejecutar_consulta("""
+                SELECT 1 FROM rol_persona WHERE personas_usuario = ? AND rol_nombre = 'FUNCIONARIO'
+            """, [usuario])
 
-        self.mostrar_lista_funcionarios()
+            if not rol_existente:
+                conexion.ejecutar_consulta("""
+                    INSERT INTO rol_persona (personas_usuario, rol_nombre)
+                    VALUES (?, 'FUNCIONARIO')
+                """, [usuario])
+
+            if correo not in self.funcionarios_activos:
+                self.funcionarios_activos.append(correo)
+
+            self.mostrar_lista_funcionarios()
 
     def registrar_nuevo(self):
-        '''Valida y registra un nuevo funcionario, si no existe ya en la lista.'''
+        '''Agrega a la base de datos a un nuevo funcionario.'''
         nombre = self.entry_nombre.get().strip()
-        rol = self.entry_rol.get().strip()
+        apellido = self.entry_apellido.get().strip()
+        rol_uni = self.rol_seleccionado.get()
+        grupo = self.entry_grupo.get().strip().upper() or None
+        correo = self.entry_correo_final.get().strip().lower()
 
-        if not nombre or not rol:
-            messagebox.showwarning("Campos incompletos", "Por favor complete todos los campos.")
+        if not nombre or not apellido or not rol_uni or not correo:
+            messagebox.showwarning("Campos incompletos", "Por favor complete todos los campos obligatorios.")
             return
 
-        if nombre in self.funcionarios_activos:
-            messagebox.showinfo("Ya registrado", f"{nombre} ya se encuentra en la lista de funcionarios.")
+        if rol_uni not in ['GENERAL', 'FUNCIONARIO', 'FODUN', 'CUIDADO']:
+            messagebox.showwarning("Rol inválido", "El rol en la universidad no es válido.")
             return
 
-        self.funcionarios_activos.append(nombre)
-        self.mostrar_lista_funcionarios()
+        usuario = correo.split('@')[0]
+        contrasena_default = login.hash_contrasena("1")
+        estado = "ACTIVO"
+
+        conexion = Conexion()
+
+        try:
+            conexion.ejecutar_consulta("""
+                INSERT INTO personas (usuario, nombre, apellido, hash_contrasena, estado, correo, rol_en_universidad, grupo_especial)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, [usuario, nombre, apellido, contrasena_default, estado, correo, rol_uni, grupo])
+
+            conexion.ejecutar_consulta("""
+                INSERT INTO rol_persona (personas_usuario, rol_nombre)
+                VALUES (?, ?), (?, ?)
+            """, [usuario, "FUNCIONARIO", usuario, "MIEMBRO"])
+
+            self.funcionarios_activos.append(correo)
+            messagebox.showinfo("Éxito", f"Funcionario {nombre} registrado con éxito.")
+            self.mostrar_lista_funcionarios()
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al registrar: {e}")
 
     def cargar_funcionarios_activos(self):
-        '''Consulta la base de datos y devuelve solo los correos de funcionarios activos.'''
+        '''Carga los correos de los funcionarios activos desde la base de datos.'''
         conexion = Conexion()
         query = """
             SELECT p.correo
             FROM personas p
             JOIN rol_persona rp ON p.usuario = rp.personas_usuario
             JOIN rol r ON rp.rol_nombre = r.nombre
-            WHERE (r.nombre = 'FUNCIONARIO' OR r.nombre = 'ADMINISTRADOR')
-            AND p.estado = 'ACTIVO'
+            WHERE r.nombre IN ('FUNCIONARIO', 'ADMINISTRADOR')
         """
         resultados = conexion.ejecutar_consulta(query)
         return [correo for (correo,) in resultados]

@@ -57,16 +57,6 @@ def asignar_funcionarios(funcionarios, sesion, profesor):
 
     Conexion().ejecutar_consulta(query_rel_funcionario, (profesor, sesion, 'SI'))
 
-def hay_sesiones(plan, fecha_hora):
-    '''Devuelve el id de la sesión si existe
-    una sesión para ese plan y fecha, o False si no existe'''
-    query = '''SELECT id FROM sesiones WHERE actividad_tipo = ? AND fecha = ?'''
-    resultado = Conexion().ejecutar_consulta(query, (plan, fecha_hora))
-    if resultado:
-        return resultado[0][0]
-
-    return False
-
 def eliminar_sesion(id_sesion):
     '''Elimina una sesión y todas sus relaciones'''
     # Borra relaciones en funcionarios_en_sesion

@@ -1,10 +1,11 @@
-import sqlite3
-from datetime import datetime, timedelta
 import random
+import sqlite3
 import string
+from datetime import datetime, timedelta
 
 from config import DB_PATH
 from services import login
+
 
 def create_afid_test():
     conn = sqlite3.connect(DB_PATH)
@@ -121,3 +122,4 @@ def create_afid_test():
 
 if __name__ == "__main__":
     create_afid_test()
+    

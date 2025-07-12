@@ -143,7 +143,7 @@ def create_afid_database():
     conn.commit()
     cursor.close()
     conn.close()
-    print("Database AFID.db created successfully with all tables.")
+    print("La base de datos AFID.db ha sido creada con todas sus tablas")
 
 if __name__ == "__main__":
     create_afid_database()

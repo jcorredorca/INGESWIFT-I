@@ -2,18 +2,22 @@
 from datetime import time, datetime, timedelta
 from customtkinter import CTkFrame, CTkLabel
 from .sesion_celda import SesionCelda
-from services import administrador
+from services import general, miembros
 
 class HorarioSemanal(CTkFrame):
     '''Clase que crea el horario semanal'''
-    def __init__(self, master):
+    def __init__(self, master, rol):
         super().__init__(master)
 
         self.configure(fg_color="#3d1c57", corner_radius=10)
         self.columnconfigure(tuple(range(7)), weight=1)
         self.rowconfigure(tuple(range(15)), weight=1)
 
-        self.dias = []
+        if rol == 'ADMINISTRADOR':
+            self.dias = self.dias_semana_siguiente()
+        else:
+            self.dias = self.dias_semana_actual()
+
         self.horas = self.horas = [
             f"{time(hour=h).strftime('%I:%M')} - {time(hour=h+1).strftime('%I:%M %p')}"
             for h in range(6, 20)]
@@ -36,14 +40,12 @@ class HorarioSemanal(CTkFrame):
             label = CTkLabel(self, text=dia, font=fuente_dias, text_color='white',
                              width= self.winfo_screenwidth() * factor)
             label.grid(row=0, column=col, sticky="nsew", padx=10, pady=10)
-            self.dias.append(label)
 
     def crear_horario(self):
         '''Crea el resto del horario incluyendo los bloques horarios'''
 
         fuente_horas = ("Segoe UI", max(15,int(self.winfo_screenwidth() * 0.01)))
 
-        dias = self.dias_semana()
         horas = self.tiempos_dia()
 
         plan = self.master.opciones_busqueda.get()
@@ -57,10 +59,10 @@ class HorarioSemanal(CTkFrame):
 
             # Celdas de Lunes a Sábado
             for col in range(1, 7):
-                fecha = datetime.combine(dias[col-1], horas[fila-1])
+                fecha = datetime.combine(self.dias[col-1], horas[fila-1])
                 fg_color= "#f0f0f0"
                 hover_color ="#A8A4A4"
-                if administrador.hay_sesiones(plan, fecha):
+                if general.hay_sesiones(plan, fecha):
                     fg_color = '#c3f7c8'
                     hover_color = '#e3fae3'
 
@@ -70,25 +72,60 @@ class HorarioSemanal(CTkFrame):
 
             self.celdas.append(fila_celdas)
 
-    def actualizar_celdas(self, actividad):
+    def actualizar_celdas_administrador(self, actividad):
         '''Actualiza el estado de las celdas'''
-        dias = self.dias_semana()
         horas = self.tiempos_dia()
         for i_fila, fila in enumerate(self.celdas):
             for i_columna, columna in enumerate(fila):
                 columna :SesionCelda = columna
-                fecha = datetime.combine(dias[i_columna], horas[i_fila])
+                fecha = datetime.combine(self.dias[i_columna], horas[i_fila])
                 fg_color= "#f0f0f0"
                 hover_color ="#A8A4A4"
-                if administrador.hay_sesiones(actividad, fecha):
+                if general.hay_sesiones(actividad, fecha):
                     fg_color = '#c3f7c8'
                     hover_color = '#e3fae3'
                 columna.actualizar_colores(fg_color, hover_color)
 
-    def dias_semana(self):
+    def actualizar_celdas_miembro(self, actividad):
+        '''Actualiza el estado de las celdas'''
+
+        horas = self.tiempos_dia()
+        for i_fila, fila in enumerate(self.celdas):
+            for i_columna, columna in enumerate(fila):
+                columna :SesionCelda = columna
+                fecha = datetime.combine(self.dias[i_columna], horas[i_fila])
+                fg_color= "#f0f0f0"
+                hover_color ="#A8A4A4"
+                id_sesion = general.hay_sesiones(actividad, fecha)
+                if id_sesion:
+
+                    fg_color, hover_color = self.colores_correspondientes(id_sesion)
+
+                columna.actualizar_colores(fg_color, hover_color)
+
+    def colores_correspondientes(self, id_sesion):
+        '''Este metodo devuelve los colores correspondientes\
+            dependiendo de si hay o no una reserva a el momento'''
+        usuario = self.master.master.usuario
+        if miembros.buscar_reserva(usuario, id_sesion):
+            return '#c3f7c8', '#e3fae3'
+        if miembros.hay_cupos_disponibles(id_sesion):
+            return '#fff7a1', '#fcfcca'
+        return '#ffd9d9', '#fff0f0'
+
+    def dias_semana_siguiente(self):
         '''Devuelve una lista con los días de lunes a sábado de la próxima semana'''
         hoy = datetime.now()
         proximo_lunes = hoy - timedelta(days=hoy.weekday()) + timedelta(days=7)
+
+        # Generar días de lunes a sábado
+        dias = [(proximo_lunes + timedelta(days=i)).date() for i in range(6)]
+        return dias
+
+    def dias_semana_actual(self):
+        '''Devuelve una lista con los días de lunes a sábado de la semana'''
+        hoy = datetime.now()
+        proximo_lunes = hoy - timedelta(days=hoy.weekday())
 
         # Generar días de lunes a sábado
         dias = [(proximo_lunes + timedelta(days=i)).date() for i in range(6)]
