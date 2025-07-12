@@ -52,7 +52,7 @@ class Funcionario(CTkFrame):
                                         )
         self.opciones_busqueda.grid(row=1, column=1, sticky = 'n')
 
-        self.boton_miembros = CTkButton(self, text='GESTIONAR MIEMBROS',
+        self.boton_miembros = CTkButton(self, text='CREAR MIEMBROS',
                                         anchor='center', font=fuente_opciones,
                                         fg_color="#F6A623", text_color="#2e1045",
                                         cursor="hand2", hover_color="#d38e14",

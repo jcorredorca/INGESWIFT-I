@@ -110,3 +110,40 @@ def actualizar_publico_ubicacion(id_sesion, publico, ubicacion):
                             ubicaciones_id_ubicaciones =?
                             WHERE id =?;'''
     Conexion().ejecutar_consulta(query_actualizacion, (publico,  id_ubicacion, id_sesion))
+
+def recuperar_miembros_activos() -> dict:
+    '''Recupera los miembros activos del sistema'''
+    query_activos = '''SELECT p.nombre, p.apellido, p.usuario
+                    FROM personas p
+                    JOIN rol_persona rp ON p.usuario = rp.personas_usuario
+                    WHERE rp.rol_nombre = 'MIEMBRO' AND p.estado = 'ACTIVO';'''
+    respuesta = Conexion().ejecutar_consulta(query_activos)
+    miembros_activos = {miembro[2] : miembro[0]+' '+miembro[1] for miembro in respuesta}
+
+    return miembros_activos
+
+def recuperar_miembros_inactivos() -> dict:
+    '''Recupera los miembros inactivos del sistema'''
+    query_inactivos = '''SELECT p.nombre, p.apellido, p.usuario
+                    FROM personas p
+                    JOIN rol_persona rp ON p.usuario = rp.personas_usuario
+                    WHERE rp.rol_nombre = 'MIEMBRO' AND p.estado = 'INACTIVO';'''
+    respuesta = Conexion().ejecutar_consulta(query_inactivos)
+    miembros_inactivos = {miembro[2]: miembro[0]+' '+miembro[1] for miembro in respuesta}
+
+    return miembros_inactivos
+
+def activar_miembros(usuarios):
+    '''Esta funcion cambia el estado de los usuarios a activo'''
+
+    query_upd_estado = '''UPDATE personas SET estado = 'ACTIVO' WHERE usuario = ?'''
+
+    for usuario in usuarios:
+        Conexion().ejecutar_consulta(query_upd_estado,[usuario])
+
+def desactivar_miembros(usuarios):
+    '''Esta funcion cambia el estado de los usuarios a inactivo'''
+    query_upd_estado = '''UPDATE personas SET estado = 'INACTIVO' WHERE usuario = ?'''
+
+    for usuario in usuarios:
+        Conexion().ejecutar_consulta(query_upd_estado,[usuario])
