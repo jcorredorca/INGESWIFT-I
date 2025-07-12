@@ -1,9 +1,12 @@
 '''Ventana principal de atun. 
     Inicia el encabezado y pie de pagina'''
+import os
 
 import customtkinter
-from .components import encabezado,pie_de_pagina
+
+from .components import encabezado, pie_de_pagina
 from .inicio import inicio
+
 
 class App(customtkinter.CTk):
     '''Representa la ventana  sobre la cual se pondran todos los elementos'''
@@ -13,6 +16,8 @@ class App(customtkinter.CTk):
 
         self.title("ATUN")
         self.usuario = None
+        icon_path = os.path.join(os.path.dirname(__file__), "..", "icon_atun.ico")
+        self.iconbitmap(icon_path)
         self.configure(fg_color = "#09FF00")
         self.configurar_dimensiones()
         self.repartir_espacio()
