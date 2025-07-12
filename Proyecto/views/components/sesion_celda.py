@@ -10,9 +10,10 @@ class SesionCelda(CTkLabel):
         self.fg_color = fg_color
         self.hover_color = hover_color
         self.configure(fg_color=self.fg_color,
-                       text='',
+                       text='', text_color="#616161",
                        corner_radius=3,
-                       cursor="hand2")
+                       cursor="hand2",
+                       font = ("Segoe UI",15, 'bold'))
         self.fecha_hora= fecha_hora
 
         self.bind("<Enter>", self.entrada)

@@ -96,3 +96,21 @@ def sesion_disponible(sesion):
     dos_horas_despues = ahora + timedelta(hours=2)
 
     return ahora <= fecha_sesion <= dos_horas_despues
+
+def recuperar_cupos(sesion):
+    '''Este metodo recupera el numero de cupos disponibles para una sesion'''
+    query_cupos = '''SELECT actividad.aforo
+        FROM sesiones
+        JOIN actividad ON sesiones.actividad_tipo = actividad.tipo
+        WHERE sesiones.id = ?'''
+
+    respuesta = Conexion().ejecutar_consulta(query_cupos, (sesion,))
+    aforo = respuesta[0][0]
+    if aforo == -1:
+        return True
+    query_reservas = '''SELECT COUNT(*)
+        FROM reservas
+        WHERE sesiones_id = ?'''
+    respuesta = Conexion().ejecutar_consulta(query_reservas, (sesion,))
+    reservas = respuesta[0][0]
+    return aforo - reservas
