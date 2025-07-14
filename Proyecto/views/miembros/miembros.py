@@ -3,6 +3,7 @@ from os import path
 from datetime import datetime, timedelta
 from config import IMG_PATH
 from PIL import Image
+from tkinter import messagebox
 from customtkinter import CTkFrame, CTkOptionMenu, CTkImage, CTkLabel
 from services import general, miembros
 from ..components.horario_semanal import HorarioSemanal
@@ -25,7 +26,7 @@ class Miembros(CTkFrame):
         self.abrir_imagen()
 
         self.imagen_convencion_label = CTkLabel(self, text='')
-        self.imagen_convencion_label.grid(row=5, column=1, sticky="n")
+        self.imagen_convencion_label.grid(row=4, column=1, sticky="n")
 
         self.actualizar_dimensiones_imagen()
 
@@ -35,6 +36,8 @@ class Miembros(CTkFrame):
 
         self.horario = HorarioSemanal(self, 'MIEMBRO')
         self.horario.grid(row=1, column=3, sticky='e', rowspan=7)
+
+        self.revisar_y_actualizar()
 
 
     def habilitar_celdas(self):
@@ -49,9 +52,12 @@ class Miembros(CTkFrame):
                         celda.unbind('<Button-1>')
                         celda.bind('<Button-1>', self.crear_ventana)
                     fg_color, hover_color = self.colores_correspondientes(id_sesion)
+                    celda.configure(text=miembros.recuperar_cupos(id_sesion))
+                    celda.update()
                     celda.actualizar_colores(fg_color, hover_color)
                 else:
                     celda.unbind('<Button-1>')
+                    celda.configure(text='')
                     fg_color= "#f0f0f0"
                     hover_color ="#A8A4A4"
                     celda.actualizar_colores(fg_color, hover_color)
@@ -59,8 +65,7 @@ class Miembros(CTkFrame):
     def revisar_y_actualizar(self):
         '''Este metodo actualiza la ventana de horario cada 30s'''
         self.habilitar_celdas()
-
-        self.after(30000,self.revisar_y_actualizar)
+        self.after(5000,self.revisar_y_actualizar)
 
     def colores_correspondientes(self, id_sesion):
         '''Este metodo devuelve los colores correspondientes\
@@ -71,7 +76,7 @@ class Miembros(CTkFrame):
         if miembros.hay_cupos_disponibles(id_sesion):
             return '#fff7a1', '#fcfcca'
         return '#ffd9d9', '#fff0f0'
-    
+
     def repartir_espacio(self):
         '''Reparte el espacio '''
 
@@ -79,6 +84,8 @@ class Miembros(CTkFrame):
         self.grid_rowconfigure(1, weight=0)
         self.grid_rowconfigure(2, weight=0)
         self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(4, weight=1)
+        self.grid_rowconfigure(5, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=1)
@@ -143,7 +150,7 @@ class Miembros(CTkFrame):
         texto = f'Actualmente estas: {estado}'
         color = '#ffd9d9' if estado == 'INACTIVO' else '#e3fae3'
         self.label_estado = CTkLabel(self, text=texto, font=fuente, text_color=color)
-        self.label_estado.grid(row=7, column=1)
+        self.label_estado.grid(row=5, column=1)
 
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
@@ -170,7 +177,24 @@ class Miembros(CTkFrame):
 
 
             if miembros.buscar_reserva(self.usuario, id_horario):
-                ventana = StateHorarioMiembros(celda, Eliminar())
+
+                if not self.fuera_de_intervalo(fecha_hora):
+                    ventana = StateHorarioMiembros(celda, Eliminar())
+                else:
+                    messagebox.showinfo('Ups','No es posible cancelar tu reserva.' \
+                    '\nTienes hasta 15 minutos antes de la sesion para cancelar una')
+                    return
+
             else:
                 ventana = StateHorarioMiembros(celda, Reservar())
             ventana.renderizar_contenido()
+
+    def fuera_de_intervalo(self, fecha_hora:datetime) -> bool:
+        """Devuelve False si estamos entre el minuto 45 y 
+        el siguiente cambio de hora (inclusive),
+        y True en cualquier otro minuto."""
+        ahora = datetime.now()
+        minuto = ahora.minute
+        hora = ahora.hour
+
+        return (45 <= minuto <= 59) and (hora == fecha_hora.hour-1)

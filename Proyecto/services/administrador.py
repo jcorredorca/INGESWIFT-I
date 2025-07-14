@@ -23,10 +23,11 @@ def recuperar_ubicaciones():
 
 def recuperar_id_ubicacion(nombre_ubicacion):
     '''Esta funcion trae el id de ubicacion dado un nombre'''
+    print('---\n',nombre_ubicacion)
     query_ubi = '''SELECT id_ubicaciones FROM ubicaciones where ubicacion = ?'''
     respuesta = Conexion().ejecutar_consulta(query_ubi, (nombre_ubicacion,))
-    id_ubicacion = [ubicacion[0] for ubicacion in respuesta]
 
+    id_ubicacion = [ubicacion[0] for ubicacion in respuesta]
     return id_ubicacion[0]
 
 def crear_horario(parametros):

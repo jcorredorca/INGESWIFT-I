@@ -10,7 +10,7 @@ class Reservar(CTkFrame):
         super().__init__(master)
         self.master  = master
         self.usuario = self.master.master.master.master.master.usuario
-        self.fuente = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.021)), 'bold')
+        self.fuente = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.018)), 'bold')
         self.celda = self.master.master.master
         seleccion_actividad = self.celda.master.master.opciones_busqueda
 
