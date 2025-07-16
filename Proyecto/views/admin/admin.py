@@ -1,9 +1,12 @@
 ''' Vista de la ventana principal para Administradores'''
 from os import path
+
 from config import IMG_PATH
-from customtkinter import CTkFrame, CTkLabel, CTkButton
-from ..components.boton_adicional import BotonAdicional
 from core import rol_admin
+from customtkinter import CTkButton, CTkFrame, CTkLabel
+
+from ..components.boton_adicional import BotonAdicional
+
 
 class Admin(CTkFrame):
     ''' Esta clase representa la venatana principal para administradores '''

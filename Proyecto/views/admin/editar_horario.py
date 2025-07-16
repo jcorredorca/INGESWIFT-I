@@ -1,10 +1,10 @@
 '''Este modulo se encarga del frame de edicion de horarios'''
 from tkinter import messagebox
-from customtkinter import (CTkScrollableFrame,
-                           CTkButton, BooleanVar,
-                           CTkLabel, CTkFrame,
-                           CTkCheckBox, CTkOptionMenu)
+
+from customtkinter import (BooleanVar, CTkButton, CTkCheckBox, CTkFrame,
+                           CTkLabel, CTkOptionMenu, CTkScrollableFrame)
 from services import administrador, general
+
 
 class EditarHorario(CTkFrame):
     '''Clase que representa una ventana emergente para la edicion de horarios'''
@@ -59,8 +59,7 @@ class EditarHorario(CTkFrame):
         self.contenido.grid_rowconfigure(4, weight=1)
 
     def eliminar_sesion(self):
-        '''Este metodo trae la informacion necesaria para eliminar
-          la sesion asociada a la celda'''
+        '''Este metodo trae la informacion necesaria para eliminar la sesion asociada a la celda'''
 
         administrador.eliminar_sesion(self.recuperar_id_sesion())
 

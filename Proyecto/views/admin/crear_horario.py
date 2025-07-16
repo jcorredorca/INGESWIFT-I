@@ -1,10 +1,10 @@
 '''Este modulo se encarga del frame de creacion de horarios'''
 from tkinter import messagebox
-from customtkinter import (CTkScrollableFrame,
-                           CTkButton, BooleanVar,
-                           CTkLabel, CTkFrame,
-                           CTkCheckBox, CTkOptionMenu)
+
+from customtkinter import (BooleanVar, CTkButton, CTkCheckBox, CTkFrame,
+                           CTkLabel, CTkOptionMenu, CTkScrollableFrame)
 from services import administrador
+
 
 class CrearHorario(CTkFrame):
     '''Clase que representa una ventana emergente para crear un horario'''
@@ -175,4 +175,3 @@ class CrearHorario(CTkFrame):
         administrador.asignar_funcionarios(seleccionados, id_horario, profesor)
         self.master.master.master.actualizar_colores('#c3f7c8', '#e3fae3')
         self.master.destroy()
-            

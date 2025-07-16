@@ -1,11 +1,15 @@
-from customtkinter import *
-from PIL import Image
 from datetime import datetime
 from os import path
+
 from core import utils
+from customtkinter import *
+from PIL import Image
+
 from ..components import boton_adicional
 
+
 class SesionCerrada(CTkFrame):
+    """Clase que representa la ventana de sesión cerrada para funcionarios"""
     def __init__(self, master):
         super().__init__(master)
         self.configure(fg_color="#2e1045")
