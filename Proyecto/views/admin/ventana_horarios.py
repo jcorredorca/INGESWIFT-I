@@ -65,9 +65,8 @@ class VentanaHorarios(CTkFrame):
             for celda in columna:
                 celda.unbind('<Button-1>')
                 celda.bind('<Button-1>', self.crear_ventana)
-        semana = self.rango_semana_actual()
-        texto = 'Semana del '+ str(semana[0]) + ' \nal '+ str(semana[1])
-        self.label_semana.configure(text=texto)
+
+        self.label_semana_actual.lift()
         self.horario_actual.actualizar_celdas_administrador(self.opciones_busqueda.get())
         self.boton_der.configure(state='normal')
         self.boton_izq.configure(state='disabled')
@@ -83,9 +82,8 @@ class VentanaHorarios(CTkFrame):
             for celda in columna:
                 celda.unbind('<Button-1>')
                 celda.bind('<Button-1>', self.crear_ventana)
-        semana = self.rango_semana_siguiente()
-        texto = 'Semana del '+ str(semana[0]) + ' \nal '+ str(semana[1])
-        self.label_semana.configure(text=texto)
+
+        self.label_semana_siguiente.lift()
         self.horario_siguiente.actualizar_celdas_administrador(self.opciones_busqueda.get())
         self.boton_der.configure(state='disabled')
         self.boton_izq.configure(state='normal')
@@ -123,10 +121,27 @@ class VentanaHorarios(CTkFrame):
     def indicador_semana(self):
         '''Este metodo crea el indicador de la semana a editar'''
         fuente = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.02)), 'bold')
-        self.semana = self.rango_semana_siguiente()
-        texto = 'Semana del '+ str(self.semana[0]) + ' \nal '+ str(self.semana[1])
-        self.label_semana = CTkLabel(self, text=texto, font=fuente, text_color='whitesmoke')
-        self.label_semana.grid(row=2, column=1)
+        self.semana_siguiente = self.rango_semana_siguiente()
+        self.semana_actual = self.rango_semana_actual()
+
+        texto_actual =\
+        'Semana del '+ str(self.semana_actual[0]) + ' \nal '+ str(self.semana_actual[1])
+
+        texto_siguiente =\
+        'Semana del '+ str(self.semana_siguiente[0]) + ' \nal '+ str(self.semana_siguiente[1])
+
+        self.label_semana_actual = CTkLabel(self, text=texto_actual,
+                                            font=fuente,
+                                            text_color='whitesmoke',
+                                            fg_color="#3d1c57")
+        self.label_semana_actual.grid(row=2, column=1)
+
+        self.label_semana_siguiente = CTkLabel(self,
+                                               text=texto_siguiente,
+                                               font=fuente,
+                                               text_color='whitesmoke',
+                                               fg_color="#3d1c57")
+        self.label_semana_siguiente.grid(row=2, column=1)
 
     def rango_semana_siguiente(self):
         '''Crea el rango de una determinada semana'''
