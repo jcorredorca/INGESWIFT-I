@@ -1,11 +1,9 @@
-'''Creacion de la base de datos'''
-import sqlite3
+# crear_db.py
 
+import sqlite3
 from config import DB_PATH
 
-
 def create_afid_database():
-    '''Esta funcion crea la base de datos'''
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -43,7 +41,7 @@ def create_afid_database():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS sesiones (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        publico TEXT NOT NULL CHECK(publico IN ('GENERAL', 'FUNCIONARIO', 'FODUN')),
+        publico TEXT NOT NULL CHECK(publico IN ('GENERAL', 'FUNCIONARIOS', 'FODUN')),
         fecha DATETIME NOT NULL,
         actividad_tipo TEXT NOT NULL,
         ubicaciones_id_ubicaciones INTEGER NOT NULL,
@@ -82,13 +80,13 @@ def create_afid_database():
     )
     """)
 
-    # reservas
+    # reservas con campo asistio
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS reservas (
         codigo TEXT NOT NULL PRIMARY KEY,
         sesiones_id INTEGER NOT NULL,
         personas_usuario TEXT NOT NULL,
-        asistencia INTEGER,
+        asistio INTEGER DEFAULT 0 CHECK(asistio IN (0,1)),
         FOREIGN KEY (sesiones_id) REFERENCES sesiones(id),
         FOREIGN KEY (personas_usuario) REFERENCES personas(usuario)
     )
@@ -106,7 +104,7 @@ def create_afid_database():
     )
     """)
 
-    # Penalizaciones
+    # penalizaciones
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS penalizaciones (
         personas_usuario TEXT NOT NULL PRIMARY KEY,
