@@ -1,7 +1,7 @@
 ''' Vista del panel de horarios para Administradores'''
 
 from datetime import datetime, timedelta
-from tkinter import Event
+from tkinter import Event, messagebox
 from customtkinter import CTkFrame, CTkOptionMenu, CTkLabel, CTkButton
 from ..components.horario_semanal import HorarioSemanal
 from services.general import recuperar_actividades
@@ -157,6 +157,8 @@ class VentanaHorarios(CTkFrame):
         if event:
             celda = event.widget
             plan = self.opciones_busqueda.get()
+            if not self.revisar_actividad(plan):
+                return
             fecha_hora = celda.master.fecha_hora
             id_horario = general.hay_sesiones(plan, fecha_hora)
             if id_horario:
@@ -165,3 +167,10 @@ class VentanaHorarios(CTkFrame):
             else:
                 ventana = StateHorario(celda, Creacion())
                 ventana.renderizar_contenido()
+
+    def revisar_actividad(self, actividad):
+        '''Revisa que haya una actividad para renderizar la ventana de creacion'''
+        if actividad == 'PLANES':
+            messagebox.showwarning('Plan','Escoja alguno de los planes para poder crear un horario')
+            return False
+        return True

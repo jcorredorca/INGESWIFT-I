@@ -56,6 +56,7 @@ class Miembros(CTkFrame):
                     fg_color= "#f0f0f0"
                     hover_color ="#A8A4A4"
                     celda.actualizar_colores(fg_color, hover_color)
+
                 else:
                     estado_activo = miembros.recuperar_estado(self.usuario) == 'ACTIVO'
                     publico_adecuado = miembros.rol_sesion(self.usuario, id_sesion)
