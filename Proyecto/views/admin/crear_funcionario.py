@@ -23,6 +23,14 @@ class CrearFuncionarios(CTkFrame):
 
         self.mostrar_lista_funcionarios()
 
+        self.entry_correo = None
+        self.entry_correo_final = None
+        self.entry_grupo = None
+        self.rol_seleccionado = None
+        self.opciones_rol = None
+        self.entry_apellido = None
+        self.entry_nombre = None
+
     def repartir_espacio(self):
         '''Configura el layout del frame principal, distribuyendo el espacio entre filas y columnas.'''
         self.grid_rowconfigure(0, weight=1)

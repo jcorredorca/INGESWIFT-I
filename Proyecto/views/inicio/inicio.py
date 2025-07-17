@@ -1,9 +1,11 @@
 ''' Pagina de inicio de atun '''
 from os import path
+
+from config import IMG_PATH
 from customtkinter import CTkFrame, CTkImage, CTkLabel
 from PIL import Image
+
 from . import login_frame
-from config import IMG_PATH
 
 
 class Inicio(CTkFrame):
