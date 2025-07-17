@@ -88,6 +88,7 @@ def create_afid_database():
         codigo TEXT NOT NULL PRIMARY KEY,
         sesiones_id INTEGER NOT NULL,
         personas_usuario TEXT NOT NULL,
+        asistencia INTEGER,
         FOREIGN KEY (sesiones_id) REFERENCES sesiones(id),
         FOREIGN KEY (personas_usuario) REFERENCES personas(usuario)
     )

@@ -2,6 +2,7 @@
 
 from models.conexion import Conexion
 from .general import enviar_correo
+from datetime import datetime
 
 def registrar_miembro(info:dict):
     '''Esta funcion permite registrar un nuevo miembro en el sistema'''
@@ -35,3 +36,17 @@ def usuario_ya_registrado(usuario):
     respuesta = conexion.ejecutar_consulta(query, [usuario])
 
     return True if respuesta else False
+
+def verificar_sesion_activa(actividad):
+    '''Verifica si hay una sesión activa para el tipo de actividad dado'''
+    query = """
+        SELECT id FROM sesiones
+        WHERE actividad_tipo = ?
+        AND ? >= fecha
+        AND ? < datetime(fecha, '+1 hour')
+    """
+    conexion = Conexion()
+    hora_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    resultado = conexion.ejecutar_consulta(query, [actividad, hora_actual, hora_actual])
+
+    return resultado[0][0] if resultado else None

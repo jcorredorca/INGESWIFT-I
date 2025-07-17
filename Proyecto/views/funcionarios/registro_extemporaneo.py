@@ -3,15 +3,16 @@ from datetime import datetime
 from core import rol_funci, utils
 from customtkinter import *
 
-from ..components import boton_adicional
+from services import general
 
 
 class RegistroExtemporaneo(CTkFrame):
     """Clase que representa el módulo de registro extemporáneo para funcionarios"""
-    def __init__(self, master, cupos=5):
+    def __init__(self, master, cupos, sesion):
         super().__init__(master)
         self.configure(fg_color="#2e1045")
         self.master = master
+        self.sesion = sesion
         self.cupos = cupos
 
         # Variables para el control de tiempo
@@ -99,7 +100,9 @@ class RegistroExtemporaneo(CTkFrame):
     def verificar_cupos(self):
         """Verifica si aún hay cupos disponibles"""
         try:
-            cupos_actuales = rol_funci.obtener_cupos_disponibles_sesion_actual()
+            cupos_actuales = general.recuperar_cupos(self.sesion)
+            if cupos_actuales == 'SIN RESERVA':
+                cupos_actuales = 0
 
             # Actualizar el display de cupos
             self.numero_cupos.configure(text=str(cupos_actuales))
@@ -156,8 +159,8 @@ class RegistroExtemporaneo(CTkFrame):
         """Cambia a la ventana de sesión cerrada"""
         try:
             # Cancelar verificaciones pendientes
-            if self.check_job:
-                self.after_cancel(self.check_job)
+            # if self.check_job:
+            #     self.after_cancel(self.check_job)
 
             # Usar la función de rol_funci para cambiar de pantalla
             rol_funci.redirigir_pantalla_sesion_cerrada(self.master)

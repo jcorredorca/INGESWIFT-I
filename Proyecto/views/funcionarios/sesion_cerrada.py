@@ -45,12 +45,12 @@ class SesionCerrada(CTkFrame):
         titulo.grid(row=0, column=0, columnspan=2, pady=(0, 50), sticky="n")
 
         # Imagen advertencia
-        ruta = path.join(path.dirname(__file__), "..", "Imagenes", "advertencia.png")
-        imagen_pil = Image.open(ruta)
-        imagen_tk = CTkImage(light_image=imagen_pil, size=(220, 220))
+        # ruta = path.join(path.dirname(__file__), "..", "Imagenes", "advertencia.png")
+        # imagen_pil = Image.open(ruta)
+        # imagen_tk = CTkImage(light_image=imagen_pil, size=(220, 220))
 
-        label_imagen = CTkLabel(contenido, text="", image=imagen_tk)
-        label_imagen.grid(row=1, column=0, padx=80, sticky="e")
+        # label_imagen = CTkLabel(contenido, text="", image=imagen_tk)
+        # label_imagen.grid(row=1, column=0, padx=80, sticky="e")
 
         # Texto de alerta
         lado_derecho = CTkFrame(contenido, fg_color="transparent")

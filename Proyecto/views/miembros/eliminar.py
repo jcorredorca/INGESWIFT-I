@@ -49,7 +49,7 @@ class Eliminar(CTkFrame):
         miembros.eliminar_reserva(codigo=codigo_reserva)
         self.master.destroy()
         messagebox.showinfo('Eliminado', 'La reserva se ha eliminado correctamente')
-        if miembros.hay_cupos_disponibles(self.id_sesion):
+        if general.hay_cupos_disponibles(self.id_sesion):
             self.celda.actualizar_colores('#fff7a1','#fcfcca')
         else:
             self.celda.actualizar_colores('#ffd9d9', '#fff0f0')

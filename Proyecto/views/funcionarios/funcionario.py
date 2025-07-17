@@ -1,9 +1,11 @@
 ''' Vista de la ventana principal para funcionarios'''
-from os import path
-from config import IMG_PATH
+
+
+from tkinter import messagebox
 from customtkinter import CTkFrame, CTkButton
 from core import rol_funci
 from services.general import recuperar_actividades
+from services.funcionario import verificar_sesion_activa
 from ..components import menu_opciones
 
 
@@ -38,8 +40,7 @@ class Funcionario(CTkFrame):
                                         fg_color="#F6A623", text_color="#2e1045",
                                         cursor="hand2", hover_color="#d38e14",
                                         corner_radius=6, border_spacing=10, width=ancho,
-                                        command=lambda:
-                                        rol_funci.redirigir_pantalla_asistencia(self.master))
+                                        command=self.redirigir)
 
         self.boton_asistencia.grid(row=0, column=1, sticky='s', pady=(0,20))
 
@@ -66,3 +67,19 @@ class Funcionario(CTkFrame):
         '''Despliega el menu de opciones'''
         menu_opciones.MenuOpciones(self.master, self.opciones_busqueda, "#2e1045",
                                    recuperar_actividades())
+
+    def redirigir(self):
+        '''Identifica la actividad a la que se registrará asistencia'''
+        actividad = self.opciones_busqueda.cget('text')
+        if actividad == 'PROGRAMA A REGISTRAR':
+            messagebox.showwarning('Campo sin seleccionar',
+                                   'Seleccione una actividad para poder registrar asistencia')
+            return False
+
+        sesion_activa = verificar_sesion_activa(actividad)
+        if sesion_activa is None:
+            messagebox.showwarning('No hay sesiones',
+                                   f'No hay sesiones activas de {actividad} a esta hora')
+            return False
+        
+        rol_funci.redirigir_pantalla_asistencia(self.master, actividad, sesion_activa)

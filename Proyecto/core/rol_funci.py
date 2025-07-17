@@ -5,6 +5,7 @@ from datetime import datetime
 from config import DB_PATH
 from views.funcionarios import (modulo_asistencia, registro_extemporaneo,
                                 registro_miembro, sesion_cerrada)
+from services.general import hay_cupos_disponibles, recuperar_cupos
 
 
 def redirigir_pantalla_miembros(origen):
@@ -14,20 +15,25 @@ def redirigir_pantalla_miembros(origen):
     origen.contenido = ventana
     origen.contenido.grid(row=1, column=0, sticky="nsew")
 
-def redirigir_pantalla_asistencia(origen):
+def redirigir_pantalla_asistencia(origen, actividad, sesion):
     '''Esta función construye la ventana para gestionar a los funcionarios'''
-    ventana = modulo_asistencia.ModuloAsistencia(origen)
+    minutos = datetime.now().minute
+    print(minutos)
+
+    ventana = modulo_asistencia.ModuloAsistencia(origen, actividad)
+    if minutos > 10 and minutos < 56:
+        if hay_cupos_disponibles(sesion):
+            cupos_disponibles = recuperar_cupos(sesion)
+            ventana = registro_extemporaneo.RegistroExtemporaneo(origen, cupos_disponibles, sesion)
+        else:
+            ventana = sesion_cerrada.SesionCerrada(origen)
+    
+
     origen.contenido.destroy()
     origen.contenido = ventana
     origen.contenido.grid(row=1, column=0, sticky="nsew")
 
-def redirigir_pantalla_registro_extemporaneo(origen):
-    '''Esta función construye la ventana para registro extemporáneo'''
-    cupos_disponibles = obtener_cupos_disponibles_sesion_actual()
-    ventana = registro_extemporaneo.RegistroExtemporaneo(origen, cupos=cupos_disponibles)
-    origen.contenido.destroy()
-    origen.contenido = ventana
-    origen.contenido.grid(row=1, column=0, sticky="nsew")
+
 
 def redirigir_pantalla_sesion_cerrada(origen):
     '''Esta función construye la ventana para sesión cerrada'''
@@ -48,11 +54,11 @@ def obtener_sesion_actual():
 
         # Buscar sesión que corresponda a la hora actual
         cursor.execute("""
-            SELECT s.id, a.aforo, s.publico, s.fecha, a.tipo
+            SELECT s.id
             FROM sesiones s
             JOIN actividad a ON s.actividad_tipo = a.tipo
             WHERE strftime('%H', s.fecha) = ? 
-            AND date(s.fecha) = ?
+            AND datetime(s.fecha) = ?
             LIMIT 1
         """, (str(hora_actual).zfill(2), fecha_actual))
 
@@ -73,41 +79,6 @@ def obtener_sesion_actual():
         print(f"Error obteniendo sesión actual: {e}")
         return None
 
-def obtener_cupos_disponibles_sesion_actual():
-    '''Obtiene el número de cupos disponibles para la sesión actual'''
-    sesion = obtener_sesion_actual()
-    if not sesion:
-        return 0
-
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        # Contar reservas para la sesión actual
-        cursor.execute("""
-            SELECT COUNT(*) 
-            FROM reservas 
-            WHERE sesiones_id = ?
-        """, (sesion['id'],))
-
-        reservas_actuales = cursor.fetchone()[0]
-        conn.close()
-
-        # Si el aforo es -1, significa cupos ilimitados
-        if sesion['aforo'] == -1:
-            return 999  # Número alto para representar "ilimitado"
-
-        cupos_disponibles = max(0, sesion['aforo'] - reservas_actuales)
-        return cupos_disponibles
-
-    except Exception as e:
-        print(f"Error obteniendo cupos disponibles: {e}")
-        return 0
-
-def verificar_cupos_disponibles():
-    '''Verifica si hay cupos disponibles en la sesión actual'''
-    cupos = obtener_cupos_disponibles_sesion_actual()
-    return cupos > 0
 
 def verificar_cupos_llenos():
     '''Verifica si todos los cupos están llenos'''
