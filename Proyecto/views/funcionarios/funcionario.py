@@ -2,10 +2,12 @@
 
 
 from tkinter import messagebox
-from customtkinter import CTkFrame, CTkButton
+
 from core import rol_funci
-from services.general import recuperar_actividades
+from customtkinter import CTkButton, CTkFrame
 from services.funcionario import verificar_sesion_activa
+from services.general import recuperar_actividades
+
 from ..components import menu_opciones
 
 
