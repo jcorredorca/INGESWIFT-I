@@ -68,7 +68,7 @@ class Miembros(CTkFrame):
 
                         celda.update()
 
-                    celda.configure(text=miembros.recuperar_cupos(id_sesion))
+                    celda.configure(text=general.recuperar_cupos(id_sesion))
                     fg_color, hover_color = self.colores_correspondientes(id_sesion)
                     celda.actualizar_colores(fg_color, hover_color)
 

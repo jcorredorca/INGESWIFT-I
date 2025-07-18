@@ -1,11 +1,9 @@
 '''Servicios generales de la app'''
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
-from models.conexion import Conexion
 from config import API_KEY
-from models.db import SessionLocal
-from models.modelos import Actividad, Sesiones
-from sqlalchemy import select
+from models import SessionLocal, Actividad, Sesiones, Reservas
+from sqlalchemy import select, func
 
 def recuperar_actividades():
     '''Esta funcion recupera los tipos de actividad ofertados'''
@@ -44,7 +42,10 @@ def hay_sesiones(plan, fecha_hora):
     '''Devuelve el id de la sesión si existe
     una sesión para ese plan y fecha, o False si no existe'''
     with SessionLocal() as session:
-        stmt = select(Sesiones.id).filter(Sesiones.actividad_tipo == plan, Sesiones.fecha == fecha_hora)
+        stmt = select(Sesiones.id).filter(
+                                        Sesiones.actividad_tipo == plan,
+                                        Sesiones.fecha == fecha_hora
+                                        )
         result = session.execute(stmt)
         ids = result.scalars().all()
     if ids:
@@ -57,36 +58,35 @@ def hay_cupos_disponibles(id_sesion):
         True  → hay cupo disponible o es aforo ilimitado.
         False → el aforo ya está completo.'''
 
-    query_cupos = '''SELECT actividad.aforo
-        FROM sesiones
-        JOIN actividad ON sesiones.actividad_tipo = actividad.tipo
-        WHERE sesiones.id = ?'''
+    with SessionLocal() as session:
+        stmt = select(Actividad.aforo).join(Sesiones).filter(Sesiones.id == id_sesion)
+        result = session.execute(stmt)
+        aforo = result.scalars().all()
 
-    respuesta = Conexion().ejecutar_consulta(query_cupos, (id_sesion,))
-    aforo = respuesta[0][0]
+    aforo = aforo[0]
     if aforo == -1:
         return True
-    query_reservas = '''SELECT COUNT(*)
-        FROM reservas
-        WHERE sesiones_id = ?'''
-    respuesta = Conexion().ejecutar_consulta(query_reservas, (id_sesion,))
-    reservas = respuesta[0][0]
-    return reservas < aforo
+
+    with SessionLocal() as session:
+        stmt = select(func.count(Reservas.codigo)).filter(Reservas.sesiones_id == id_sesion) #pylint: disable = not-callable
+        result = session.execute(stmt)
+        total_reservas = result.scalar_one()
+    return total_reservas < aforo
 
 def recuperar_cupos(sesion):
     '''Este metodo recupera el numero de cupos disponibles para una sesion'''
-    query_cupos = '''SELECT actividad.aforo
-        FROM sesiones
-        JOIN actividad ON sesiones.actividad_tipo = actividad.tipo
-        WHERE sesiones.id = ?'''
 
-    respuesta = Conexion().ejecutar_consulta(query_cupos, (sesion,))
-    aforo = respuesta[0][0]
+    with SessionLocal() as session:
+        stmt = select(Actividad.aforo).join(Sesiones).filter(Sesiones.id == sesion)
+        result = session.execute(stmt)
+        aforo = result.scalar_one()
+
     if aforo == -1:
         return 'SIN RESERVA'
-    query_reservas = '''SELECT COUNT(*)
-        FROM reservas
-        WHERE sesiones_id = ?'''
-    respuesta = Conexion().ejecutar_consulta(query_reservas, (sesion,))
-    reservas = respuesta[0][0]
-    return aforo - reservas
+
+    with SessionLocal() as session:
+        stmt = select(func.count(Reservas.codigo)).filter(Reservas.sesiones_id == sesion) #pylint: disable = not-callable
+        result = session.execute(stmt)
+        total_reservas = result.scalar_one()
+
+    return aforo - total_reservas

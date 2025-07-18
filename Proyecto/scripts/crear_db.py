@@ -41,7 +41,7 @@ def create_afid_database():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS sesiones (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        publico TEXT NOT NULL CHECK(publico IN ('GENERAL', 'FUNCIONARIOS', 'FODUN')),
+        publico TEXT NOT NULL CHECK(publico IN ('GENERAL', 'FUNCIONARIO', 'FODUN', 'CUIDADO')),
         fecha DATETIME NOT NULL,
         actividad_tipo TEXT NOT NULL,
         ubicaciones_id_ubicaciones INTEGER NOT NULL,

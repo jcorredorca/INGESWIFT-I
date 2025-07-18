@@ -1,8 +1,8 @@
 ''' Crea el horario semanal para mostrar los horarios '''
 from datetime import time, datetime, timedelta
 from customtkinter import CTkFrame, CTkLabel
-from .sesion_celda import SesionCelda
 from services import general, miembros
+from .sesion_celda import SesionCelda
 
 class HorarioSemanal(CTkFrame):
     '''Clase que crea el horario semanal'''
@@ -112,7 +112,7 @@ class HorarioSemanal(CTkFrame):
         usuario = self.master.master.usuario
         if miembros.buscar_reserva(usuario, id_sesion):
             return '#c3f7c8', '#e3fae3'
-        if miembros.hay_cupos_disponibles(id_sesion):
+        if general.hay_cupos_disponibles(id_sesion):
             return '#fff7a1', '#fcfcca'
         return '#ffd9d9', '#fff0f0'
 

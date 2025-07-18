@@ -3,24 +3,29 @@
 '''Funciones de backend para el rol Funcionario''' 
 
 from datetime import datetime
-
+from models import (SessionLocal,
+                    t_rol_persona,
+                    Personas
+                    )
+from sqlalchemy import select
 from models.conexion import Conexion
-
 from .general import enviar_correo
 
 
-def registrar_miembro(info:dict): 
-    '''Esta funcion permite registrar un nuevo miembro en el sistema''' 
-    query_personas = "INSERT INTO personas \
-        (usuario, nombre, apellido, hash_contrasena, correo, rol_en_universidad, grupo_especial) \
-        VALUES (?, ?, ?, ?, ?, ?, ?)" 
-    query_rol_persona = "INSERT INTO rol_persona \
-        (personas_usuario, rol_nombre) VALUES (?, 'MIEMBRO')" 
-    datos = [info[i] for i in info.keys()] 
-
-    conexion = Conexion() 
-    conexion.ejecutar_consulta(query_personas, datos) 
-    conexion.ejecutar_consulta(query_rol_persona, [info['usuario']]) 
+def registrar_miembro(info:dict):
+    '''Esta funcion permite registrar un nuevo miembro en el sistema'''
+    with SessionLocal.begin() as session: #pylint: disable = no-member
+        nueva_persona = Personas(usuario = info["usuario"],
+                                 nombre = info["nombre"],
+                                 apellido = info["apellido"],
+                                 hash_contrasena = info["contrasena"],
+                                 correo = info["correo"],
+                                 rol_en_universidad = info["rol"],
+                                 grupo_especial = info["programa"]
+                                )
+        session.add(nueva_persona)
+        stmt = t_rol_persona.insert().values(personas_usuario=info["usuario"], rol_nombre='MIEMBRO')
+        session.execute(stmt)
 
     enviar_correo( 
         destinatario=info['correo'], 

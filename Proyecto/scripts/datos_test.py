@@ -47,51 +47,51 @@ def create_afid_test():
         ('user10', 'MIEMBRO')
     ])
 
-    # Insert sesiones (proximas 2 semanas)
+    # # Insert sesiones (proximas 2 semanas)
     base_date = datetime.now()
-    actividades = ["PLUS", "CARDIO", "FUERZA", "FULLBODY", "SPINNING", "YOGA", "MIND BODY", "PRUEBAS FÍSICAS", "NUTRICIÓN"]
-    publicos = ["GENERAL", "FUNCIONARIO", "FODUN"]
-    ubicaciones_ids = [1, 2, 3, 4, 5]  # IDs de ubicaciones insertadas en create_afid_database
+    # actividades = ["PLUS", "CARDIO", "FUERZA", "FULLBODY", "SPINNING", "YOGA", "MIND BODY", "PRUEBAS FÍSICAS", "NUTRICIÓN"]
+    # publicos = ["GENERAL", "FUNCIONARIO", "FODUN"]
+    # ubicaciones_ids = [1, 2, 3, 4, 5]  # IDs de ubicaciones insertadas en create_afid_database
 
-    sesiones_data = []
-    for i in range(50):  # 50 sesiones de ejemplo
-        fecha = base_date + timedelta(days=random.randint(0, 14), hours=random.randint(6, 20))
-        actividad = random.choice(actividades)
-        publico = random.choice(publicos)
-        ubicacion_id = random.choice(ubicaciones_ids)
+    # sesiones_data = []
+    # for i in range(50):  # 50 sesiones de ejemplo
+    #     fecha = base_date + timedelta(days=random.randint(0, 14), hours=random.randint(6, 20))
+    #     actividad = random.choice(actividades)
+    #     publico = random.choice(publicos)
+    #     ubicacion_id = random.choice(ubicaciones_ids)
 
-        sesiones_data.append((publico, fecha, actividad, ubicacion_id))
+    #     sesiones_data.append((publico, fecha, actividad, ubicacion_id))
 
-    cursor.executemany("INSERT INTO sesiones (publico, fecha, actividad_tipo, ubicaciones_id_ubicaciones) VALUES (?, ?, ?, ?)",
-                      sesiones_data)
+    # cursor.executemany("INSERT INTO sesiones (publico, fecha, actividad_tipo, ubicaciones_id_ubicaciones) VALUES (?, ?, ?, ?)",
+    #                   sesiones_data)
 
     # Insert funcionarios_en_sesion
-    funcionarios = ['user2', 'Admin0', 'user6', 'user8']
-    funcionarios_sesion_data = []
-    for i in range(1, 21):  # Para las primeras 20 sesiones
-        funcionario = random.choice(funcionarios)
-        profesor_encargado = random.choice(['SI', 'NO'])
-        funcionarios_sesion_data.append((funcionario, i, profesor_encargado))
+    # funcionarios = ['user2', 'Admin0', 'user6', 'user8']
+    # funcionarios_sesion_data = []
+    # for i in range(1, 21):  # Para las primeras 20 sesiones
+    #     funcionario = random.choice(funcionarios)
+    #     profesor_encargado = random.choice(['SI', 'NO'])
+    #     funcionarios_sesion_data.append((funcionario, i, profesor_encargado))
 
-    cursor.executemany("INSERT INTO funcionarios_en_sesion (personas_usuario, sesiones_id, profesor_encargado) VALUES (?, ?, ?)",
-                      funcionarios_sesion_data)
+    # cursor.executemany("INSERT INTO funcionarios_en_sesion (personas_usuario, sesiones_id, profesor_encargado) VALUES (?, ?, ?)",
+    #                   funcionarios_sesion_data)
 
     # Insert reservas
-    def generate_codigo():
-        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+    # def generate_codigo():
+    #     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
-    usuarios_miembros = ['user1', 'user3', 'user4', 'user5', 'user7', 'user9', 'user10']
-    reservas_data = []
-    for i in range(1, 31):  # Para las primeras 30 sesiones
-        num_reservas = random.randint(1, 5)  # Entre 1 y 5 reservas por sesion
-        usuarios_seleccionados = random.sample(usuarios_miembros, min(num_reservas, len(usuarios_miembros)))
+    # usuarios_miembros = ['user1', 'user3', 'user4', 'user5', 'user7', 'user9', 'user10']
+    # reservas_data = []
+    # for i in range(1, 31):  # Para las primeras 30 sesiones
+    #     num_reservas = random.randint(1, 5)  # Entre 1 y 5 reservas por sesion
+    #     usuarios_seleccionados = random.sample(usuarios_miembros, min(num_reservas, len(usuarios_miembros)))
 
-        for usuario in usuarios_seleccionados:
-            codigo = generate_codigo()
-            reservas_data.append((codigo, i, usuario))
+    #     for usuario in usuarios_seleccionados:
+    #         codigo = generate_codigo()
+    #         reservas_data.append((codigo, i, usuario))
 
-    cursor.executemany("INSERT INTO reservas (codigo, sesiones_id, personas_usuario) VALUES (?, ?, ?)",
-                      reservas_data)
+    # cursor.executemany("INSERT INTO reservas (codigo, sesiones_id, personas_usuario) VALUES (?, ?, ?)",
+    #                   reservas_data)
 
     # Insert logs
     operaciones = ['del', 'upd', 'ins', 'sel']
