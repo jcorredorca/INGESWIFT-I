@@ -3,15 +3,17 @@ import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 from models.conexion import Conexion
 from config import API_KEY
+from models.db import SessionLocal
+from models.modelos import Actividad, Sesiones
+from sqlalchemy import select
 
 def recuperar_actividades():
     '''Esta funcion recupera los tipos de actividad ofertados'''
-
-    query_actividades = "SELECT tipo FROM actividad"
-    respuesta = Conexion().ejecutar_consulta(query_actividades)
-    actividades = [actividad[0] for actividad in respuesta]
-
-    return actividades
+    with SessionLocal() as session:
+        stmt = select(Actividad.tipo)
+        result = session.execute(stmt)
+        tipos = result.scalars().all()
+    return tipos
 
 def enviar_correo(destinatario, asunto, contenido_html):
     '''
@@ -41,9 +43,10 @@ def enviar_correo(destinatario, asunto, contenido_html):
 def hay_sesiones(plan, fecha_hora):
     '''Devuelve el id de la sesión si existe
     una sesión para ese plan y fecha, o False si no existe'''
-    query = '''SELECT id FROM sesiones WHERE actividad_tipo = ? AND fecha = ?'''
-    resultado = Conexion().ejecutar_consulta(query, (plan, fecha_hora))
-    if resultado:
-        return resultado[0][0]
-
+    with SessionLocal() as session:
+        stmt = select(Sesiones.id).filter(Sesiones.actividad_tipo == plan, Sesiones.fecha == fecha_hora)
+        result = session.execute(stmt)
+        ids = result.scalars().all()
+    if ids:
+        return ids[0]
     return False
