@@ -8,13 +8,14 @@ from ..components import boton_adicional
 
 class ModuloAsistencia(CTkFrame):
     """Clase que representa el módulo de asistencia para funcionarios"""
-    def __init__(self, master):
+    def __init__(self, master, actividad):
         super().__init__(master)
         self.configure(fg_color="#2e1045")
         self.master = master
 
         # Variables para el control de tiempo
         self.sesion_inicio = datetime.now()
+        self.actividad = actividad
         self.check_job = None
 
         self.tamanio_fuente_titulo = max(28, int(self.winfo_screenwidth() * 0.02))
@@ -88,6 +89,10 @@ class ModuloAsistencia(CTkFrame):
 
     def verificar_estado_sesion(self):
         """Verifica el estado de la sesión y hace transiciones si es necesario"""
+
+
+
+
         try:
             # Verificar si han pasado 10 minutos desde el inicio
             tiempo_transcurrido = datetime.now() - self.sesion_inicio

@@ -87,7 +87,7 @@ class Miembros(CTkFrame):
         usuario = self.usuario
         if miembros.buscar_reserva(usuario, id_sesion):
             return '#c3f7c8', '#e3fae3'
-        if miembros.hay_cupos_disponibles(id_sesion):
+        if general.hay_cupos_disponibles(id_sesion):
             return '#fff7a1', '#fcfcca'
         return '#ffd9d9', '#fff0f0'
 

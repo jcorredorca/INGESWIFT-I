@@ -50,3 +50,43 @@ def hay_sesiones(plan, fecha_hora):
     if ids:
         return ids[0]
     return False
+
+def hay_cupos_disponibles(id_sesion):
+    '''Esta funcion revisa la cantidad de cupos disponibles para determinada sesion
+    Retorna:
+        True  → hay cupo disponible o es aforo ilimitado.
+        False → el aforo ya está completo.'''
+
+    query_cupos = '''SELECT actividad.aforo
+        FROM sesiones
+        JOIN actividad ON sesiones.actividad_tipo = actividad.tipo
+        WHERE sesiones.id = ?'''
+
+    respuesta = Conexion().ejecutar_consulta(query_cupos, (id_sesion,))
+    aforo = respuesta[0][0]
+    if aforo == -1:
+        return True
+    query_reservas = '''SELECT COUNT(*)
+        FROM reservas
+        WHERE sesiones_id = ?'''
+    respuesta = Conexion().ejecutar_consulta(query_reservas, (id_sesion,))
+    reservas = respuesta[0][0]
+    return reservas < aforo
+
+def recuperar_cupos(sesion):
+    '''Este metodo recupera el numero de cupos disponibles para una sesion'''
+    query_cupos = '''SELECT actividad.aforo
+        FROM sesiones
+        JOIN actividad ON sesiones.actividad_tipo = actividad.tipo
+        WHERE sesiones.id = ?'''
+
+    respuesta = Conexion().ejecutar_consulta(query_cupos, (sesion,))
+    aforo = respuesta[0][0]
+    if aforo == -1:
+        return 'SIN RESERVA'
+    query_reservas = '''SELECT COUNT(*)
+        FROM reservas
+        WHERE sesiones_id = ?'''
+    respuesta = Conexion().ejecutar_consulta(query_reservas, (sesion,))
+    reservas = respuesta[0][0]
+    return aforo - reservas
