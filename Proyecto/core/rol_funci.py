@@ -27,7 +27,6 @@ def redirigir_pantalla_asistencia(origen, actividad, sesion):
             ventana = registro_extemporaneo.RegistroExtemporaneo(origen, cupos_disponibles, sesion)
         else:
             ventana = sesion_cerrada.SesionCerrada(origen)
-    
 
     origen.contenido.destroy()
     origen.contenido = ventana

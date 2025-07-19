@@ -2,13 +2,13 @@
 
 '''Funciones de backend para el rol Funcionario''' 
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from models import (SessionLocal,
                     t_rol_persona,
-                    Personas
+                    Personas,
+                    Sesiones
                     )
-from sqlalchemy import select
-from models.conexion import Conexion
+from sqlalchemy import select, Time
 from .general import enviar_correo
 
 
@@ -40,61 +40,23 @@ miembro activo y poder reservar</p>
         <p>Te recomendamos cambiar tu contraseña al iniciar sesión por primera vez.</p> 
         """)
 
-def usuario_ya_registrado(usuario): 
+def usuario_ya_registrado(usuario):
     '''Esta funcion valida si un usuario ya esta en la base de datos basado en su usuario''' 
-    query = "SELECT nombre FROM personas WHERE usuario = ?" 
-    conexion = Conexion() 
-    respuesta = conexion.ejecutar_consulta(query, [usuario]) 
-    return True if respuesta else False 
+    with SessionLocal() as session:
+        persona = session.get(Personas, usuario)
 
-def registrar_asistencia(usuario):
-    '''Registra asistencia del usuario para la sesion activa (si hay).'''
-    conexion = Conexion()
-
-    query_sesiones = """
-        SELECT s.id FROM sesiones s
-        JOIN reservas r ON s.id = r.sesiones_id
-        WHERE r.personas_usuario = ? AND date(s.fecha) = date('now')
-    """
-    sesiones = conexion.ejecutar_consulta(query_sesiones, [usuario])
-
-    if not sesiones:
-        return "No hay sesiones activas hoy para este usuario."
-
-    asistencia_registrada = False
-
-    for sesion in sesiones:
-        id_sesion = sesion[0]
-
-        query_estado = """
-            SELECT asistio FROM reservas
-            WHERE sesiones_id = ? AND personas_usuario = ?
-        """
-        resultado = conexion.ejecutar_consulta(query_estado, [id_sesion, usuario])
-
-        if resultado and resultado[0][0] == 0:
-            query_update = """
-                UPDATE reservas SET asistio = 1
-                WHERE sesiones_id = ? AND personas_usuario = ?
-            """
-            conexion.ejecutar_consulta(query_update, [id_sesion, usuario])
-            asistencia_registrada = True
-
-    if asistencia_registrada:
-        return "Asistencia registrada exitosamente."
-    else:
-        return "Ya se habia registrado asistencia o no habia sesiones pendientes."
+    return persona is not None
 
 def verificar_sesion_activa(actividad):
     '''Verifica si hay una sesion activa para el tipo de actividad dado'''
-    query = """
-        SELECT id FROM sesiones
-        WHERE actividad_tipo = ? 
-        AND ? >= fecha
-        AND ? < datetime(fecha, '+1 hour')
-    """
-    conexion = Conexion()
-    hora_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    resultado = conexion.ejecutar_consulta(query, [actividad, hora_actual, hora_actual])
+    hora_acutal = datetime.now()
+    with SessionLocal() as session:
+        stmt = select(Sesiones.id).filter(
+                                        Sesiones.fecha < hora_acutal,
+                                        hora_acutal - timedelta(minutes=30) <= Sesiones.fecha,
+                                        Sesiones.actividad_tipo == actividad
+                                        )
+        result = session.execute(stmt)
+        sesion = result.scalar()
 
-    return resultado[0][0] if resultado else None
+    return sesion
