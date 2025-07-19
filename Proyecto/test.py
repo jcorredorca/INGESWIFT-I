@@ -86,7 +86,7 @@ class TestLogin(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-
+#lalvarezla
 class TestFuncionario(unittest.TestCase):
     '''Tests relacionados con la gestión de funcionarios'''
 
