@@ -80,7 +80,7 @@ class CambioPopup(CTkToplevel):
         self.confirmacion_label.grid(row=4, column=0, sticky='e')
 
         #Configurar las entradas
-        ancho_entry = int(self.winfo_width())*0.7
+        ancho_entry = int(self.winfo_width()*0.7)
         self.entry_usuario = CTkEntry(self.campos_frame, fg_color="whitesmoke", text_color='black',
                                     font=self.fuente, width=ancho_entry)
         self.entry_usuario.grid(row=1, column=1)
@@ -109,7 +109,7 @@ class CambioPopup(CTkToplevel):
 
         padx_botones = int(self.winfo_width()*0.25)
         boton_aceptar = CTkButton(
-                    botones, text="Modificar contraseniaseña", command=self.modificar_contra,
+                    botones, text="Modificar contraseña", command=self.modificar_contrasenia,
                     font=self.fuente, fg_color="#F6A623", text_color="black",
                     cursor="hand2", hover_color="#d38e14", corner_radius=6)
         boton_aceptar.grid(row=0, column=0, padx=padx_botones)

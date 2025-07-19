@@ -32,18 +32,18 @@ def cambiar_contrasena(usuario, nueva_contrasenia):
     with SessionLocal.begin() as session: #pylint: disable = no-member
         persona = session.get(Personas, usuario)
         if persona:
-            persona.hash_contrasena = nueva_contrasenia
+            persona.hash_contrasena = hash_contrasena(nueva_contrasenia)
 
-    correo = persona.correo
+            correo = persona.correo
 
-    enviar_correo(
-        destinatario=correo[0][0],
-        asunto= 'ATUN - Cambio de contraseña',
-        contenido_html="""
-        <h2>¡Hola!</h2>
-        <p>Tu contraseña en el sistema ATUN ha sido <strong>actualizada correctamente</strong>.</p>
-        <p>Si no fuiste tú o consideras que hubo un error, por favor comunicate al correo de soporte de ATUN.</p>
-        """)
+            enviar_correo(
+                destinatario=correo[0][0],
+                asunto= 'ATUN - Cambio de contraseña',
+                contenido_html="""
+                <h2>¡Hola!</h2>
+                <p>Tu contraseña en el sistema ATUN ha sido <strong>actualizada correctamente</strong>.</p>
+                <p>Si no fuiste tú o consideras que hubo un error, por favor comunicate al correo de soporte de ATUN.</p>
+                """)
 
 def recuperar_roles(usuario):
     '''Esta función recupera los posibles roles de un usuario'''
