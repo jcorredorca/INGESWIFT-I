@@ -55,7 +55,7 @@ def crear_reserva(codigo, sesion, usuario):
         resultado = session.execute(stmt)
         correo = resultado.scalar()
 
-    enviar_correo(correo[0][0], 'ATUN - Confirmación de reserva',
+    enviar_correo(correo, 'ATUN - Confirmación de reserva',
         contenido_html=f"""
         <h2>¡Hola!</h2>
         <p>Tu reserva en el sistema ATUN ha sido <strong>registrada correctamente</strong>.</p>

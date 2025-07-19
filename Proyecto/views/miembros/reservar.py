@@ -48,9 +48,9 @@ class Reservar(CTkFrame):
         miembros.crear_reserva(codigo=codigo_reserva, sesion=self.id_sesion, usuario=self.usuario)
         self.contenido.destroy()
         self.contenido = CTkLabel(self,
-                  text = f'Tu código de confirmación es: {codigo_reserva}',
+                  text = f'Tu código de confirmación es: {codigo_reserva}.\nEl código ha sido enviado a tu correo.',
                   font= self.fuente,
                   fg_color= "#50276f",
-                  anchor = 'center',
+                  anchor = 'center', wraplength=700,
                   text_color="whitesmoke").grid(row=1,column=1)
         self.celda.actualizar_colores('#c3f7c8','#e3fae3')
