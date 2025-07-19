@@ -85,3 +85,53 @@ class TestLogin(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class TestFuncionario(unittest.TestCase):
+    '''Tests relacionados con la gestión de funcionarios'''
+
+    def test_registro_miembro_exitoso(self):
+        '''Verifica que un miembro se registre correctamente'''
+        user = 'nuevo_test'
+        contrasenia = 'clave123'
+        info_miembro = {
+            "usuario": user,
+            "nombre": 'Nombre',
+            "apellido": 'Apellido',
+            "contrasena": hash_contrasena(contrasenia),
+            "correo": 'nuevo@unal.edu.co',
+            "rol": 'Estudiante',
+            "programa": 'Ingeniería'
+        }
+
+        registrar_miembro(info_miembro)
+        # Verificar que se pueda autenticar
+        self.assertTrue(autenticar_credenciales(user, contrasenia))
+        eliminar_miembro(user)
+
+    def test_registro_usuario_duplicado(self):
+        '''Verifica que no se permita registrar un usuario ya existente'''
+        user = 'duplicado_test'
+        contrasenia = 'clave123'
+        info_miembro = {
+            "usuario": user,
+            "nombre": 'Nombre',
+            "apellido": 'Apellido',
+            "contrasena": hash_contrasena(contrasenia),
+            "correo": 'repetido@unal.edu.co',
+            "rol": 'Estudiante',
+            "programa": 'Ingeniería'
+        }
+
+        registrar_miembro(info_miembro)
+        with self.assertRaises(ValueError) as context:
+            registrar_miembro(info_miembro)
+
+        self.assertIn("ya existe", str(context.exception).lower())
+        eliminar_miembro(user)
+
+    def test_eliminar_usuario_inexistente(self):
+        '''Verifica el comportamiento al intentar eliminar un usuario inexistente'''
+        with self.assertRaises(ValueError) as context:
+            eliminar_miembro('usuario_inexistente')
+        self.assertIn("no existe", str(context.exception).lower())
