@@ -88,7 +88,7 @@ def registrar_asistencia(miembro, sesion, codigo):
 
 def registro_extemporaneo(usuario, sesion):
     '''Funcion para registrar un miembro que accede de forma extemporanea'''
-    query_verificacion1 = "SELECT nombre FROM personas WHERE usuario = ? AND estado = ACTIVO"
+    query_verificacion1 = "SELECT nombre FROM personas WHERE usuario = ? AND estado = 'ACTIVO'"
     query_verificacion2 = '''
     SELECT * FROM reservas 
     WHERE personas_usuario = ? 
