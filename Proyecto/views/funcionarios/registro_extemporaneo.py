@@ -15,9 +15,6 @@ class RegistroExtemporaneo(CTkFrame):
         self.sesion = sesion
         self.cupos = 0
 
-        # Variables para el control de tiempo
-        self.check_job = None
-
         self.fuente_titulo = max(28, int(self.winfo_screenwidth() * 0.02))
         self.fuente_subtitulo = max(18, int(self.winfo_screenwidth() * 0.013))
         self.fuente_general = max(18, int(self.winfo_screenwidth() * 0.012))
@@ -104,8 +101,8 @@ class RegistroExtemporaneo(CTkFrame):
 
     def registrar_extemporaneo(self):
         """Registra un usuario de forma extemporánea"""
-        self.revisar_pantalla()
         usuario = self.entry_usuario.get()
+        self.revisar_pantalla()
 
         if not usuario:
             self.mostrar_mensaje("Por favor, ingrese un usuario", "error")

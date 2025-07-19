@@ -22,12 +22,10 @@ IMG_PATH = resource_path(os.path.join("assets", "images"))
 
 # Ruta absoluta al icono de la aplicación
 APP_ICON = resource_path(os.path.join("assets", "images", "iconATUN.ico"))
+APP_ICON_LINUX = resource_path(os.path.join("assets", "images", "iconATUN.png"))
 
 # Configuración de la aplicación
 APP_TITLE = "ATUN"
-#TODO: crear el logo con el pescadito
-#APP_ICON = resource_path(os.path.join("assets", "images", "logo.ico"))
-
 # Colores y fuentes globales
 COLOR_PRIMARIO = "#2e1045"
 COLOR_SECUNDARIO = "#a783c2"

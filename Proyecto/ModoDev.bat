@@ -8,7 +8,10 @@ if errorlevel 1 (
     echo Python esta instalado.
 )
 
-for %%i in (customtkinter dotenv pillow bcrypt sib_api_v3_sdk) do (
+python -m venv venv
+call venv\Scripts\activate
+
+for %%i in (customtkinter dotenv pillow bcrypt sib_api_v3_sdk sqlalchemy) do (
     pip show %%i >nul 2>&1
     if errorlevel 1 (
         echo %%i no está instalado. Procediendo con su intalacion...
@@ -23,3 +26,5 @@ for %%i in (customtkinter dotenv pillow bcrypt sib_api_v3_sdk) do (
 python script_modo_dev.py
 pause
 python app.py
+
+call venv\Scripts\deactivate
