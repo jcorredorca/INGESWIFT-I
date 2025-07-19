@@ -17,7 +17,7 @@ def autenticar_credenciales(usuario, contrasena):
 
     #Excepcion 1: Usuario no existe
 
-    if len(hash_db) == 0:
+    if hash_db is None:
         raise ValueError('El usuario o contraseña ingresado no son correctos.')
 
     # Excepcion 2: Usuario y contraseña no coinciden

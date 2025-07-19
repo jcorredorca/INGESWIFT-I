@@ -27,10 +27,10 @@ def registrar_miembro(info:dict):
         stmt = t_rol_persona.insert().values(personas_usuario=info["usuario"], rol_nombre='MIEMBRO')
         session.execute(stmt)
 
-    enviar_correo( 
-        destinatario=info['correo'], 
-        asunto='ATUN - Registro exitoso', 
-        contenido_html=f""" 
+    enviar_correo(
+        destinatario=info['correo'],
+        asunto='ATUN - Registro exitoso',
+        contenido_html=f"""
         <h2>¡Hola {info['nombre']}!</h2> 
         <p>Tu registro en el sistema ATUN ha sido <strong>exitoso</strong>.</p> 
         <p>Recuerda que tus credenciales son: usuario: <strong>{info['usuario']}</strong> / 
@@ -39,6 +39,12 @@ contraseña: Tu <strong>número de documento de identidad</strong></p>
 miembro activo y poder reservar</p> 
         <p>Te recomendamos cambiar tu contraseña al iniciar sesión por primera vez.</p> 
         """)
+
+def eliminar_miembro(usuario):
+    '''Esta funcion permite eliminar un nuevo del el sistema'''
+    with SessionLocal.begin() as session: #pylint: disable = no-member
+        persona = session.get(Personas, usuario)
+        session.delete(persona)
 
 def usuario_ya_registrado(usuario):
     '''Esta funcion valida si un usuario ya esta en la base de datos basado en su usuario''' 
