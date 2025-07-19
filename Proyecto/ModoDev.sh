@@ -53,7 +53,7 @@ fi
 pip install --upgrade pip
 
 # Lista de librerías
-LIBRARIES=("customtkinter" "dotenv" "bcrypt" "sib_api_v3_sdk")
+LIBRARIES=("customtkinter" "dotenv" "bcrypt" "sib_api_v3_sdk" "sqlalchemy")
 which python3
 
 for lib in "${LIBRARIES[@]}"; do

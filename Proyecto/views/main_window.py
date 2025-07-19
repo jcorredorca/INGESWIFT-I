@@ -1,7 +1,9 @@
 '''Ventana principal de atun. 
     Inicia el encabezado y pie de pagina'''
+import sys
+from tkinter import PhotoImage
 import customtkinter
-from config import APP_ICON
+from config import APP_ICON, APP_ICON_LINUX
 
 from .components import encabezado, pie_de_pagina
 from .inicio import inicio
@@ -15,7 +17,12 @@ class App(customtkinter.CTk):
 
         self.title("ATUN")
         self.usuario = None
-        self.iconbitmap(APP_ICON)
+        
+        if sys.platform.startswith('win'):
+            self.iconbitmap(APP_ICON)
+        else:
+            icon = PhotoImage(file=APP_ICON_LINUX)
+            self.iconphoto(True, icon)
         self.configure(fg_color = "#09FF00")
         self.configurar_dimensiones()
         self.repartir_espacio()
