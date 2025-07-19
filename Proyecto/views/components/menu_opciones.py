@@ -1,5 +1,5 @@
 '''Ventana emergente para menu de opciones'''
-
+import sys
 from customtkinter import CTkToplevel, CTkButton, CTkScrollableFrame
 
 
@@ -42,7 +42,12 @@ class MenuOpciones(CTkToplevel):
             frame_contenido.columnconfigure(0, weight=1)
 
            # Bind global para cerrar al hacer clic fuera
-        self.after(10, self._bind_click_outside)
+        if sys.platform.startswith('win'):
+            tiempo = 10
+        else:
+            tiempo = 3000
+
+        self.after(tiempo, self._bind_click_outside)
 
     def _bind_click_outside(self):
         '''Capta los clicks fuera del menu desplegable'''
