@@ -17,6 +17,7 @@ class MenuOpciones(CTkToplevel):
         self.alto = int(self.ancho)//2
 
         # Calcula el centro del activador
+        self.master.update_idletasks()
         act_x = activador.winfo_rootx()
         act_y = activador.winfo_rooty()
         act_h = activador.winfo_height()
@@ -24,6 +25,7 @@ class MenuOpciones(CTkToplevel):
         # Centra el menú respecto al activador
         x = act_x
         y = act_y + act_h
+        self.update()
         self.geometry(f"{self.ancho}x{self.alto}+{x}+{y}")
         self.grab_set()
         self.opciones = {}
@@ -50,6 +52,7 @@ class MenuOpciones(CTkToplevel):
         '''Se asegura que e click haya sido por fuera'''
         if self.winfo_containing(event.x_root, event.y_root) is not self:
             self.master.unbind_all("<Button-1>")
+            self.update()
             self.destroy()
             self.master.grab_set()
 

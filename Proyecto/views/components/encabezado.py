@@ -1,5 +1,6 @@
 ''' Encabezado de atun '''
 from os import path
+import sys
 from PIL import Image
 from customtkinter import CTkFrame,CTkLabel,CTkImage
 from config import IMG_PATH
@@ -48,11 +49,15 @@ class Encabezado(CTkFrame):
 
     def actualizar_dimensiones_imagen(self):
         '''Ajusta automáticamente las dimensiones de la imagen al frame'''
-
+        self.master.update_idletasks()
         factor = 2/3 if self.winfo_screenwidth() > 2000 else 1/3
-        frame_heigth = self.master.winfo_height()*factor
-        new_width_un = frame_heigth * 370 / 200
-        new_width_atun = frame_heigth * 631 / 215
+        if sys.platform.startswith('win'):
+            pass
+        else:
+            factor = 1/10
+        frame_heigth = int(self.master.winfo_height()*factor)
+        new_width_un = int(frame_heigth * 370 / 200)
+        new_width_atun = int(frame_heigth * 631 / 215)
 
         logo_un = CTkImage(light_image=self.imagen_un, size=(new_width_un, frame_heigth))
         logo_atun = CTkImage(light_image=self.imagen_atun, size=(new_width_atun, frame_heigth))
