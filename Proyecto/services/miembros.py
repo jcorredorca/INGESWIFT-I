@@ -2,7 +2,7 @@
 from hashlib import sha256
 from datetime import datetime, timedelta
 from models import (SessionLocal,
-                    Reservas, Sesiones,
+                    Sesiones,
                     Personas,Reservas
                     )
 from sqlalchemy import select

@@ -1,9 +1,8 @@
 '''Funciones de backend para la ventana login'''
 import bcrypt
-from models.conexion import Conexion
+from sqlalchemy import select
+from models import SessionLocal, Personas, Rol
 from .general import enviar_correo
-from models import SessionLocal, Actividad, Personas, Rol
-from sqlalchemy import select, func
 
 def hash_contrasena(contrasena: str) -> bytes:
     '''Funcion que toma un string con una contraseña y devuelve el hash correspondiente'''
@@ -18,7 +17,7 @@ def autenticar_credenciales(usuario, contrasena):
 
     #Excepcion 1: Usuario no existe
 
-    if len(hash_db) == 0:
+    if hash_db is None:
         raise ValueError('El usuario o contraseña ingresado no son correctos.')
 
     # Excepcion 2: Usuario y contraseña no coinciden

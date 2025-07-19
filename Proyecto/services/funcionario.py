@@ -2,7 +2,7 @@
 
 '''Funciones de backend para el rol Funcionario''' 
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from models import (SessionLocal,
                     t_rol_persona,
                     Personas,
@@ -11,9 +11,9 @@ from models import (SessionLocal,
                     Sesiones,
                     t_asistencias_extemp
                     )
-from sqlalchemy import select, func
-from models.conexion import Conexion
+from sqlalchemy import select, func, Time
 from .general import enviar_correo
+from models.conexion import Conexion
 
 
 def registrar_miembro(info:dict):
@@ -31,10 +31,10 @@ def registrar_miembro(info:dict):
         stmt = t_rol_persona.insert().values(personas_usuario=info["usuario"], rol_nombre='MIEMBRO')
         session.execute(stmt)
 
-    enviar_correo( 
-        destinatario=info['correo'], 
-        asunto='ATUN - Registro exitoso', 
-        contenido_html=f""" 
+    enviar_correo(
+        destinatario=info['correo'],
+        asunto='ATUN - Registro exitoso',
+        contenido_html=f"""
         <h2>¡Hola {info['nombre']}!</h2> 
         <p>Tu registro en el sistema ATUN ha sido <strong>exitoso</strong>.</p> 
         <p>Recuerda que tus credenciales son: usuario: <strong>{info['usuario']}</strong> / 
@@ -43,6 +43,12 @@ contraseña: Tu <strong>número de documento de identidad</strong></p>
 miembro activo y poder reservar</p> 
         <p>Te recomendamos cambiar tu contraseña al iniciar sesión por primera vez.</p> 
         """)
+
+def eliminar_miembro(usuario):
+    '''Esta funcion permite eliminar un nuevo del el sistema'''
+    with SessionLocal.begin() as session: #pylint: disable = no-member
+        persona = session.get(Personas, usuario)
+        session.delete(persona)
 
 def usuario_ya_registrado(usuario):
     '''Esta funcion valida si un usuario ya esta en la base de datos basado en su usuario''' 
@@ -109,17 +115,17 @@ def registro_extemporaneo(usuario, sesion):
 
 def verificar_sesion_activa(actividad):
     '''Verifica si hay una sesion activa para el tipo de actividad dado'''
-    query = """
-        SELECT id FROM sesiones
-        WHERE actividad_tipo = ? 
-        AND ? >= fecha
-        AND ? < datetime(fecha, '+1 hour')
-    """
-    conexion = Conexion()
-    hora_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    resultado = conexion.ejecutar_consulta(query, [actividad, hora_actual, hora_actual])
+    hora_acutal = datetime.now()
+    with SessionLocal() as session:
+        stmt = select(Sesiones.id).filter(
+                                        Sesiones.fecha < hora_acutal,
+                                        hora_acutal - timedelta(minutes=30) <= Sesiones.fecha,
+                                        Sesiones.actividad_tipo == actividad
+                                        )
+        result = session.execute(stmt)
+        sesion = result.scalar()
 
-    return resultado[0][0] if resultado else None
+    return sesion
 
 def hay_cupos_disponibles(id_sesion):
     '''Esta funcion revisa la cantidad de cupos disponibles para determinada sesion

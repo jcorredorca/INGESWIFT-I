@@ -43,7 +43,7 @@ def hay_sesiones(plan, fecha_hora):
     una sesión para ese plan y fecha, o False si no existe'''
     with SessionLocal() as session:
         stmt = select(Sesiones.id).filter(
-                                        Sesiones.actividad_tipo == plan,
+                                        Sesiones.actividad_tipo == plan).filter(
                                         Sesiones.fecha == fecha_hora
                                         )
         result = session.execute(stmt)
