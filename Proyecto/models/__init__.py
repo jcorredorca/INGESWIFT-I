@@ -11,11 +11,12 @@ from .personas import Personas
 from .ubicaciones import Ubicaciones
 from .rol import Rol
 from .rol_persona import t_rol_persona
+from .asistencias_extemp import t_asistencias_extemp
 from .penalizacion import Penalizaciones
 from .logs import Logs
 
 __all__ = [
-    "Personas", "Actividad", "Sesiones", "Rol", "Reservas",
+    "Personas", "Actividad", "Sesiones", "Rol", "Reservas", "t_asistencias_extemp",
     "Penalizaciones", "Logs", "FuncionariosEnSesion", "t_rol_persona", "Ubicaciones"
 ]
 

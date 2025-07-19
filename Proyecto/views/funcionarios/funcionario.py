@@ -3,7 +3,7 @@
 
 from tkinter import messagebox
 
-from core import rol_funci
+from core import rol_funcionario
 from customtkinter import CTkButton, CTkFrame
 from services.funcionario import verificar_sesion_activa
 from services.general import recuperar_actividades
@@ -35,7 +35,7 @@ class Funcionario(CTkFrame):
         '''Este metodo crea el menu de opciones'''
 
         fuente_opciones = ("Segoe UI", max(24,int(self.winfo_screenwidth() * 0.012)), 'bold')
-        ancho = self.winfo_screenwidth() * 0.2
+        ancho = int(self.winfo_screenwidth() * 0.2)
 
         self.boton_asistencia = CTkButton(self, text='REGISTRAR ASISTENCIA',
                                         anchor='center', font=fuente_opciones,
@@ -61,7 +61,7 @@ class Funcionario(CTkFrame):
                                         cursor="hand2", hover_color="#d38e14",
                                         corner_radius=6, border_spacing=10, width=ancho,
                                         command=lambda:
-                                        rol_funci.redirigir_pantalla_miembros(self.master))
+                                        rol_funcionario.redirigir_pantalla_miembros(self.master))
 
         self.boton_miembros.grid(row=2, column=1, sticky='n')
 
@@ -83,5 +83,5 @@ class Funcionario(CTkFrame):
             messagebox.showwarning('No hay sesiones',
                                    f'No hay sesiones activas de {actividad} a esta hora')
             return False
-        
-        rol_funci.redirigir_pantalla_asistencia(self.master, actividad, sesion_activa)
+
+        rol_funcionario.redirigir_pantalla_asistencia(self.master, sesion_activa)

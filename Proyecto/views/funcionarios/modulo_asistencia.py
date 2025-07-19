@@ -1,22 +1,21 @@
-from datetime import datetime, timedelta
+'''Modulo para la ventana de registro de asistencia'''
 
-from core import rol_funci, utils
-from customtkinter import *
-
-from ..components import boton_adicional
-
+from datetime import datetime
+from tkinter import messagebox
+from customtkinter import CTkFrame, CTkLabel, CTkEntry, CTkButton
+from . import registro_extemporaneo, sesion_cerrada
+from services.funcionario import registrar_asistencia, hay_cupos_disponibles
 
 class ModuloAsistencia(CTkFrame):
     """Clase que representa el módulo de asistencia para funcionarios"""
-    def __init__(self, master, actividad):
+    def __init__(self, master, sesion):
         super().__init__(master)
         self.configure(fg_color="#2e1045")
         self.master = master
 
         # Variables para el control de tiempo
         self.sesion_inicio = datetime.now()
-        self.actividad = actividad
-        self.check_job = None
+        self.sesion = sesion
 
         self.tamanio_fuente_titulo = max(28, int(self.winfo_screenwidth() * 0.02))
         self.tamanio_fuente_campo = max(18, int(self.winfo_screenwidth() * 0.01))
@@ -24,9 +23,6 @@ class ModuloAsistencia(CTkFrame):
 
         self.crear_encabezado_derecho()
         self.crear_contenido()
-
-        # Iniciar el monitoreo de tiempo
-        self.iniciar_monitoreo_sesion()
 
     def crear_encabezado_derecho(self):
         '''Encabezado con TURNO y boton Log Out'''
@@ -82,78 +78,10 @@ class ModuloAsistencia(CTkFrame):
                                      text_color="white")
         self.mensaje_label.pack(pady=10)
 
-    def iniciar_monitoreo_sesion(self):
-        """Inicia el monitoreo de la sesión actual"""
-        print(f"Iniciando monitoreo de sesión a las {self.sesion_inicio}")
-        self.verificar_estado_sesion()
-
-    def verificar_estado_sesion(self):
-        """Verifica el estado de la sesión y hace transiciones si es necesario"""
-
-
-
-
-        try:
-            # Verificar si han pasado 10 minutos desde el inicio
-            tiempo_transcurrido = datetime.now() - self.sesion_inicio
-            minutos_transcurridos = tiempo_transcurrido.total_seconds() / 60
-
-            print(f"Minutos transcurridos: {minutos_transcurridos:.1f}")
-
-            if minutos_transcurridos >= 10:
-                # Verificar si todos los cupos están ocupados
-                if rol_funci.verificar_cupos_llenos():
-                    print("Cupos llenos - Cambiando a sesión cerrada")
-                    self.cambiar_a_sesion_cerrada()
-                    return
-
-                # Si aún hay cupos disponibles, cambiar a registro extemporáneo
-                elif rol_funci.verificar_cupos_disponibles():
-                    print("Cupos disponibles - Cambiando a registro extemporáneo")
-                    self.cambiar_a_registro_extemporaneo()
-                    return
-                else:
-                    # Si no hay cupos disponibles, ir a sesión cerrada
-                    print("No hay cupos disponibles - Cambiando a sesión cerrada")
-                    self.cambiar_a_sesion_cerrada()
-                    return
-
-            # Programar la próxima verificación en 30 segundos
-            self.check_job = self.after(30000, self.verificar_estado_sesion)
-
-        except Exception as e:
-            print(f"Error en verificar_estado_sesion: {e}")
-            # Programar nueva verificación en caso de error
-            self.check_job = self.after(30000, self.verificar_estado_sesion)
-
-    def cambiar_a_registro_extemporaneo(self):
-        """Cambia a la ventana de registro extemporáneo"""
-        try:
-            # Cancelar verificaciones pendientes
-            if self.check_job:
-                self.after_cancel(self.check_job)
-
-            # Usar la función de rol_funci para cambiar de pantalla
-            rol_funci.redirigir_pantalla_registro_extemporaneo(self.master)
-
-        except Exception as e:
-            print(f"Error cambiando a registro extemporáneo: {e}")
-
-    def cambiar_a_sesion_cerrada(self):
-        """Cambia a la ventana de sesión cerrada"""
-        try:
-            # Cancelar verificaciones pendientes
-            if self.check_job:
-                self.after_cancel(self.check_job)
-
-            # Usar la función de rol_funci para cambiar de pantalla
-            rol_funci.redirigir_pantalla_sesion_cerrada(self.master)
-
-        except Exception as e:
-            print(f"Error cambiando a sesión cerrada: {e}")
 
     def confirmar_asistencia(self):
         """Confirma la asistencia del usuario"""
+        self.revisar_pantalla()
         usuario = self.entrada_usuario.get().strip()
         codigo = self.entrada_codigo.get().strip()
 
@@ -162,18 +90,12 @@ class ModuloAsistencia(CTkFrame):
             return
 
         # Usar la función de rol_funci para registrar asistencia
-        exito, mensaje = rol_funci.registrar_asistencia(usuario, codigo)
+        exito, mensaje = registrar_asistencia(usuario, self.sesion, codigo)
 
         if exito:
-            self.mostrar_mensaje(mensaje, "exito")
-            # Limpiar campos después de registro exitoso
-            self.entrada_usuario.delete(0, 'end')
+            self.mostrar_mensaje(mensaje, 'exito')
             self.entrada_codigo.delete(0, 'end')
-
-            # Verificar si después de esta asistencia se llenaron todos los cupos
-            if rol_funci.verificar_cupos_llenos():
-                # Esperar un poco para que el usuario vea el mensaje y luego cambiar
-                self.after(2000, self.cambiar_a_sesion_cerrada)
+            self.entrada_usuario.delete(0, 'end')
         else:
             self.mostrar_mensaje(mensaje, "error")
 
@@ -192,15 +114,26 @@ class ModuloAsistencia(CTkFrame):
     def obtener_turno_actual(self):
         """Devuelve el turno actual como string"""
         hora = datetime.now().hour
-        if 7 <= hora < 22:
+        if 7 <= hora < 20:
             siguiente = hora + 1
-            sufijo_inicio = "am" if hora < 12 else "pm"
             sufijo_fin = "am" if siguiente < 12 else "pm"
-            return f"{hora}–{siguiente}{sufijo_fin}"
+            return f"{hora}-{siguiente}{sufijo_fin}"
         return "Fuera de horario"
 
-    def destroy(self):
-        """Limpia recursos al destruir el widget"""
-        if self.check_job:
-            self.after_cancel(self.check_job)
-        super().destroy()
+    def revisar_pantalla(self):
+        '''Funcón para revisar si la pantalla de registro debe cambiar'''
+        minutos = datetime.now().minute
+
+        if 10 < minutos < 55:
+            messagebox.showwarning('Revisar hora',
+                                   'El tiempo para registro de sesión con reserva ha finalizado')
+
+            if hay_cupos_disponibles(self.sesion):
+                ventana = registro_extemporaneo.RegistroExtemporaneo(self.master, self.sesion)
+            else:
+                ventana = sesion_cerrada.SesionCerrada(self.master)
+
+            self.master.contenido.destroy()
+            self.master.contenido = ventana
+            self.master.contenido.grid(row=1, column=0, sticky="nsew")
+

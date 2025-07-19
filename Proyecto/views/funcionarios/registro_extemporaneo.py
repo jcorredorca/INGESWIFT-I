@@ -1,19 +1,19 @@
+'''Modulo para el registro de asistencia extemporaneo'''
 from datetime import datetime
-
-from core import rol_funci, utils
-from customtkinter import *
-
-from services import general
+from tkinter import messagebox
+from customtkinter import CTkFrame, CTkLabel, CTkEntry, CTkButton
+from services.funcionario import registro_extemporaneo, recuperar_cupos
+from core import utils
 
 
 class RegistroExtemporaneo(CTkFrame):
     """Clase que representa el módulo de registro extemporáneo para funcionarios"""
-    def __init__(self, master, cupos, sesion):
+    def __init__(self, master, sesion):
         super().__init__(master)
         self.configure(fg_color="#2e1045")
         self.master = master
         self.sesion = sesion
-        self.cupos = cupos
+        self.cupos = 0
 
         # Variables para el control de tiempo
         self.check_job = None
@@ -24,9 +24,7 @@ class RegistroExtemporaneo(CTkFrame):
 
         self.crear_encabezado()
         self.crear_contenido()
-
-        # Iniciar monitoreo de cupos
-        self.iniciar_monitoreo_cupos()
+        self.verificar_cupos()
 
     def crear_encabezado(self):
         """Crea el encabezado con el turno actual"""
@@ -93,44 +91,28 @@ class RegistroExtemporaneo(CTkFrame):
                               command=self.registrar_extemporaneo)
         self.boton.pack(pady=(10, 0))
 
-    def iniciar_monitoreo_cupos(self):
-        """Inicia el monitoreo de cupos disponibles"""
-        self.verificar_cupos()
 
     def verificar_cupos(self):
         """Verifica si aún hay cupos disponibles"""
-        try:
-            cupos_actuales = general.recuperar_cupos(self.sesion)
-            if cupos_actuales == 'SIN RESERVA':
-                cupos_actuales = 0
+        cupos_actuales = recuperar_cupos(self.sesion)
+        if cupos_actuales == 'SIN RESERVA':
+            cupos_actuales = 0
 
-            # Actualizar el display de cupos
-            self.numero_cupos.configure(text=str(cupos_actuales))
-            self.cupos = cupos_actuales
-
-            # Si no hay cupos disponibles, cambiar a sesión cerrada
-            if cupos_actuales <= 0:
-                self.cambiar_a_sesion_cerrada()
-                return
-
-            # Programar la próxima verificación en 15 segundos
-            self.check_job = self.after(15000, self.verificar_cupos)
-
-        except Exception as e:
-            print(f"Error verificando cupos: {e}")
-            # Programar nueva verificación en caso de error
-            self.check_job = self.after(15000, self.verificar_cupos)
+        # Actualizar el display de cupos
+        self.numero_cupos.configure(text=str(cupos_actuales))
+        self.cupos = cupos_actuales
 
     def registrar_extemporaneo(self):
         """Registra un usuario de forma extemporánea"""
-        usuario = self.entry_usuario.get().strip()
+        self.revisar_pantalla()
+        usuario = self.entry_usuario.get()
 
         if not usuario:
             self.mostrar_mensaje("Por favor, ingrese un usuario", "error")
             return
 
         # Usar la función de rol_funci para registrar extemporáneo
-        exito, mensaje = rol_funci.registrar_extemporaneo(usuario)
+        exito, mensaje = registro_extemporaneo(usuario, self.sesion)
 
         if exito:
             self.mostrar_mensaje(mensaje, "exito")
@@ -155,30 +137,20 @@ class RegistroExtemporaneo(CTkFrame):
         # Limpiar mensaje después de 5 segundos
         self.after(5000, lambda: self.mensaje_label.configure(text=""))
 
-    def cambiar_a_sesion_cerrada(self):
-        """Cambia a la ventana de sesión cerrada"""
-        try:
-            # Cancelar verificaciones pendientes
-            # if self.check_job:
-            #     self.after_cancel(self.check_job)
-
-            # Usar la función de rol_funci para cambiar de pantalla
-            rol_funci.redirigir_pantalla_sesion_cerrada(self.master)
-
-        except Exception as e:
-            print(f"Error cambiando a sesión cerrada: {e}")
-
     def obtener_turno_actual(self):
         """Obtiene el turno actual basado en la hora"""
         hora = datetime.now().hour
         if 7 <= hora < 22:
             siguiente = hora + 1
             sufijo = "am" if siguiente < 12 else "pm"
-            return f"{hora}–{siguiente}{sufijo}"
+            return f"{hora}-{siguiente}{sufijo}"
         return "Fuera de horario"
 
-    def destroy(self):
-        """Limpia recursos al destruir el widget"""
-        if self.check_job:
-            self.after_cancel(self.check_job)
-        super().destroy()
+    def revisar_pantalla(self):
+        '''Funcón para revisar si la pantalla de registro debe cambiar'''
+        self.verificar_cupos()
+
+        if self.cupos <= 0:
+            messagebox.showwarning('Cupos agotados',
+                                   'Los cupos extemporaneos ya se agotaron')
+            utils.redirigir_pantalla_funcionario(self.master)

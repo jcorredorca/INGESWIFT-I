@@ -5,9 +5,13 @@
 from datetime import datetime
 from models import (SessionLocal,
                     t_rol_persona,
-                    Personas
+                    Personas,
+                    Reservas,
+                    Actividad,
+                    Sesiones,
+                    t_asistencias_extemp
                     )
-from sqlalchemy import select
+from sqlalchemy import select, func
 from models.conexion import Conexion
 from .general import enviar_correo
 
@@ -40,50 +44,68 @@ miembro activo y poder reservar</p>
         <p>Te recomendamos cambiar tu contraseña al iniciar sesión por primera vez.</p> 
         """)
 
-def usuario_ya_registrado(usuario): 
+def usuario_ya_registrado(usuario):
     '''Esta funcion valida si un usuario ya esta en la base de datos basado en su usuario''' 
-    query = "SELECT nombre FROM personas WHERE usuario = ?" 
-    conexion = Conexion() 
-    respuesta = conexion.ejecutar_consulta(query, [usuario]) 
-    return True if respuesta else False 
+    query = "SELECT nombre FROM personas WHERE usuario = ?"
+    conexion = Conexion()
+    respuesta = conexion.ejecutar_consulta(query, [usuario])
+    return True if respuesta else False
 
-def registrar_asistencia(usuario):
+def registrar_asistencia(miembro, sesion, codigo):
     '''Registra asistencia del usuario para la sesion activa (si hay).'''
     conexion = Conexion()
 
-    query_sesiones = """
-        SELECT s.id FROM sesiones s
-        JOIN reservas r ON s.id = r.sesiones_id
-        WHERE r.personas_usuario = ? AND date(s.fecha) = date('now')
-    """
-    sesiones = conexion.ejecutar_consulta(query_sesiones, [usuario])
+    query_verificacion_reserva = "SELECT personas_usuario, sesiones_id, asistio FROM reservas WHERE codigo = ?" #pylint: disable=line-too-long
+    query_asistencia = "UPDATE reservas SET asistio=1 WHERE codigo = ?"
 
-    if not sesiones:
-        return "No hay sesiones activas hoy para este usuario."
+    respuesta = conexion.ejecutar_consulta(query_verificacion_reserva, [codigo])
 
-    asistencia_registrada = False
-
-    for sesion in sesiones:
-        id_sesion = sesion[0]
-
-        query_estado = """
-            SELECT asistio FROM reservas
-            WHERE sesiones_id = ? AND personas_usuario = ?
-        """
-        resultado = conexion.ejecutar_consulta(query_estado, [id_sesion, usuario])
-
-        if resultado and resultado[0][0] == 0:
-            query_update = """
-                UPDATE reservas SET asistio = 1
-                WHERE sesiones_id = ? AND personas_usuario = ?
-            """
-            conexion.ejecutar_consulta(query_update, [id_sesion, usuario])
-            asistencia_registrada = True
-
-    if asistencia_registrada:
-        return "Asistencia registrada exitosamente."
+    #Verficia que el codigo de reserva sea real
+    if respuesta:
+        usuario = respuesta[0][0]
+        sesion_reserva = respuesta[0][1]
+        asistencia_registrada = respuesta[0][2]
     else:
-        return "Ya se habia registrado asistencia o no habia sesiones pendientes."
+        return False, 'El código de reserva es inválido'
+
+    if usuario != miembro:
+        return False, 'El usuario no corresponde con el de la reserva.'
+
+    if sesion_reserva != sesion:
+        return False, 'La reserva no es válida para esta sesión.'
+
+    if asistencia_registrada == 1:
+        return False, 'Ya se registró la asistencia de esta reserva.'
+
+    conexion.ejecutar_consulta(query_asistencia, [codigo])
+    return True, 'Asistencia registrada exitosamente'
+
+def registro_extemporaneo(usuario, sesion):
+    '''Funcion para registrar un miembro que accede de forma extemporanea'''
+    query_verificacion1 = "SELECT nombre FROM personas WHERE usuario = ? AND estado = ACTIVO"
+    query_verificacion2 = '''
+    SELECT * FROM reservas 
+    WHERE personas_usuario = ? 
+    AND sesiones_id = ? 
+    AND asistio = 1'''
+    query_verificacion3 = '''
+    SELECT * FROM asistencias_extemp 
+    WHERE personas_usuario = ? AND sesiones_id = ?'''
+    query_asistencia= "INSERT INTO asistencias_extemp (personas_usuario, sesiones_id) VALUES (?, ?)"
+
+    conexion = Conexion()
+
+    respuesta = conexion.ejecutar_consulta(query_verificacion1, [usuario])
+    if not respuesta:
+        return False, 'El usuario no está registrado en el sistema o no está activo'
+
+    respuesta_reserva = conexion.ejecutar_consulta(query_verificacion2, [usuario, sesion])
+    respuesta_extemp = conexion.ejecutar_consulta(query_verificacion3, [usuario, sesion])
+    if respuesta_reserva or respuesta_extemp:
+        return False, "El usuario ya está registrado en esta sesión"
+
+    conexion.ejecutar_consulta(query_asistencia, [usuario, sesion])
+    return True, 'La asistencia se registró correctamente'
 
 def verificar_sesion_activa(actividad):
     '''Verifica si hay una sesion activa para el tipo de actividad dado'''
@@ -98,3 +120,60 @@ def verificar_sesion_activa(actividad):
     resultado = conexion.ejecutar_consulta(query, [actividad, hora_actual, hora_actual])
 
     return resultado[0][0] if resultado else None
+
+def hay_cupos_disponibles(id_sesion):
+    '''Esta funcion revisa la cantidad de cupos disponibles para determinada sesion
+    Retorna:
+        True  → hay cupo disponible o es aforo ilimitado.
+        False → el aforo ya está completo.'''
+
+    with SessionLocal() as session:
+        stmt = select(Actividad.aforo).join(Sesiones).filter(Sesiones.id == id_sesion)
+        result = session.execute(stmt)
+        aforo = result.scalars().all()
+
+    aforo = aforo[0]
+    if aforo == -1:
+        return True
+
+    with SessionLocal() as session:
+        stmt = select(func.count(Reservas.codigo)).filter( #pylint: disable = not-callable
+                                                        Reservas.sesiones_id == id_sesion,
+                                                        )
+        result = session.execute(stmt)
+        total_reservas = result.scalar_one()
+
+    with SessionLocal() as session:
+        stmt = select(func.count()).select_from( #pylint: disable=not-callable
+            t_asistencias_extemp).where( t_asistencias_extemp.c.sesiones_id == id_sesion)
+        result = session.execute(stmt)
+        asistencias_adicionales = result.scalar_one()
+
+    return (total_reservas + asistencias_adicionales) < aforo
+
+def recuperar_cupos(sesion):
+    '''Este metodo recupera el numero de cupos disponibles para una sesion'''
+
+    with SessionLocal() as session:
+        stmt = select(Actividad.aforo).join(Sesiones).filter(Sesiones.id == sesion)
+        result = session.execute(stmt)
+        aforo = result.scalar_one()
+
+    if aforo == -1:
+        return 'SIN RESERVA'
+
+    with SessionLocal() as session:
+        stmt = select(func.count(Reservas.codigo)).filter(#pylint: disable = not-callable
+                                                        Reservas.sesiones_id == sesion,
+                                                        Reservas.asistio == 1
+                                                        )
+        result = session.execute(stmt)
+        asistencias_reserva = result.scalar_one()
+
+    with SessionLocal() as session:
+        stmt = select(func.count()).select_from( #pylint: disable=not-callable
+            t_asistencias_extemp).where( t_asistencias_extemp.c.sesiones_id == sesion)
+        result = session.execute(stmt)
+        asistencias_adicionales = result.scalar_one()
+
+    return aforo - (asistencias_reserva + asistencias_adicionales)
