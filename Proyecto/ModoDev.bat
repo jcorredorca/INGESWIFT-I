@@ -23,7 +23,7 @@ for %%i in (customtkinter dotenv pillow bcrypt sib_api_v3_sdk sqlalchemy) do (
 
 )
 
-python script_modo_dev.py
+python script_db_check.py
 pause
 python app.py
 

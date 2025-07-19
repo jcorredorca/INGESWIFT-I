@@ -84,5 +84,5 @@ else
     fi
 fi
 
-python script_modo_dev.py
+python script_db_check.py
 python app.py
