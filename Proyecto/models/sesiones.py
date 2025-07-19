@@ -2,7 +2,7 @@
 import datetime
 from typing import List, Optional
 from models import Base
-from sqlalchemy import DateTime, Enum, ForeignKey, Integer
+from sqlalchemy import DateTime, Enum, ForeignKey, Integer, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 class Sesiones(Base):

@@ -67,13 +67,13 @@ class CambioPopup(CTkToplevel):
                                font=self.fuente, text_color='whitesmoke')
         usuario_label.grid(row=1, column=0, sticky='e')
 
-        contra_antigua_label=CTkLabel(self.campos_frame, text="Contraseña antigua:",
+        contrasenia_antigua_label=CTkLabel(self.campos_frame, text="Contraseña antigua:",
                                       font=self.fuente, text_color='whitesmoke')
-        contra_antigua_label.grid(row=2, column=0, sticky='e')
+        contrasenia_antigua_label.grid(row=2, column=0, sticky='e')
 
-        contra_nueva_label=CTkLabel(self.campos_frame, text="Contraseña nueva:",
+        contrasenia_nueva_label=CTkLabel(self.campos_frame, text="Contraseña nueva:",
                                     font=self.fuente, text_color='whitesmoke')
-        contra_nueva_label.grid(row=3, column=0, sticky='e')
+        contrasenia_nueva_label.grid(row=3, column=0, sticky='e')
 
         self.confirmacion_label=CTkLabel(self.campos_frame, text="Confirmar contraseña nueva:",
                                     font=self.fuente, text_color='whitesmoke')
@@ -85,21 +85,21 @@ class CambioPopup(CTkToplevel):
                                     font=self.fuente, width=ancho_entry)
         self.entry_usuario.grid(row=1, column=1)
 
-        self.entry_contra_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+        self.entry_contrasenia_antigua = CTkEntry(self.campos_frame, fg_color="whitesmoke",
                                              text_color='black',
                                         font=self.fuente, width=ancho_entry, show='•')
-        self.entry_contra_antigua.grid(row=2, column=1)
+        self.entry_contrasenia_antigua.grid(row=2, column=1)
 
-        self.entry_contra_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+        self.entry_contrasenia_nueva = CTkEntry(self.campos_frame, fg_color="whitesmoke",
                                            text_color='black',
                                         font=self.fuente, width=ancho_entry, show='•')
-        self.entry_contra_nueva.grid(row=3, column=1)
+        self.entry_contrasenia_nueva.grid(row=3, column=1)
 
-        self.entry_contra_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke",
+        self.entry_contrasenia_confirmacion = CTkEntry(self.campos_frame, fg_color="whitesmoke",
                                                 text_color='black',
                                                 font=self.fuente, width=ancho_entry,
                                                 show='•')
-        self.entry_contra_confirmacion.grid(row=4, column=1)
+        self.entry_contrasenia_confirmacion.grid(row=4, column=1)
 
         #Frame para ubicar botones
         botones = CTkFrame(self, fg_color=CambioPopup.color_fondo)
@@ -109,7 +109,7 @@ class CambioPopup(CTkToplevel):
 
         padx_botones = int(self.winfo_width()*0.25)
         boton_aceptar = CTkButton(
-                    botones, text="Modificar contraseña", command=self.modificar_contra,
+                    botones, text="Modificar contraseniaseña", command=self.modificar_contra,
                     font=self.fuente, fg_color="#F6A623", text_color="black",
                     cursor="hand2", hover_color="#d38e14", corner_radius=6)
         boton_aceptar.grid(row=0, column=0, padx=padx_botones)
@@ -122,8 +122,8 @@ class CambioPopup(CTkToplevel):
 
     def verificar_confirmacion(self):
         '''Verifica que los campos nueva contraseña y confirmación coincidan'''
-        nueva = self.entry_contra_nueva.get()
-        confirmacion = self.entry_contra_confirmacion.get()
+        nueva = self.entry_contrasenia_nueva.get()
+        confirmacion = self.entry_contrasenia_confirmacion.get()
 
         if confirmacion != nueva:
             self.confirmacion_label.configure(text_color="#a70c0c")
@@ -138,11 +138,11 @@ class CambioPopup(CTkToplevel):
         alguno_vacio = False
         if self.entry_usuario.get() == "":
             alguno_vacio = True
-        if self.entry_contra_antigua.get() == "":
+        if self.entry_contrasenia_antigua.get() == "":
             alguno_vacio = True
-        if self.entry_contra_nueva.get() == "":
+        if self.entry_contrasenia_nueva.get() == "":
             alguno_vacio = True
-        if self.entry_contra_confirmacion.get() == "":
+        if self.entry_contrasenia_confirmacion.get() == "":
             alguno_vacio = True
 
         if alguno_vacio:
@@ -151,11 +151,11 @@ class CambioPopup(CTkToplevel):
         return alguno_vacio
 
 
-    def modificar_contra(self):
+    def modificar_contrasenia(self):
         '''Funcion para modificar la contraseña'''
         usuario = self.entry_usuario.get()
-        contra = self.entry_contra_antigua.get()
-        contra_nueva = self.entry_contra_nueva.get()
+        contrasenia = self.entry_contrasenia_antigua.get()
+        contrasenia_nueva = self.entry_contrasenia_nueva.get()
         credenciales_correctas = False
 
         #Declaración de flags
@@ -166,12 +166,12 @@ class CambioPopup(CTkToplevel):
             return
 
         try:
-            credenciales_correctas = login.autenticar_credenciales(usuario, contra)
+            credenciales_correctas = login.autenticar_credenciales(usuario, contrasenia)
         except ValueError as e:
             messagebox.showerror('Error', str(e))
 
         if credenciales_correctas:
-            login.cambiar_contrasena(usuario, contra_nueva)
+            login.cambiar_contrasena(usuario, contrasenia_nueva)
             messagebox.showinfo('Actualización de contraseña',
                                 'Su contraseña fue actualizada exitosamente. \
                                     El cambio ha sido notificado a su correo.')

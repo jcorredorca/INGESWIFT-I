@@ -68,6 +68,17 @@ def create_afid_database():
     )
     """)
 
+    # asistencia_extemporanea
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS asistencias_extemp (
+        personas_usuario TEXT NOT NULL,
+        sesiones_id INTEGER NOT NULL,
+        PRIMARY KEY (personas_usuario, sesiones_id),
+        FOREIGN KEY (personas_usuario) REFERENCES personas(usuario),
+        FOREIGN KEY (sesiones_id) REFERENCES sesiones(id)
+    )
+    """)
+
     # funcionarios_en_sesion
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS funcionarios_en_sesion (
@@ -126,7 +137,7 @@ def create_afid_database():
         ("CARDIO", 20),
         ("FUERZA", 30),
         ("FULLBODY", 20),
-        ("SPINNING", 20),
+        ("SPINNING", 5),
         ("YOGA", 20),
         ("MIND BODY", 20),
         ("PRUEBAS FÍSICAS", -1),
