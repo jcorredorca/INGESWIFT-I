@@ -33,6 +33,7 @@ class StateHorarioMiembros(CTkToplevel):
         y = (self.winfo_screenheight() - alto) //factor
         self.geometry(f"{ancho}x{alto}+{x}+{y}")
 
+        self.update()
         self.transient(self.master)
         self.grab_set()
         self.focus()

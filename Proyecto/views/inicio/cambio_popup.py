@@ -29,6 +29,7 @@ class CambioPopup(CTkToplevel):
         self.crear_espacio_formulario()
         self.construir_formulario()
 
+        self.update()
         self.transient(master)
         self.grab_set()
         self.focus()
@@ -41,6 +42,7 @@ class CambioPopup(CTkToplevel):
 
     def crear_espacio_formulario(self):
         '''Reserva el espacio para el formulario'''
+        self.master.update_idletasks()
         alto_rows = int(self.winfo_height()*0.2)
 
         self.campos_frame = CTkFrame(self, fg_color=CambioPopup.color_fondo)

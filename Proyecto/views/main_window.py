@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
 
         self.title("ATUN")
         self.usuario = None
-        
+
         if sys.platform.startswith('win'):
             self.iconbitmap(APP_ICON)
         else:
