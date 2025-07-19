@@ -18,11 +18,14 @@ def redirigir_pantalla_asistencia(origen, sesion):
     minutos = datetime.now().minute
 
     ventana = modulo_asistencia.ModuloAsistencia(origen, sesion)
-    if 10 < minutos < 55:
+    if 10 < minutos < 30:
         if hay_cupos_disponibles(sesion):
             ventana = registro_extemporaneo.RegistroExtemporaneo(origen, sesion)
         else:
             ventana = sesion_cerrada.SesionCerrada(origen)
+    elif minutos >= 30:
+        ventana = sesion_cerrada.SesionCerrada(origen)
+
 
     origen.contenido.destroy()
     origen.contenido = ventana

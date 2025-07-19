@@ -30,6 +30,6 @@ flujo de personas.
 ---
 
 ## 💻 Modo Developer
-Si desea bajar y correr este proyecto, asegurese de hacerlo mediante la ejecución del script para modo developer ([ModoDev.bat](Proyecto/ModoDev.bat) para Windows y [ModoDev.sh](Proyecto/ModoDev.sh) para Linux). Este archivo comprobará que su dispositivo cumpla con los requerimientos necesarios para ejecutar el proyecto y, en caso de ser necesario, instalar las librerías que aún no tenga.
+Si desea bajar y correr este proyecto, asegurese de hacerlo mediante la ejecución del script para modo developer ([ModoDev.bat](Proyecto/ModoDev.bat) para Windows y [ModoDev.sh](Proyecto/ModoDev.sh) para Linux). Este archivo iniciará un entorno virtual, donde comprobará que cumpla con los requerimientos necesarios para ejecutar el proyecto y, en caso de ser necesario, instalar las librerías que aún no tenga.
 
 

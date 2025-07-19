@@ -11,9 +11,8 @@ from models import (SessionLocal,
                     Sesiones,
                     t_asistencias_extemp
                     )
-from sqlalchemy import select, func, exists
+from sqlalchemy import select, func
 from .general import enviar_correo
-from models.conexion import Conexion
 
 
 def registrar_miembro(info:dict):
@@ -35,13 +34,13 @@ def registrar_miembro(info:dict):
         destinatario=info['correo'],
         asunto='ATUN - Registro exitoso',
         contenido_html=f"""
-        <h2>¡Hola {info['nombre']}!</h2> 
-        <p>Tu registro en el sistema ATUN ha sido <strong>exitoso</strong>.</p> 
-        <p>Recuerda que tus credenciales son: usuario: <strong>{info['usuario']}</strong> / 
-contraseña: Tu <strong>número de documento de identidad</strong></p> 
-        <p>Para poder hacer reservas, recuerda que debes ir a las pruebas físicas para ser un 
-miembro activo y poder reservar</p> 
-        <p>Te recomendamos cambiar tu contraseña al iniciar sesión por primera vez.</p> 
+        <h2>¡Hola {info['nombre']}!</h2>
+        <p>Tu registro en el sistema ATUN ha sido <strong>exitoso</strong>.</p>
+        <p>Recuerda que tus credenciales son: usuario: <strong>{info['usuario']}</strong> /
+contraseña: Tu <strong>número de documento de identidad</strong></p>
+        <p>Para poder hacer reservas, recuerda que debes ir a las pruebas físicas para ser un
+miembro activo y poder reservar</p>
+        <p>Te recomendamos cambiar tu contraseña al iniciar sesión por primera vez.</p>
         """)
 
 def eliminar_miembro(usuario):
@@ -94,44 +93,40 @@ def registro_extemporaneo(usuario, sesion):
                             Personas.estado == 'ACTIVO')
         result = session.execute(stmt)
         nombre = result.scalar()
+
+        if not nombre:
+            return False, 'El usuario no está registrado en el sistema o no está activo'
+
         stmt = select(
                     Reservas.codigo
                     ).filter(Reservas.personas_usuario == usuario,
                             Reservas.sesiones_id == sesion,
                             Reservas.asistio == 1)
         result = session.execute(stmt)
-        codigo = result.scalar()
-        stmt = select(stmt = select(
-    exists().where(t_asistencias_extemp.personas == valor)
-))
+        asistencia_reserva = result.scalar()
+
+
+        stmt = select(t_asistencias_extemp.c.personas_usuario).select_from( #pylint: disable=not-callable
+                                t_asistencias_extemp).where(
+                                    t_asistencias_extemp.c.sesiones_id == sesion,
+                                    t_asistencias_extemp.c.personas_usuario == usuario)
         result = session.execute(stmt)
-        codigo = result.scalar()
+        asistencia_extemp = result.scalar()
 
-    query_verificacion3 = '''
-    SELECT * FROM asistencias_extemp 
-    WHERE personas_usuario = ? AND sesiones_id = ?'''
-    query_asistencia= "INSERT INTO asistencias_extemp (personas_usuario, sesiones_id) VALUES (?, ?)"
+        if asistencia_reserva or asistencia_extemp:
+            return False, "El usuario ya está registrado en esta sesión"
 
-    conexion = Conexion()
-
-    if not nombre:
-        return False, 'El usuario no está registrado en el sistema o no está activo'
-
-    respuesta_reserva = conexion.ejecutar_consulta(query_verificacion2, [usuario, sesion])
-    respuesta_extemp = conexion.ejecutar_consulta(query_verificacion3, [usuario, sesion])
-    if respuesta_reserva or respuesta_extemp:
-        return False, "El usuario ya está registrado en esta sesión"
-
-    conexion.ejecutar_consulta(query_asistencia, [usuario, sesion])
-    return True, 'La asistencia se registró correctamente'
+    with SessionLocal.begin() as session: #pylint: disable = no-member
+        stmt = t_asistencias_extemp.insert().values(personas_usuario=usuario, sesiones_id=sesion)
+        return True, 'La asistencia se registró correctamente'
 
 def verificar_sesion_activa(actividad):
     '''Verifica si hay una sesion activa para el tipo de actividad dado'''
     hora_acutal = datetime.now()
     with SessionLocal() as session:
         stmt = select(Sesiones.id).filter(
-                                        Sesiones.fecha < hora_acutal,
-                                        hora_acutal - timedelta(minutes=30) <= Sesiones.fecha,
+                                        Sesiones.fecha < hora_acutal + timedelta(minutes=55),
+                                        hora_acutal - timedelta(minutes=55) <= Sesiones.fecha,
                                         Sesiones.actividad_tipo == actividad
                                         )
         result = session.execute(stmt)

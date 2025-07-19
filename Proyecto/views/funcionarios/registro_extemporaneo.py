@@ -125,11 +125,13 @@ class RegistroExtemporaneo(CTkFrame):
     def mostrar_mensaje(self, mensaje, tipo="info"):
         """Muestra un mensaje en la interfaz"""
         if tipo == "error":
-            self.mensaje_label.configure(text=mensaje, text_color="#ff6b6b")
+            color="#ff6b6b"
         elif tipo == "exito":
-            self.mensaje_label.configure(text=mensaje, text_color="#51cf66")
+            color="#51cf66"
         else:
-            self.mensaje_label.configure(text=mensaje, text_color="white")
+            color='white'
+            
+        self.mensaje_label.configure(text=mensaje, text_color=color)
 
         # Limpiar mensaje después de 5 segundos
         self.after(5000, lambda: self.mensaje_label.configure(text=""))

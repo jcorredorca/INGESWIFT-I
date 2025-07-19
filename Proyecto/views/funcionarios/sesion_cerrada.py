@@ -47,10 +47,10 @@ class SesionCerrada(CTkFrame):
         label_alerta = CTkLabel(lado_derecho, text="SESIÓN CERRADA",
                                 text_color="#f6a623",
                                 font=("Arial", self.tamanio_fuente_texto + 4, "bold"))
-        label_alerta.pack(anchor="w", pady=(20, 20))
+        label_alerta.pack(anchor="center", pady=(20, 20))
 
         # Separamos las líneas para controlar el espacio
-        linea = CTkLabel(lado_derecho, text="No se pueden registrar\nmás entradas", anchor='center',
+        linea = CTkLabel(lado_derecho, text="No se pueden registrar más entradas\nbien sea por falta de cupos o por la hora (< 30 min)", anchor='center',
                           text_color="gainsboro", font=("Arial", self.tamanio_fuente_texto, "bold"))
 
         linea.pack(anchor="w", pady=(0, 30))
