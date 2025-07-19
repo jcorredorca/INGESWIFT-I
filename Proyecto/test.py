@@ -1,7 +1,8 @@
 '''Modulo de test'''
 import unittest
-from services.login import autenticar_credenciales, hash_contrasena
+from services.login import autenticar_credenciales, hash_contrasena, cambiar_contrasena
 from services.funcionario import registrar_miembro, eliminar_miembro
+
 
 #sfetecua
 class TestLogin(unittest.TestCase):
@@ -82,6 +83,66 @@ class TestLogin(unittest.TestCase):
                         str(context.exception),
                          "El usuario o contraseña ingresado no son correctos."
                          )
+
+
+class TestCambioContrasenia(unittest.TestCase):
+    '''Tests realcionados al cambio de contrasenia'''
+
+    def test_cambio_exitoso(self):
+        '''Verifica que el cambio de contraseña se realice de forma exitosa'''
+        #Given: Un usuario con credenciales válidas
+        user = 'cambio'
+        contrasenia = 'contrasenia'
+
+        info_miembro = {
+                "usuario": user,
+                "nombre": 'nombre',
+                "apellido": 'apellido',
+                "contrasena": hash_contrasena(contrasenia),
+                "correo": 'nbolanosf@unal.edu.co',
+                "rol": None,
+                "programa": None,
+            }
+        registrar_miembro(info_miembro)
+
+        #When: Cambia su contrasenia
+        nueva_contrasenia = 'exitoso'
+        cambiar_contrasena(user, nueva_contrasenia)
+
+        #Then: El usuario accede con sus nuevas credenciales
+        self.assertTrue(autenticar_credenciales(user, nueva_contrasenia),
+                                                msg='La contraseña no se actualizó')
+
+        eliminar_miembro('cambio')
+
+    def test_contrasenia_antigua_inutil(self):
+        '''Verifica que al cambiar la contrasenia, las credenciales anteriores no funcionen'''
+        #Given: Un usuario con credenciales válidas
+        user = 'cambio'
+        contrasenia = 'contrasenia'
+
+        info_miembro = {
+                "usuario": user,
+                "nombre": 'nombre',
+                "apellido": 'apellido',
+                "contrasena": hash_contrasena(contrasenia),
+                "correo": 'nbolanosf@unal.edu.co',
+                "rol": None,
+                "programa": None,
+            }
+        registrar_miembro(info_miembro)
+
+        #When: Cambia su contrasenia
+        nueva_contrasenia = 'exitoso'
+        cambiar_contrasena(user, nueva_contrasenia)
+
+        #Then: El usuario accede con sus nuevas credenciales
+        self.assertTrue(autenticar_credenciales(user, nueva_contrasenia),
+                                                msg='La contraseña no se actualizó')
+
+        eliminar_miembro('cambio')
+
+
 
 if __name__ == '__main__':
     unittest.main()
