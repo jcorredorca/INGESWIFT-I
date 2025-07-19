@@ -11,7 +11,7 @@ from models import (SessionLocal,
                     Sesiones,
                     t_asistencias_extemp
                     )
-from sqlalchemy import select, func, Time
+from sqlalchemy import select, func, exists
 from .general import enviar_correo
 from models.conexion import Conexion
 
@@ -51,28 +51,24 @@ def eliminar_miembro(usuario):
         session.delete(persona)
 
 def usuario_ya_registrado(usuario):
-    '''Esta funcion valida si un usuario ya esta en la base de datos basado en su usuario''' 
-    query = "SELECT nombre FROM personas WHERE usuario = ?"
-    conexion = Conexion()
-    respuesta = conexion.ejecutar_consulta(query, [usuario])
-    return True if respuesta else False
+    '''Esta funcion valida si un usuario ya esta en la base de datos basado en su usuario'''
+    with SessionLocal() as session:
+        stmt = select(Personas.nombre).filter(Personas.usuario == usuario)
+        result = session.execute(stmt)
+        nombre = result.scalar()
+
+    return nombre is not None
 
 def registrar_asistencia(miembro, sesion, codigo):
     '''Registra asistencia del usuario para la sesion activa (si hay).'''
-    conexion = Conexion()
-
-    query_verificacion_reserva = "SELECT personas_usuario, sesiones_id, asistio FROM reservas WHERE codigo = ?" #pylint: disable=line-too-long
-    query_asistencia = "UPDATE reservas SET asistio=1 WHERE codigo = ?"
-
-    respuesta = conexion.ejecutar_consulta(query_verificacion_reserva, [codigo])
-
-    #Verficia que el codigo de reserva sea real
-    if respuesta:
-        usuario = respuesta[0][0]
-        sesion_reserva = respuesta[0][1]
-        asistencia_registrada = respuesta[0][2]
-    else:
-        return False, 'El código de reserva es inválido'
+    with SessionLocal() as session:
+        reserva = session.get(Reservas, codigo)
+        if reserva:
+            usuario = reserva.personas_usuario
+            sesion_reserva = reserva.sesiones_id
+            asistencia_registrada = reserva.asistio
+        else:
+            return False, 'El código de reserva es inválido'
 
     if usuario != miembro:
         return False, 'El usuario no corresponde con el de la reserva.'
@@ -83,17 +79,34 @@ def registrar_asistencia(miembro, sesion, codigo):
     if asistencia_registrada == 1:
         return False, 'Ya se registró la asistencia de esta reserva.'
 
-    conexion.ejecutar_consulta(query_asistencia, [codigo])
+    with SessionLocal.begin() as session: #pylint: disable = no-member
+        if reserva:
+            reserva.asistio = 1
+
     return True, 'Asistencia registrada exitosamente'
 
 def registro_extemporaneo(usuario, sesion):
     '''Funcion para registrar un miembro que accede de forma extemporanea'''
-    query_verificacion1 = "SELECT nombre FROM personas WHERE usuario = ? AND estado = 'ACTIVO'"
-    query_verificacion2 = '''
-    SELECT * FROM reservas 
-    WHERE personas_usuario = ? 
-    AND sesiones_id = ? 
-    AND asistio = 1'''
+    with SessionLocal() as session:
+        stmt = select(
+                    Personas.nombre
+                    ).filter(Personas.usuario == usuario,
+                            Personas.estado == 'ACTIVO')
+        result = session.execute(stmt)
+        nombre = result.scalar()
+        stmt = select(
+                    Reservas.codigo
+                    ).filter(Reservas.personas_usuario == usuario,
+                            Reservas.sesiones_id == sesion,
+                            Reservas.asistio == 1)
+        result = session.execute(stmt)
+        codigo = result.scalar()
+        stmt = select(stmt = select(
+    exists().where(t_asistencias_extemp.personas == valor)
+))
+        result = session.execute(stmt)
+        codigo = result.scalar()
+
     query_verificacion3 = '''
     SELECT * FROM asistencias_extemp 
     WHERE personas_usuario = ? AND sesiones_id = ?'''
@@ -101,8 +114,7 @@ def registro_extemporaneo(usuario, sesion):
 
     conexion = Conexion()
 
-    respuesta = conexion.ejecutar_consulta(query_verificacion1, [usuario])
-    if not respuesta:
+    if not nombre:
         return False, 'El usuario no está registrado en el sistema o no está activo'
 
     respuesta_reserva = conexion.ejecutar_consulta(query_verificacion2, [usuario, sesion])
