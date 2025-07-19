@@ -22,7 +22,7 @@
 
 # === Archivos de bases de datos locales ===
 *#.sqlite3
-*.db
+data/*.db
 #*.sql
 *.dump
 *.bak.sql
