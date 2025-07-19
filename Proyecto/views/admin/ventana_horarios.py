@@ -3,16 +3,17 @@
 from datetime import datetime, timedelta
 from tkinter import Event, messagebox
 from customtkinter import CTkFrame, CTkOptionMenu, CTkLabel, CTkButton
-from ..components.horario_semanal import HorarioSemanal
 from services.general import recuperar_actividades
-from .state_horario import StateHorario, Creacion, EdicionEliminacion
 from services import general
+from views.components.horario_semanal import HorarioSemanal
+from .state_horario import StateHorario, Creacion, EdicionEliminacion, CreacionMasiva
+
 
 class VentanaHorarios(CTkFrame):
     ''' Esta clase representa el panel de creacion y edicion de horarios para miembros '''
     def __init__(self, master):
         super().__init__(master)
-        font = ("Segoe UI", 60, 'bold')
+
         self.configure(fg_color= "#2e1045", corner_radius=1)
 
         self.repartir_espacio()
@@ -24,7 +25,31 @@ class VentanaHorarios(CTkFrame):
 
         self.indicador_semana()
 
-         # Botón con flecha a la izquierda
+        self.botones_navegacion()
+
+        self.crear_horario()
+
+        self.ctrl_pressed = False
+        self.celdas_seleccionadas = set()
+        # Eventos globales
+        self.winfo_toplevel().bind("<Control_L>", self.on_ctrl_press)
+        self.winfo_toplevel().bind("<KeyRelease-Control_L>", self.on_ctrl_release)
+
+
+    def crear_horario(self):
+        '''Crea los horarios a desplegar tanto de la semana actual como la siguiente'''
+        self.horario_actual= HorarioSemanal(self, 'ADMINISTRADOR', 1)
+        self.horario_siguiente = HorarioSemanal(self, 'ADMINISTRADOR', 0)
+        self.horario_siguiente.grid(row=1, column=3, sticky='e', rowspan=2)
+        self.horario_activo= self.horario_siguiente
+        for columna in self.horario_siguiente.celdas:
+            for celda in columna:
+                celda.bind('<Button-1>', self.crear_ventana)
+
+    def botones_navegacion(self):
+        '''Este metodo crea las flechas de navegacion entre horarios'''
+        font = ("Segoe UI", 60, 'bold')
+        # Botón con flecha a la izquierda
         self.boton_izq = CTkButton(self.frame_izq,
                                    text="<",
                                    font=font,
@@ -32,7 +57,7 @@ class VentanaHorarios(CTkFrame):
                                    text_color="#2e1045",
                                    hover_color="#FFB947",
                                    cursor='hand2',
-                                   command=self.izquierda)
+                                   command=self.get_semana_actual)
         self.boton_izq.grid(row=2 , column=0)
 
         # Botón con flecha a la derecha
@@ -44,19 +69,11 @@ class VentanaHorarios(CTkFrame):
                                    hover_color="#FFB947",
                                    cursor='hand2',
                                    state='disabled',
-                                   command=self.derecha)
+                                   command=self.get_semana_siguiente)
         self.boton_der.grid(row=3 , column=0)
 
-        self.horario_actual= HorarioSemanal(self, 'ADMINISTRADOR', 1)
-        self.horario_siguiente = HorarioSemanal(self, 'ADMINISTRADOR', 0)
-        self.horario_siguiente.grid(row=1, column=3, sticky='e', rowspan=2)
-        self.horario_activo= self.horario_siguiente
-        for columna in self.horario_siguiente.celdas:
-            for celda in columna:
-                celda.bind('<Button-1>', self.crear_ventana)
-
-    def izquierda(self):
-        '''Este metodo despliega el horario de la semana pasada'''
+    def get_semana_actual(self):
+        '''Este metodo despliega el horario de la semana actual'''
 
         self.horario_actual.grid(row=1, column=3, sticky='e', rowspan=2)
         self.horario_actual.lift()
@@ -71,9 +88,8 @@ class VentanaHorarios(CTkFrame):
         self.boton_der.configure(state='normal')
         self.boton_izq.configure(state='disabled')
 
-
-    def derecha(self):
-        '''Este metodo despliega el horario de la semana pasada'''
+    def get_semana_siguiente(self):
+        '''Este metodo despliega el horario de la semana siguiente'''
 
         self.horario_siguiente.grid(row=1, column=3, sticky='e', rowspan=2)
         self.horario_siguiente.lift()
@@ -169,19 +185,33 @@ class VentanaHorarios(CTkFrame):
 
     def crear_ventana(self, event:Event):
         '''Esta funcion crea la ventana emergente luego de un click'''
-        if event:
-            celda = event.widget
-            plan = self.opciones_busqueda.get()
-            if not self.revisar_actividad(plan):
-                return
-            fecha_hora = celda.master.fecha_hora
-            id_horario = general.hay_sesiones(plan, fecha_hora)
+        celda = event.widget
+        plan = self.opciones_busqueda.get()
+        if not self.revisar_actividad(plan):
+            return
+        fecha_hora = celda.master.fecha_hora
+        id_horario = general.hay_sesiones(plan, fecha_hora)
+
+        if event and not self.ctrl_pressed:
             if id_horario:
                 ventana = StateHorario(celda, EdicionEliminacion())
                 ventana.renderizar_contenido()
             else:
                 ventana = StateHorario(celda, Creacion())
                 ventana.renderizar_contenido()
+        else:
+
+            if celda.master in self.celdas_seleccionadas:
+                self.celdas_seleccionadas.remove(celda.master)
+                celda.master.configure(fg_color="lightgray")
+                celda.master.fg_color = "#f0f0f0"
+
+            else:
+                if celda.master.fg_color != '#c3f7c8':
+                    self.celdas_seleccionadas.add(celda.master)
+                    celda.master.configure(fg_color="lightblue")
+                    celda.master.fg_color = "lightblue"
+
 
     def revisar_actividad(self, actividad):
         '''Revisa que haya una actividad para renderizar la ventana de creacion'''
@@ -189,3 +219,20 @@ class VentanaHorarios(CTkFrame):
             messagebox.showwarning('Plan','Escoja alguno de los planes para poder crear un horario')
             return False
         return True
+
+    def on_ctrl_press(self, event):
+        '''Verifica si el control esta siendo presionado'''
+        if event:
+            self.ctrl_pressed = True
+
+    def on_ctrl_release(self, event):
+        '''Llama a la ventana emergente cuando se suelta el control'''
+        if event:
+            self.ctrl_pressed = False
+            if self.celdas_seleccionadas:
+                ventana = StateHorario(
+                                      next(iter(self.celdas_seleccionadas)),
+                                      CreacionMasiva(),
+                                      self.celdas_seleccionadas
+                                      )
+                ventana.renderizar_contenido()

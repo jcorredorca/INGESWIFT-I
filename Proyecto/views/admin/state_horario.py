@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from customtkinter import CTkToplevel
 from .crear_horario import CrearHorario
 from .editar_horario import EditarHorario
+from .crear_horario_masivo import CrearHorarioMasivo
 
 class StateHorario(CTkToplevel):
     """
@@ -12,9 +13,9 @@ class StateHorario(CTkToplevel):
 
     _state = None
 
-    def __init__(self, master, state: State) -> None:
+    def __init__(self, master, state: State, celdas: set = None) -> None:
         super().__init__(master)
-
+        self.celdas = celdas
         self.configurar_ventana()
 
         self.title("Crear horario")
@@ -75,6 +76,11 @@ class Creacion(State):
     '''Esta clase representa el widget del estado de creacion'''
     def renderizar(self) -> None:
         contenido = CrearHorario(self.context)
+        contenido.pack(fill="both", expand=True)
+class CreacionMasiva(State):
+    '''Esta clase representa el widget del estado de creacion de varios horarios'''
+    def renderizar(self) -> None:
+        contenido = CrearHorarioMasivo(self.context, self.context.celdas)
         contenido.pack(fill="both", expand=True)
 
 class EdicionEliminacion(State):

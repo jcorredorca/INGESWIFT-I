@@ -37,7 +37,7 @@ def cambiar_contrasena(usuario, nueva_contrasenia):
             correo = persona.correo
 
             enviar_correo(
-                destinatario=correo[0][0],
+                destinatario=correo,
                 asunto= 'ATUN - Cambio de contraseña',
                 contenido_html="""
                 <h2>¡Hola!</h2>

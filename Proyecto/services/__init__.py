@@ -1,2 +1,2 @@
-'''Modulo para volver esta carpeta un paquete'''
+'''Modulo con la logica de negocio'''
 from . import funcionario, administrador, general, login, miembros
