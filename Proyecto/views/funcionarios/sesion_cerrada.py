@@ -1,8 +1,9 @@
 '''Modulo para la sesion cerrada'''
 from datetime import datetime
 
-from customtkinter import CTkFrame, CTkLabel, CTkButton
 from core import utils
+from customtkinter import CTkButton, CTkFrame, CTkLabel
+
 
 class SesionCerrada(CTkFrame):
     """Clase que representa la ventana de sesión cerrada para funcionarios"""
@@ -50,8 +51,9 @@ class SesionCerrada(CTkFrame):
         label_alerta.pack(anchor="center", pady=(20, 20))
 
         # Separamos las líneas para controlar el espacio
-        linea = CTkLabel(lado_derecho, text="No se pueden registrar más entradas\nbien sea por falta de cupos o por la hora (< 30 min)", anchor='center',
-                          text_color="gainsboro", font=("Arial", self.tamanio_fuente_texto, "bold"))
+        linea = CTkLabel(lado_derecho, text="No se pueden registrar más entradas\nbien sea por falta de cupos o por la hora (< 30 min)",
+                         anchor='center',
+                         text_color="gainsboro", font=("Arial", self.tamanio_fuente_texto, "bold"))
 
         linea.pack(anchor="w", pady=(0, 30))
 

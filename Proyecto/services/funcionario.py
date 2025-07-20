@@ -1,17 +1,13 @@
 # funcionarios.py
 
-'''Funciones de backend para el rol Funcionario''' 
+'''Funciones de backend para el rol Funcionario'''
 
 from datetime import datetime, timedelta
-from models import (SessionLocal,
-                    t_rol_persona,
-                    Personas,
-                    Reservas,
-                    Actividad,
-                    Sesiones,
-                    t_asistencias_extemp
-                    )
-from sqlalchemy import select, func
+
+from models import (Actividad, Personas, Reservas, Sesiones, SessionLocal,
+                    t_asistencias_extemp, t_rol_persona)
+from sqlalchemy import func, select
+
 from .general import enviar_correo
 
 

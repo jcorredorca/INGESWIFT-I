@@ -2,6 +2,7 @@
     Inicia el encabezado y pie de pagina'''
 import sys
 from tkinter import PhotoImage
+
 import customtkinter
 from config import APP_ICON, APP_ICON_LINUX
 
