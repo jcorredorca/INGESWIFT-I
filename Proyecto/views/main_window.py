@@ -4,7 +4,7 @@ import sys
 from tkinter import PhotoImage
 
 import customtkinter
-from config import APP_ICON, APP_ICON_LINUX
+from config import APP_ICON, APP_ICON_LINUX, COLOR_PRIMARIO
 
 from .components import encabezado, pie_de_pagina
 from .inicio import inicio
@@ -24,7 +24,7 @@ class App(customtkinter.CTk):
         else:
             icon = PhotoImage(file=APP_ICON_LINUX)
             self.iconphoto(True, icon)
-        self.configure(fg_color = "#09FF00")
+        self.configure(fg_color = COLOR_PRIMARIO)
         self.configurar_dimensiones()
         self.repartir_espacio()
 
