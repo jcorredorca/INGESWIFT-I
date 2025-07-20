@@ -93,9 +93,9 @@ def recuperar_ubicacion_publico(id_sesion):
                     Ubicaciones.ubicacion
                     ).join(Ubicaciones).filter(Sesiones.id == id_sesion)
         result = session.execute(stmt)
-        publico_ubicacion = result.first()
+        publico_ubicacion = result.all()
 
-    return publico_ubicacion
+    return publico_ubicacion[0]
 
 def recuperar_funcionarios_en_sesion(id_sesion):
     '''Devuelve una lista de usuarios asignados a la sesión'''

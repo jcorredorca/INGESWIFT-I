@@ -18,6 +18,10 @@ from .general import enviar_correo
 def registrar_miembro(info:dict):
     '''Esta funcion permite registrar un nuevo miembro en el sistema'''
     with SessionLocal.begin() as session: #pylint: disable = no-member
+        persona = session.get(Personas, info['usuario'])
+        if persona:
+            raise ValueError('Este usuario ya existe en la base de datos')
+
         nueva_persona = Personas(usuario = info["usuario"],
                                  nombre = info["nombre"],
                                  apellido = info["apellido"],
@@ -46,6 +50,9 @@ miembro activo y poder reservar</p>
 def eliminar_miembro(usuario):
     '''Esta funcion permite eliminar un nuevo del el sistema'''
     with SessionLocal.begin() as session: #pylint: disable = no-member
+        persona = session.get(Personas, usuario)
+        if not persona:
+            raise ValueError('Este usuario no existe en la base de datos')
         persona = session.get(Personas, usuario)
         session.delete(persona)
 

@@ -142,6 +142,7 @@ class RegistroMiembro(CTkFrame):
         else:
             rol = 'GENERAL'
 
+        programa = None
         if self.entries["Programa"][0].get() == "--Programa--":
             programa = None
         elif self.entries["Programa"][0].get() == "Jóvenes a la U":
@@ -159,13 +160,21 @@ class RegistroMiembro(CTkFrame):
             "programa": programa,
         }
 
-        funcionario.registrar_miembro(info_miembro)
+        try:
+            funcionario.registrar_miembro(info_miembro)
+        except ValueError as e:
+            messagebox.showerror('Error', str(e))
+
         messagebox.showinfo('Registro exitoso', 'El miembro ha sido registrado exitosamente. \
                             Recuerde cambiar su contraseña al iniciar sesión por primera vez.')
+
         # Reinicia los campos del formulario
         for entry, _ in self.entries.values():
             if isinstance(entry, CTkComboBox):
-                entry.set("--Rol en la universidad--" if entry == self.entries['Rol'][0] else "--Programa--")
+                if entry == self.entries['Rol'][0]:
+                    entry.set("--Rol en la universidad--")
+                else:
+                    entry.set("--Programa--")
             else:
                 entry.delete(0, 'end')
 

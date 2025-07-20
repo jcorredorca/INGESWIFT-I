@@ -1,7 +1,10 @@
 '''Modulo de test'''
 import unittest
+from datetime import datetime
+
+from models import FuncionariosEnSesion, SessionLocal
 from services.login import autenticar_credenciales, hash_contrasena, cambiar_contrasena
-from services.administrador import activar_miembros, desactivar_miembros
+from services import administrador
 from services.funcionario import registrar_miembro, eliminar_miembro
 from services.miembros import recuperar_estado
 
@@ -85,7 +88,7 @@ class TestLogin(unittest.TestCase):
                          "El usuario o contraseña ingresado no son correctos."
                          )
 
-#nbolanosf
+#sfetecua
 class TestCambioContrasenia(unittest.TestCase):
     '''Tests realcionados al cambio de contrasenia'''
 
@@ -100,7 +103,7 @@ class TestCambioContrasenia(unittest.TestCase):
                 "nombre": 'nombre',
                 "apellido": 'apellido',
                 "contrasena": hash_contrasena(contrasenia),
-                "correo": 'nbolanosf@unal.edu.co',
+                "correo": 'ssefetecua@unal.edu.co',
                 "rol": None,
                 "programa": None,
             }
@@ -127,7 +130,7 @@ class TestCambioContrasenia(unittest.TestCase):
                 "nombre": 'nombre',
                 "apellido": 'apellido',
                 "contrasena": hash_contrasena(contrasenia_vieja),
-                "correo": 'nbolanosf@unal.edu.co',
+                "correo": 'sefetecua@unal.edu.co',
                 "rol": None,
                 "programa": None,
             }
@@ -184,7 +187,7 @@ class TestRecuperarEstado(unittest.TestCase):
         registrar_miembro(info_miembro1)
 
         #When: Se activa
-        activar_miembros(['1'])
+        administrador.activar_miembros(['1'])
 
         #Then: El usuario '1' está activo y '2' permanece inactivo
         self.assertTrue(recuperar_estado('1') == 'ACTIVO', msg='No se activó a 1')
@@ -220,7 +223,7 @@ class TestActivaryDesactivarMiembros(unittest.TestCase):
         registrar_miembro(info_miembro2)
 
         #When: Se activa solo el que se indica
-        activar_miembros(['1'])
+        administrador.activar_miembros(['1'])
 
         #Then: Los miembros '1' y '2' están activos
         self.assertTrue(recuperar_estado('1') == 'ACTIVO',
@@ -268,9 +271,9 @@ class TestActivaryDesactivarMiembros(unittest.TestCase):
         registrar_miembro(info_miembro3)
 
         #When: Cambian sus estados entre ACTIVO e INACTIVO
-        activar_miembros(['1', '2', '3'])
-        desactivar_miembros(['2', '3'])
-        activar_miembros(['3'])
+        administrador.activar_miembros(['1', '2', '3'])
+        administrador.desactivar_miembros(['2', '3'])
+        administrador.activar_miembros(['3'])
 
         #Then: Cada usuario corresponde con su estado
         self.assertTrue(recuperar_estado('1') == 'ACTIVO', msg='No se activó el miembro 1')
@@ -281,6 +284,130 @@ class TestActivaryDesactivarMiembros(unittest.TestCase):
         eliminar_miembro('2')
         eliminar_miembro('3')
 
+#jcorredorca
+class TestAdministrador(unittest.TestCase):
+    '''Tests relacionados con las funcionalidades del administrador'''
+
+    def test_crear_horario(self):
+        '''Verifica que al crear un horario se retorne un ID válido'''
+        publico = 'FUNCIONARIO'
+        fecha = datetime(2025, 7, 20, 10, 0)
+        actividad = 'TALLER'
+
+        ubicaciones = administrador.recuperar_ubicaciones()
+        self.assertTrue(ubicaciones, msg="No hay ubicaciones registradas")
+
+        id_ubicacion = administrador.recuperar_id_ubicacion(ubicaciones[0])
+        parametros = [publico, fecha, actividad, id_ubicacion]
+
+        id_sesion = administrador.crear_horario(parametros)
+        self.assertIsNotNone(id_sesion)
+        self.assertTrue(id_sesion > 0)
+
+        administrador.eliminar_sesion(id_sesion)
+
+    def test_asignar_funcionarios_a_sesion(self):
+        '''Verifica que se asignen correctamente funcionarios y profesor a una sesión'''
+        # Crear sesión temporal
+        ubicaciones = administrador.recuperar_ubicaciones()
+        id_ubicacion = administrador.recuperar_id_ubicacion(ubicaciones[0])
+        fecha = datetime(2025, 7, 21, 9, 0)
+        id_sesion = administrador.crear_horario(['GENERAL', fecha, 'PRUEBA', id_ubicacion])
+
+        funcionarios = administrador.recuperar_funcionarios()
+        self.assertGreaterEqual(len(funcionarios),
+                                2,
+                                msg="Se requieren al menos 2 funcionarios para esta prueba")
+
+        ids_funcionarios = [f[1] for f in funcionarios[:2]]
+        profesor = ids_funcionarios[0]
+        resto = [ids_funcionarios[1]]
+
+        administrador.asignar_funcionarios(resto, id_sesion, profesor)
+
+        # Verificar que los 2 registros están presentes
+        with SessionLocal() as session:
+            count = session.query(FuncionariosEnSesion).filter(
+                FuncionariosEnSesion.sesiones_id == id_sesion
+            ).count()
+
+        self.assertEqual(count, 2)
+
+        # Limpieza
+        administrador.eliminar_sesion(id_sesion)
+
+    def test_actualizar_publico_y_ubicacion(self):
+        '''Verifica que se actualice correctamente el público y la ubicación de una sesión'''
+        ubicaciones = administrador.recuperar_ubicaciones()
+        id_ubicacion_inicial = administrador.recuperar_id_ubicacion(ubicaciones[0])
+        fecha = datetime(2025, 7, 22, 11, 0)
+        id_sesion = administrador.crear_horario(['GENERAL',
+                                                 fecha,
+                                                 'ENTRENAMIENTO',
+                                                 id_ubicacion_inicial])
+
+        ubicacion_nueva = ubicaciones[-1] if len(ubicaciones) > 1 else ubicaciones[0]
+        nuevo_publico = 'FODUN'
+
+        administrador.actualizar_publico_ubicacion(id_sesion, nuevo_publico, ubicacion_nueva)
+
+        resultado = administrador.recuperar_ubicacion_publico(id_sesion)
+        print(resultado)
+        self.assertEqual(resultado[0], nuevo_publico)
+        self.assertEqual(resultado[1], ubicacion_nueva)
+
+        # Limpieza
+        administrador.eliminar_sesion(id_sesion)
+
+#lalvarezla
+class TestFuncionario(unittest.TestCase):
+    '''Tests relacionados con la gestión de funcionarios'''
+
+    def test_registro_miembro_exitoso(self):
+        '''Verifica que un miembro se registre correctamente'''
+        user = 'nuevo_test'
+        contrasenia = 'clave123'
+        info_miembro = {
+            "usuario": user,
+            "nombre": 'Nombre',
+            "apellido": 'Apellido',
+            "contrasena": hash_contrasena(contrasenia),
+            "correo": 'nuevo@unal.edu.co',
+            "rol": None,
+            "programa": None
+        }
+
+        registrar_miembro(info_miembro)
+        # Verificar que se pueda autenticar
+        self.assertTrue(autenticar_credenciales(user, contrasenia))
+        eliminar_miembro(user)
+
+    def test_registro_usuario_duplicado(self):
+        '''Verifica que no se permita registrar un usuario ya existente'''
+        user = 'duplicado_test'
+        contrasenia = 'clave123'
+        info_miembro = {
+            "usuario": user,
+            "nombre": 'Nombre',
+            "apellido": 'Apellido',
+            "contrasena": hash_contrasena(contrasenia),
+            "correo": 'repetido@unal.edu.co',
+            "rol": None,
+            "programa": None
+        }
+
+        registrar_miembro(info_miembro)
+        with self.assertRaises(ValueError) as context:
+            registrar_miembro(info_miembro)
+
+        self.assertIn("ya existe", str(context.exception).lower())
+        eliminar_miembro(user)
+
+    def test_eliminar_usuario_inexistente(self):
+        '''Verifica el comportamiento al intentar eliminar un usuario inexistente'''
+        with self.assertRaises(ValueError) as context:
+            eliminar_miembro('usuario_inexistente')
+        self.assertIn("no existe", str(context.exception).lower())
 
 if __name__ == '__main__':
     unittest.main()
