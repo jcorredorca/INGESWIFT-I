@@ -1,8 +1,9 @@
 '''Script para verificar si la base de datos existe'''
 import os
 from scripts import crear_db, datos_test
+from config import DB_PATH
 
-RUTA = "data/AFID.db"
+RUTA = DB_PATH
 
 def verificar_db():
     '''Verifica si la db existe, y si no, la crea'''

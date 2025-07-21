@@ -65,6 +65,7 @@ def registrar_asistencia(miembro, sesion, codigo):
     '''Registra asistencia del usuario para la sesion activa (si hay).'''
     with SessionLocal() as session:
         reserva = session.get(Reservas, codigo)
+        print(reserva)
         if reserva:
             usuario = reserva.personas_usuario
             sesion_reserva = reserva.sesiones_id
@@ -82,6 +83,7 @@ def registrar_asistencia(miembro, sesion, codigo):
         return False, 'Ya se registró la asistencia de esta reserva.'
 
     with SessionLocal.begin() as session: #pylint: disable = no-member
+        reserva = session.get(Reservas, codigo)
         if reserva:
             reserva.asistio = 1
 
