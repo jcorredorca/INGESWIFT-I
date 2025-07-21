@@ -352,7 +352,6 @@ class TestAdministrador(unittest.TestCase):
         administrador.actualizar_publico_ubicacion(id_sesion, nuevo_publico, ubicacion_nueva)
 
         resultado = administrador.recuperar_ubicacion_publico(id_sesion)
-        print(resultado)
         self.assertEqual(resultado[0], nuevo_publico)
         self.assertEqual(resultado[1], ubicacion_nueva)
 
