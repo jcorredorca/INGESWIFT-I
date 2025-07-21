@@ -123,6 +123,7 @@ def registro_extemporaneo(usuario, sesion):
 
     with SessionLocal.begin() as session: #pylint: disable = no-member
         stmt = t_asistencias_extemp.insert().values(personas_usuario=usuario, sesiones_id=sesion)
+        session.execute(stmt)
         return True, 'La asistencia se registró correctamente'
 
 def verificar_sesion_activa(actividad):

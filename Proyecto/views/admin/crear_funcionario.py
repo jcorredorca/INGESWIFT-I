@@ -28,6 +28,7 @@ class CrearFuncionarios(CTkFrame):
         self.entry_grupo = None
         self.rol_seleccionado = None
         self.opciones_rol = None
+        self.opciones_grupo = None
         self.entry_apellido = None
         self.entry_nombre = None
 
@@ -207,9 +208,12 @@ class CrearFuncionarios(CTkFrame):
         self.rol_seleccionado.set("GENERAL")
         self.rol_seleccionado.grid(row=4, column=1, pady=(10, 10))
 
-        self.entry_grupo = CTkEntry(self.seccion, placeholder_text="Grupo especial",
-                                    font=("Libre Baskerville", 32), width=400,
-                                    fg_color="white", text_color="black")
+        self.opciones_grupo = ['JOVENES', 'SELECCION']
+        self.entry_grupo = CTkOptionMenu(self.seccion, values=self.opciones_grupo,
+                                            font=("Libre Baskerville", 32), width=400,
+                                            fg_color="white", button_color="#e5e5e5",
+                                            text_color="black", dropdown_fg_color="white",
+                                            dropdown_text_color="black")
         self.entry_grupo.grid(row=5, column=1, pady=(10, 10))
 
         self.entry_correo_final = CTkEntry(self.seccion,

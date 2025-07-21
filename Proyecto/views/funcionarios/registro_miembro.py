@@ -3,7 +3,7 @@
 from datetime import datetime
 from tkinter import messagebox
 
-from customtkinter import CTkFrame, CTkLabel, CTkEntry, CTkComboBox,  CTkButton
+from customtkinter import CTkFrame, CTkLabel, CTkEntry, CTkComboBox,  CTkButton, CTkOptionMenu
 from services.login import hash_contrasena
 from services import funcionario
 from ..components import boton_adicional
@@ -69,7 +69,7 @@ class RegistroMiembro(CTkFrame):
 
         #ComboBox para el rol en la universidad
         roles = ["--Rol en la universidad--", "GENERAL", "FUNCIONARIO", "FODUN", "CUIDADO"]
-        combo_rol = CTkComboBox(formulario,
+        combo_rol = CTkOptionMenu(formulario,
                                 values=roles, font=("Arial", self.fuente_general),
                                 width=220, height=40, fg_color="white", text_color="black",
                                 button_color="#dddddd",
@@ -99,7 +99,7 @@ class RegistroMiembro(CTkFrame):
 
         # ComboBox para Programa
         programas = ["--Programa--", "Jóvenes a la U", "Selección deportiva"]
-        combo_programa = CTkComboBox(formulario,
+        combo_programa = CTkOptionMenu(formulario,
                                      values=programas, font=("Arial", self.fuente_general),
                                      width=220, height=40,
                                      fg_color="white", text_color="black",
