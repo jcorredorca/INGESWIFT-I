@@ -28,7 +28,11 @@ físicas, ofreciendo una alternativa eficiente, organizada y digital para el man
 flujo de personas.
 
 ---
+## ▶️ Ejecutable
+Si desea hacer uso propiamente de la aplicación, extraiga y ejecute el archivo [ATUN.exe](Proyecto/dist/ATUN.exe). Para el ingreso por primera vez haga uso de las credenciales:
+user: Admin0 - pwd: 1
 
+---
 ## 💻 Modo Developer
 Si desea bajar y correr este proyecto, asegurese de hacerlo mediante la ejecución del script para modo developer ([ModoDev.bat](Proyecto/ModoDev.bat) para Windows y [ModoDev.sh](Proyecto/ModoDev.sh) para Linux). Este archivo iniciará un entorno virtual, donde comprobará que cumpla con los requerimientos necesarios para ejecutar el proyecto y, en caso de ser necesario, instalar las librerías que aún no tenga.
 
