@@ -1,9 +1,10 @@
 '''Modulo para el registro de asistencia extemporaneo'''
 from datetime import datetime
 from tkinter import messagebox
-from customtkinter import CTkFrame, CTkLabel, CTkEntry, CTkButton
-from services.funcionario import registro_extemporaneo, recuperar_cupos
+
 from core import utils
+from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel
+from services.funcionario import recuperar_cupos, registro_extemporaneo
 
 
 class RegistroExtemporaneo(CTkFrame):
@@ -130,7 +131,7 @@ class RegistroExtemporaneo(CTkFrame):
             color="#51cf66"
         else:
             color='white'
-            
+
         self.mensaje_label.configure(text=mensaje, text_color=color)
 
         # Limpiar mensaje después de 5 segundos

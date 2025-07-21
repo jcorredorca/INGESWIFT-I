@@ -2,9 +2,12 @@
 
 from datetime import datetime
 from tkinter import messagebox
-from customtkinter import CTkFrame, CTkLabel, CTkEntry, CTkButton
+
+from customtkinter import CTkButton, CTkEntry, CTkFrame, CTkLabel
+from services.funcionario import hay_cupos_disponibles, registrar_asistencia
+
 from . import registro_extemporaneo, sesion_cerrada
-from services.funcionario import registrar_asistencia, hay_cupos_disponibles
+
 
 class ModuloAsistencia(CTkFrame):
     """Clase que representa el módulo de asistencia para funcionarios"""
@@ -136,4 +139,3 @@ class ModuloAsistencia(CTkFrame):
             self.master.contenido.destroy()
             self.master.contenido = ventana
             self.master.contenido.grid(row=1, column=0, sticky="nsew")
-

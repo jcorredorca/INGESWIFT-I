@@ -1,26 +1,39 @@
-************* Module Proyecto.tempCodeRunnerFile
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\tempCodeRunnerFile.py:2:4: E0001: Parsing failed: 'unexpected indent (Proyecto.tempCodeRunnerFile, line 2)' (syntax-error)
 ************* Module Proyecto.app
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\app.py:5:65: C0303: Trailing whitespace (trailing-whitespace)
 ************* Module Proyecto.config
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\config.py:28:1: W0511: TODO: crear el logo con el pescadito (fixme)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\config.py:12:20: W0212: Access to a protected member _MEIPASS of a client class (protected-access)
-************* Module Proyecto.core.rol_funci
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\core\rol_funci.py:179:8: C0415: Import outside toplevel (random) (import-outside-toplevel)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\core\rol_funci.py:180:8: C0415: Import outside toplevel (string) (import-outside-toplevel)
+************* Module Proyecto.models.actividad
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\actividad.py:7:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.models.base
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\base.py:4:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.models.funcionarios_sesion
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\funcionarios_sesion.py:6:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.models.logs
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\logs.py:8:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.models.penalizacion
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\penalizacion.py:7:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.models.personas
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\personas.py:7:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.models.reservas
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\reservas.py:8:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.models.rol
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\rol.py:7:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\rol.py:3:0: C0411: standard import "typing.List" should be placed before third party import "models.Base" (wrong-import-order)
+************* Module Proyecto.models.sesiones
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\sesiones.py:8:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\sesiones.py:5:0: W0611: Unused text imported from sqlalchemy (unused-import)
+************* Module Proyecto.models.ubicaciones
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\models\ubicaciones.py:7:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module Proyecto.scripts.crear_db
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\crear_db.py:6:0: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module Proyecto.scripts.datos_test
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:19:0: C0301: Line too long (127/120) (line-too-long)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:52:0: C0301: Line too long (123/120) (line-too-long)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:65:0: C0301: Line too long (127/120) (line-too-long)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:76:0: C0301: Line too long (129/120) (line-too-long)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:52:0: C0301: Line too long (125/120) (line-too-long)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:65:0: C0301: Line too long (129/120) (line-too-long)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:76:0: C0301: Line too long (131/120) (line-too-long)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:99:0: C0301: Line too long (122/120) (line-too-long)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:10:0: R0914: Too many local variables (31/15) (too-many-locals)
-************* Module Proyecto.services.funcionario
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\services\funcionario.py:37:11: R1719: The if expression can be replaced with 'bool(test)' (simplifiable-if-expression)
-************* Module Proyecto.views.main_window
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\main_window.py:64:0: C0304: Final newline missing (missing-final-newline)
-************* Module Proyecto.views.__init__
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\__init__.py:1:0: C0304: Final newline missing (missing-final-newline)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:102:8: W0612: Unused variable 'i' (unused-variable)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\scripts\datos_test.py:3:0: W0611: Unused import string (unused-import)
 ************* Module Proyecto.views.admin.admin
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\admin.py:42:88: C0303: Trailing whitespace (trailing-whitespace)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\admin.py:43:55: C0303: Trailing whitespace (trailing-whitespace)
@@ -37,41 +50,23 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\crear_funcionario.py:30
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\gestor_estado.py:187:23: R1721: Unnecessary use of a comprehension, use list(self.activos.keys()) instead. (unnecessary-comprehension)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\gestor_estado.py:195:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
 ************* Module Proyecto.views.admin.ventana_horarios
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\ventana_horarios.py:7:0: C0411: third party import "services.general.recuperar_actividades" should be placed before local import "components.horario_semanal.HorarioSemanal" (wrong-import-order)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\ventana_horarios.py:9:0: C0411: third party import "services.general" should be placed before local imports "components.horario_semanal.HorarioSemanal", "state_horario.StateHorario" (wrong-import-order)
-************* Module Proyecto.views.components.horario_semanal
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\components\horario_semanal.py:5:0: C0411: third party import "services.general" should be placed before local import "sesion_celda.SesionCelda" (wrong-import-order)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\ventana_horarios.py:80:8: W0201: Attribute 'horario_activo' defined outside __init__ (attribute-defined-outside-init)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\admin\ventana_horarios.py:96:8: W0201: Attribute 'horario_activo' defined outside __init__ (attribute-defined-outside-init)
 ************* Module Proyecto.views.funcionarios.funcionario
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\funcionario.py:2:0: W0611: Unused path imported from os (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\funcionario.py:3:0: W0611: Unused IMG_PATH imported from config (unused-import)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\funcionario.py:73:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 ************* Module Proyecto.views.funcionarios.modulo_asistencia
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:4:0: W0401: Wildcard import customtkinter (wildcard-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:100:16: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:192:12: W0612: Unused variable 'sufijo_inicio' (unused-variable)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:1:0: W0611: Unused timedelta imported from datetime (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:3:0: W0611: Unused utils imported from core (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:6:0: W0611: Unused boton_adicional imported from components (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:4:0: W0614: Unused import(s) os, sys, filedialog, set_appearance_mode, get_appearance_mode, set_default_color_theme, set_widget_scaling, set_window_scaling, deactivate_automatic_dpi_awareness, set_ctk_parent_class, Variable, StringVar, IntVar, DoubleVar, BooleanVar, NO, FALSE, OFF, YES, TRUE, ON, N, S, W, E, NW, SW, NE, SE, NS, EW, NSEW, CENTER, NONE, X, Y, BOTH, LEFT, TOP, RIGHT, BOTTOM, RAISED, SUNKEN, FLAT, RIDGE, GROOVE, SOLID, HORIZONTAL, VERTICAL, NUMERIC, CHAR, WORD, BASELINE, INSIDE, OUTSIDE, SEL, SEL_FIRST, SEL_LAST, END, INSERT, CURRENT, ANCHOR, ALL, NORMAL, DISABLED, ACTIVE, HIDDEN, CASCADE, CHECKBUTTON, COMMAND, RADIOBUTTON, SEPARATOR, SINGLE, BROWSE, MULTIPLE, EXTENDED, DOTBOX, UNDERLINE, PIESLICE, CHORD, ARC, FIRST, LAST, BUTT, PROJECTING, ROUND, BEVEL, MITER, MOVETO, SCROLL, UNITS, PAGES, AppearanceModeTracker, FontManager, ScalingTracker, ThemeManager, DrawEngine, CTkCanvas, CTkBaseClass, CTkCheckBox, CTkComboBox, CTkOptionMenu, CTkProgressBar, CTkRadioButton, CTkScrollbar, CTkSegmentedButton, CTkSlider, CTkSwitch, CTkTabview, CTkTextbox, CTkScrollableFrame, CTk, CTkToplevel, CTkInputDialog, CTkFont, CTkImage and ctk_tk from wildcard import of customtkinter (unused-wildcard-import)
-************* Module Proyecto.views.funcionarios.registro_extemporaneo
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\registro_extemporaneo.py:4:0: W0401: Wildcard import customtkinter (wildcard-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\registro_extemporaneo.py:3:0: W0611: Unused utils imported from core (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\registro_extemporaneo.py:6:0: W0611: Unused boton_adicional imported from components (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\registro_extemporaneo.py:4:0: W0614: Unused import(s) os, sys, filedialog, set_appearance_mode, get_appearance_mode, set_default_color_theme, set_widget_scaling, set_window_scaling, deactivate_automatic_dpi_awareness, set_ctk_parent_class, Variable, StringVar, IntVar, DoubleVar, BooleanVar, NO, FALSE, OFF, YES, TRUE, ON, N, S, W, E, NW, SW, NE, SE, NS, EW, NSEW, CENTER, NONE, X, Y, BOTH, LEFT, TOP, RIGHT, BOTTOM, RAISED, SUNKEN, FLAT, RIDGE, GROOVE, SOLID, HORIZONTAL, VERTICAL, NUMERIC, CHAR, WORD, BASELINE, INSIDE, OUTSIDE, SEL, SEL_FIRST, SEL_LAST, END, INSERT, CURRENT, ANCHOR, ALL, NORMAL, DISABLED, ACTIVE, HIDDEN, CASCADE, CHECKBUTTON, COMMAND, RADIOBUTTON, SEPARATOR, SINGLE, BROWSE, MULTIPLE, EXTENDED, DOTBOX, UNDERLINE, PIESLICE, CHORD, ARC, FIRST, LAST, BUTT, PROJECTING, ROUND, BEVEL, MITER, MOVETO, SCROLL, UNITS, PAGES, AppearanceModeTracker, FontManager, ScalingTracker, ThemeManager, DrawEngine, CTkCanvas, CTkBaseClass, CTkCheckBox, CTkComboBox, CTkOptionMenu, CTkProgressBar, CTkRadioButton, CTkScrollbar, CTkSegmentedButton, CTkSlider, CTkSwitch, CTkTabview, CTkTextbox, CTkScrollableFrame, CTk, CTkToplevel, CTkInputDialog, CTkFont, CTkImage and ctk_tk from wildcard import of customtkinter (unused-wildcard-import)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:9:0: E0611: No name 'registro_extemporaneo' in module '' (no-name-in-module)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\modulo_asistencia.py:9:0: E0611: No name 'sesion_cerrada' in module '' (no-name-in-module)
 ************* Module Proyecto.views.funcionarios.registro_miembro
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\registro_miembro.py:37:4: R0914: Too many local variables (18/15) (too-many-locals)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\registro_miembro.py:159:24: E0606: Possibly using variable 'programa' before assignment (possibly-used-before-assignment)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\registro_miembro.py:9:0: W0611: Unused boton_adicional imported from components (unused-import)
 ************* Module Proyecto.views.funcionarios.sesion_cerrada
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\sesion_cerrada.py:5:0: W0401: Wildcard import customtkinter (wildcard-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\sesion_cerrada.py:4:0: W0611: Unused utils imported from core (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\sesion_cerrada.py:8:0: W0611: Unused boton_adicional imported from components (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\sesion_cerrada.py:5:0: W0614: Unused import(s) os, sys, filedialog, set_appearance_mode, get_appearance_mode, set_default_color_theme, set_widget_scaling, set_window_scaling, deactivate_automatic_dpi_awareness, set_ctk_parent_class, Variable, StringVar, IntVar, DoubleVar, BooleanVar, NO, FALSE, OFF, YES, TRUE, ON, N, S, W, E, NW, SW, NE, SE, NS, EW, NSEW, CENTER, NONE, X, Y, BOTH, LEFT, TOP, RIGHT, BOTTOM, RAISED, SUNKEN, FLAT, RIDGE, GROOVE, SOLID, HORIZONTAL, VERTICAL, NUMERIC, CHAR, WORD, BASELINE, INSIDE, OUTSIDE, SEL, SEL_FIRST, SEL_LAST, END, INSERT, CURRENT, ANCHOR, ALL, NORMAL, DISABLED, ACTIVE, HIDDEN, CASCADE, CHECKBUTTON, COMMAND, RADIOBUTTON, SEPARATOR, SINGLE, BROWSE, MULTIPLE, EXTENDED, DOTBOX, UNDERLINE, PIESLICE, CHORD, ARC, FIRST, LAST, BUTT, PROJECTING, ROUND, BEVEL, MITER, MOVETO, SCROLL, UNITS, PAGES, AppearanceModeTracker, FontManager, ScalingTracker, ThemeManager, DrawEngine, CTkCanvas, CTkBaseClass, CTkCheckBox, CTkComboBox, CTkEntry, CTkOptionMenu, CTkProgressBar, CTkRadioButton, CTkScrollbar, CTkSegmentedButton, CTkSlider, CTkSwitch, CTkTabview, CTkTextbox, CTkScrollableFrame, CTk, CTkToplevel, CTkInputDialog, CTkFont and ctk_tk from wildcard import of customtkinter (unused-wildcard-import)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\funcionarios\sesion_cerrada.py:54:0: C0301: Line too long (136/120) (line-too-long)
 ************* Module Proyecto.views.inicio.inicio
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\inicio.py:8:0: E0611: No name 'login_frame' in module '' (no-name-in-module)
 ************* Module Proyecto.views.inicio.login_frame
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\login_frame.py:7:0: C0411: third party import "core.utils" should be placed before local import "cambio_popup.CambioPopup" (wrong-import-order)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\login_frame.py:4:0: W0611: Unused CTkOptionMenu imported from customtkinter (unused-import)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\login_frame.py:4:0: W0611: Unused CTkToplevel imported from customtkinter (unused-import)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\login_frame.py:6:0: W0611: Unused CTkOptionMenu imported from customtkinter (unused-import)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\login_frame.py:6:0: W0611: Unused CTkToplevel imported from customtkinter (unused-import)
 ************* Module Proyecto.views.inicio.pantalla_roles
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\pantalla_roles.py:26:0: C0303: Trailing whitespace (trailing-whitespace)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\pantalla_roles.py:5:0: C0411: third party import "core.utils" should be placed before local import "components.boton_adicional.BotonAdicional" (wrong-import-order)
@@ -79,8 +74,8 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\inicio\pantalla_roles.py:5:0:
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:5:0: E0611: No name 'reservar' in module '' (no-name-in-module)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:5:0: E0611: No name 'eliminar' in module '' (no-name-in-module)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.admin.state_horario:[21:72]
-==Proyecto.views.miembros.state_horario:[21:72]
+==Proyecto.views.admin.state_horario:[22:74]
+==Proyecto.views.miembros.state_horario:[21:73]
         self.repartir_espacio()
 
         self.transition_to(state)
@@ -95,6 +90,7 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
         y = (self.winfo_screenheight() - alto) //factor
         self.geometry(f"{ancho}x{alto}+{x}+{y}")
 
+        self.update()
         self.transient(self.master)
         self.grab_set()
         self.focus()
@@ -120,12 +116,12 @@ class State(ABC):
     """
 
     @property
-    def context(self) -> StateHorario:
+    def context(self) -> StateHorarioMiembros:
         '''Contexto actual del estado'''
         return self._context
 
     @context.setter
-    def context(self, contexto: StateHorario) -> None:
+    def context(self, contexto: StateHorarioMiembros) -> None:
         self._context = contexto
 
     @abstractmethod
@@ -152,23 +148,27 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
 
         self.contenido = CTkButton(self, (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.admin.crear_horario:[145:160]
-==Proyecto.views.admin.editar_horario:[212:227]
-        publico = self.publico.get()
-        ubicacion = self.ubicacion.get()
+==Proyecto.views.funcionarios.modulo_asistencia:[26:46]
+==Proyecto.views.funcionarios.sesion_cerrada:[16:35]
+        self.crear_encabezado_derecho()
+        self.crear_contenido()
 
-        if all([publico == 'PUBLICO', ubicacion == 'UBICACION']):
-            messagebox.showerror('Error', 'Asegurese de escoger un público y ubicación')
-            return
+    def crear_encabezado_derecho(self):
+        '''Encabezado con TURNO y boton Log Out'''
+        mini_encabezado = CTkFrame(self, fg_color="transparent")
+        mini_encabezado.pack(fill="x", padx=20, pady=(10, 0), anchor="ne")
 
-        seleccionados = [funcionario for funcionario, var in self.check_vars if var.get()]
-        profesor = self.profesor
+        mini_encabezado.grid_columnconfigure(0, weight=1)
+        mini_encabezado.grid_columnconfigure(1, weight=0)
 
-        if len(seleccionados) <= 0 or profesor is None:
-            messagebox.showerror('Error',
-                                 'Asegurese de escoger almenos un funcionario y un profesor')
-            return
- (duplicate-code)
+        turno_actual = self.obtener_turno_actual()
+        turno_label = CTkLabel(mini_encabezado, text=f"TURNO: {turno_actual}",
+                               text_color="white", font=("Arial", 16, "bold"))
+        turno_label.grid(row=0, column=0, sticky="e", padx=(0, 10))
+
+    def crear_contenido(self):
+        '''Contenido central de advertencia'''
+        contenido = CTkFrame(self, fg_color="transparent") (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
 ==Proyecto.views.admin.crear_horario:[96:113]
 ==Proyecto.views.admin.editar_horario:[163:177]
@@ -180,24 +180,40 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
                 text=funcionario[0],
                 hover_color="#FFD591",
                 variable=check_var)
-
             fun_ceckbox.grid(row=indice, column=0, sticky='w')
-            # Guardamos (usuario) para saber luego quién fue marcado
             self.check_vars.append((funcionario[1], check_var))
 
     def desplegable_profesor(self):
         '''Crea el desplegable para escoger funcinarios'''
-        funcionarios = administrador.recuperar_funcionarios()
-        #lista de marcados (duplicate-code)
+        funcionarios = administrador.recuperar_funcionarios() (duplicate-code)
+OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
+==Proyecto.views.admin.crear_horario:[145:160]
+==Proyecto.views.admin.crear_horario_masivo:[17:32]
+        publico = self.publico.get()
+        ubicacion = self.ubicacion.get()
+
+        if all([publico == 'PUBLICO', ubicacion == 'UBICACION']):
+            messagebox.showerror('Error', 'Asegurese de escoger un pï¿½blico y ubicaciï¿½n')
+            return
+
+        seleccionados = [funcionario for funcionario, var in self.check_vars if var.get()]
+        profesor = self.profesor
+
+        if len(seleccionados) <= 0 or profesor is None:
+            messagebox.showerror('Error',
+                                 'Asegurese de escoger almenos un funcionario y un profesor')
+            return
+ (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
 ==Proyecto.views.admin.admin:[13:35]
-==Proyecto.views.funcionarios.funcionario:[12:33]
+==Proyecto.views.funcionarios.funcionario:[16:37]
         super().__init__(master)
 
         self.configure(fg_color= "#2e1045", corner_radius=1)
         self.repartir_espacio()
 
         self.crear_menu_opciones()
+
 
     def repartir_espacio(self):
         '''Reparte el espacio'''
@@ -235,7 +251,7 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
         '''Crea la reserva'''
  (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.funcionarios.registro_extemporaneo:[31:47]
+==Proyecto.views.funcionarios.registro_extemporaneo:[28:44]
 ==Proyecto.views.funcionarios.registro_miembro:[25:41]
         encabezado = CTkFrame(self, fg_color="transparent")
         encabezado.pack(fill="x", padx=20, pady=(10, 0), anchor="ne")
@@ -245,68 +261,14 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
 
         turno = self.obtener_turno_actual()
         turno_label = CTkLabel(encabezado, text=f"TURNO: {turno}",
-                              text_color="white", font=("Arial", 16, "bold"))
-        turno_label.grid(row=0, column=0, sticky="e", padx=(0, 10))
-
-    def crear_contenido(self):
-        """Crea el contenido principal de la ventana"""
-        contenedor = CTkFrame(self, fg_color="transparent")
-        contenedor.pack(expand=True, pady=60)
- (duplicate-code)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.funcionarios.modulo_asistencia:[31:46]
-==Proyecto.views.funcionarios.sesion_cerrada:[24:38]
-        mini_encabezado = CTkFrame(self, fg_color="transparent")
-        mini_encabezado.pack(fill="x", padx=20, pady=(10, 0), anchor="ne")
-
-        mini_encabezado.grid_columnconfigure(0, weight=1)
-        mini_encabezado.grid_columnconfigure(1, weight=0)
-
-        # Texto turno
-        turno_actual = self.obtener_turno_actual()
-        turno_label = CTkLabel(mini_encabezado, text=f"TURNO: {turno_actual}",
                                text_color="white", font=("Arial", 16, "bold"))
         turno_label.grid(row=0, column=0, sticky="e", padx=(0, 10))
 
     def crear_contenido(self):
-        '''Formulario central'''
-        contenido = CTkFrame(self, fg_color="transparent") (duplicate-code)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.funcionarios.modulo_asistencia:[171:188]
-==Proyecto.views.funcionarios.registro_extemporaneo:[139:156]
-        else:
-            self.mostrar_mensaje(mensaje, "error")
-
-    def mostrar_mensaje(self, mensaje, tipo="info"):
-        """Muestra un mensaje en la interfaz"""
-        if tipo == "error":
-            self.mensaje_label.configure(text=mensaje, text_color="#ff6b6b")
-        elif tipo == "exito":
-            self.mensaje_label.configure(text=mensaje, text_color="#51cf66")
-        else:
-            self.mensaje_label.configure(text=mensaje, text_color="white")
-
-        # Limpiar mensaje después de 5 segundos
-        self.after(5000, lambda: self.mensaje_label.configure(text=""))
-
-    def obtener_turno_actual(self):
-        """Devuelve el turno actual como string""" (duplicate-code)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.funcionarios.modulo_asistencia:[138:151]
-==Proyecto.views.funcionarios.registro_extemporaneo:[156:169]
-        try:
-            # Cancelar verificaciones pendientes
-            if self.check_job:
-                self.after_cancel(self.check_job)
-
-            # Usar la función de rol_funci para cambiar de pantalla
-            rol_funci.redirigir_pantalla_sesion_cerrada(self.master)
-
-        except Exception as e:
-            print(f"Error cambiando a sesión cerrada: {e}")
-
-    def obtener_turno_actual(self):
-        """Obtiene el turno actual basado en la hora""" (duplicate-code)
+        '''Funcion para llenar el frame'''
+        contenedor = CTkFrame(self, fg_color="transparent")
+        contenedor.pack(expand=True, pady=60)
+ (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
 ==Proyecto.views.admin.gestor_estado:[33:43]
 ==Proyecto.views.funcionarios.modulo_asistencia:[34:45]
@@ -334,7 +296,7 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
                 command=lambda indice=indice: self.desactivar_checks(indice) )
 
             fun_ceckbox.grid(row=indice, column=0, sticky='w')
-            # Guardamos (usuario) para saber luego quién fue marcado
+            # Guardamos (usuario) para saber luego quiï¿½n fue marcado
             self.profesores.append((funcionario[1], check_var))
 
     def desactivar_checks(self, indice):
@@ -361,15 +323,13 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
         dropdown_hover_color= "#F6A623", width= self.winfo_screenwidth() * 0.1,
         anchor= 'center', button_color="#3d1c57", button_hover_color="#3d1c57",
         values= ['PUBLICO','GENERAL', 'FUNCIONARIO', 'FODUN'] )
-        self.publico.grid(row=1, column=1)
-
-        #---Ubicacion---# (duplicate-code)
+        self.publico.grid(row=1, column=1) (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
 ==Proyecto.views.components.horario_semanal:[112:120]
-==Proyecto.views.miembros.miembros:[86:95]
+==Proyecto.views.miembros.miembros:[87:96]
         if miembros.buscar_reserva(usuario, id_sesion):
             return '#c3f7c8', '#e3fae3'
-        if miembros.hay_cupos_disponibles(id_sesion):
+        if general.hay_cupos_disponibles(id_sesion):
             return '#fff7a1', '#fcfcca'
         return '#ffd9d9', '#fff0f0'
 
@@ -377,15 +337,7 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
         '''Reparte el espacio '''
  (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.admin.ventana_horarios:[156:161]
-==Proyecto.views.miembros.miembros:[184:191]
-        if event:
-            celda = event.widget
-            plan = self.opciones_busqueda.get()
-            fecha_hora = celda.master.fecha_hora
-            id_horario = general.hay_sesiones(plan, fecha_hora) (duplicate-code)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.admin.state_horario:[29:35]
+==Proyecto.views.admin.state_horario:[30:36]
 ==Proyecto.views.inicio.cambio_popup:[18:25]
         ancho = self.master.winfo_screenwidth() // factor
         alto = self.master.winfo_screenheight()//factor
@@ -396,7 +348,7 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
  (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
 ==Proyecto.views.admin.crear_horario:[35:41]
-==Proyecto.views.admin.ventana_horarios:[99:108]
+==Proyecto.views.admin.ventana_horarios:[113:122]
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=1)
@@ -420,16 +372,8 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
                 text=funcionario[0],
                 hover_color="#FFD591", (duplicate-code)
 OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
-==Proyecto.views.admin.admin:[48:53]
-==Proyecto.views.funcionarios.funcionario:[55:60]
-                                        anchor='center', font=fuente_opciones,
-                                        fg_color="#F6A623", text_color="#2e1045",
-                                        cursor="hand2", hover_color="#d38e14",
-                                        corner_radius=6, border_spacing=10, width=ancho,
-                                        command=lambda: (duplicate-code)
-OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0: R0801: Similar lines in 2 files
 ==Proyecto.views.admin.admin:[38:43]
-==Proyecto.views.funcionarios.funcionario:[36:41]
+==Proyecto.views.funcionarios.funcionario:[58:63]
                                         anchor='center', font=fuente_opciones,
                                         fg_color="#F6A623", text_color="#2e1045",
                                         cursor="hand2", hover_color="#d38e14",
@@ -437,5 +381,5 @@ OneDrive\Desktop\2025-1\INGESWIFT-I\Proyecto\views\miembros\state_horario.py:1:0
                                         command=lambda: (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.58/10 (previous run: 9.58/10, +0.00)
+Your code has been rated at 9.68/10 (previous run: 9.68/10, +0.00)
 
